@@ -21,10 +21,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-your-secret-key-here'
+SECRET_KEY = 'django-insecure-mrde81g0*w-arl+z+y$=&i%3e_x01f6q@ob1n&g0s3p&k6zb(8'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 # Configuración simple para desarrollo y producción
 ALLOWED_HOSTS = [
@@ -177,8 +177,11 @@ MESSAGE_TAGS = {
 # ========================================
 # Para cambiar a producción, cambia DEBUG = False
 
+
+
 # Configuración de seguridad para producción
 if not DEBUG:
+
     # Configuración de seguridad básica
     SECURE_BROWSER_XSS_FILTER = True
     SECURE_CONTENT_TYPE_NOSNIFF = True
