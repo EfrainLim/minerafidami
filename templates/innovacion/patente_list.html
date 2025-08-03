@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+
+{% block title %}Patentes - Innovación - Minera Fidami S.A.{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="relative bg-gradient-to-br from-primary-600 to-primary-800 text-white py-20">
+    <div class="container mx-auto px-4">
+        <div class="text-center">
+            <h1 class="text-5xl font-display font-bold mb-6">Propiedad Intelectual</h1>
+            <p class="text-xl mb-8 max-w-3xl mx-auto">
+                Nuestras patentes y desarrollos tecnológicos que están transformando la industria minera
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- Filtros -->
+{% if tipos_patente %}
+<section class="py-8 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="flex flex-wrap justify-center gap-4">
+            <a href="{% url 'innovacion:patente_list' %}" class="px-6 py-2 rounded-full {% if not request.GET.tipo %}bg-primary-600 text-white{% else %}bg-white text-gray-700 hover:bg-primary-50{% endif %} transition-colors">
+                Todas
+            </a>
+            {% for tipo in tipos_patente %}
+            <a href="?tipo={{ tipo }}" class="px-6 py-2 rounded-full {% if request.GET.tipo == tipo %}bg-primary-600 text-white{% else %}bg-white text-gray-700 hover:bg-primary-50{% endif %} transition-colors">
+                {% if tipo == 'patente' %}Patente
+                {% elif tipo == 'marca' %}Marca Registrada
+                {% elif tipo == 'derecho_autor' %}Derecho de Autor
+                {% elif tipo == 'secreto_comercial' %}Secreto Comercial
+                {% elif tipo == 'modelo_utilidad' %}Modelo de Utilidad
+                {% elif tipo == 'diseño_industrial' %}Diseño Industrial
+                {% else %}{{ tipo|title }}{% endif %}
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Lista de Patentes -->
+<section class="py-16">
+    <div class="container mx-auto px-4">
+        {% if patentes %}
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for patente in patentes %}
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                {% if patente.get_imagen_principal_url %}
+                <img src="{{ patente.get_imagen_principal_url }}" alt="{{ patente.titulo }}" class="w-full h-48 object-cover">
+                {% endif %}
+                <div class="p-6">
+                    <div class="flex items-center mb-3">
+                        <span class="px-3 py-1 bg-purple-100 text-purple-800 text-sm font-medium rounded-full">
+                            {{ patente.get_tipo_display }}
+                        </span>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">{{ patente.titulo }}</h3>
+                    <p class="text-gray-600 mb-4">{{ patente.descripcion|truncatewords:25 }}</p>
+                    
+                    {% if patente.numero_patente %}
+                    <p class="text-sm text-gray-500 mb-2">
+                        <strong>Número:</strong> {{ patente.numero_patente }}
+                    </p>
+                    {% endif %}
+                    
+                    {% if patente.fecha_registro %}
+                    <p class="text-sm text-gray-500 mb-4">
+                        <strong>Fecha de registro:</strong> {{ patente.fecha_registro|date:"F Y" }}
+                    </p>
+                    {% endif %}
+                    
+                    {% if patente.inventores %}
+                    <p class="text-sm text-gray-500 mb-4">
+                        <strong>Inventores:</strong> {{ patente.inventores }}
+                    </p>
+                    {% endif %}
+                    
+                    <a href="{{ patente.get_absolute_url }}" class="text-primary-600 font-semibold hover:text-primary-800">
+                        Ver detalles →
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <!-- Paginación -->
+        {% if is_paginated %}
+        <div class="flex justify-center mt-12">
+            <nav class="flex items-center space-x-2">
+                {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.tipo %}&tipo={{ request.GET.tipo }}{% endif %}" class="px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
+                    Anterior
+                </a>
+                {% endif %}
+                
+                <span class="px-4 py-2 bg-primary-600 text-white rounded-lg">
+                    Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+                </span>
+                
+                {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}{% if request.GET.tipo %}&tipo={{ request.GET.tipo }}{% endif %}" class="px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
+                    Siguiente
+                </a>
+                {% endif %}
+            </nav>
+        </div>
+        {% endif %}
+        
+        {% else %}
+        <div class="text-center py-16">
+            <h3 class="text-2xl font-bold text-gray-900 mb-4">No se encontraron patentes</h3>
+            <p class="text-gray-600 mb-8">Pronto agregaremos nuevas patentes y desarrollos tecnológicos.</p>
+            <a href="{% url 'innovacion:home' %}" class="btn-primary">
+                Volver a Innovación
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4 text-center">
+        <h2 class="text-4xl font-display font-bold text-gray-900 mb-6">¿Interesado en nuestras patentes?</h2>
+        <p class="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+            Contáctanos para conocer más sobre nuestras patentes y oportunidades de licenciamiento
+        </p>
+        <div class="flex flex-wrap justify-center gap-4">
+            <a href="{% url 'contacto:contacto' %}" class="btn-primary">
+                Solicitar Información
+            </a>
+            <a href="{% url 'innovacion:tecnologia_list' %}" class="btn-secondary">
+                Ver Tecnologías
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %} 

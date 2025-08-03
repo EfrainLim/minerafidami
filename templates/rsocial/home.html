@@ -1,0 +1,216 @@
+{% extends 'base.html' %}
+
+{% block title %}Responsabilidad Social - Minera Fidami S.A.{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="relative bg-gradient-to-br from-green-600 to-green-800 text-white py-20">
+    <div class="container mx-auto px-4">
+        <div class="text-center">
+            <h1 class="text-5xl font-display font-bold mb-6">Responsabilidad Social</h1>
+            <p class="text-xl mb-8 max-w-3xl mx-auto">
+                Comprometidos con el desarrollo sostenible y el bienestar de nuestras comunidades
+            </p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="{% url 'rsocial:programa_list' %}" class="btn-primary">
+                    Ver Programas
+                </a>
+                <a href="{% url 'rsocial:alianza_list' %}" class="btn-secondary">
+                    Nuestras Alianzas
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Programas Sociales Destacados -->
+{% if programas_destacados %}
+<section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-12">
+            <h2 class="text-4xl font-display font-bold text-gray-900 mb-4">Programas Sociales</h2>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                Desarrollamos programas integrales que benefician directamente a las comunidades donde operamos
+            </p>
+        </div>
+        
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for programa in programas_destacados %}
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                {% if programa.imagen_principal %}
+                <img src="{{ programa.imagen_principal }}" alt="{{ programa.nombre }}" class="w-full h-48 object-cover">
+                {% endif %}
+                <div class="p-6">
+                    <div class="flex items-center mb-3">
+                        <span class="px-3 py-1 bg-green-100 text-green-800 text-sm font-medium rounded-full">
+                            {{ programa.get_categoria_display }}
+                        </span>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">{{ programa.nombre }}</h3>
+                    <p class="text-gray-600 mb-4">{{ programa.descripcion_corta|truncatewords:20 }}</p>
+                    {% if programa.beneficiarios_directos %}
+                    <p class="text-sm text-gray-500 mb-4">
+                        <strong>Beneficiarios:</strong> {{ programa.beneficiarios_directos }} personas
+                    </p>
+                    {% endif %}
+                    <a href="{{ programa.get_absolute_url }}" class="text-green-600 font-semibold hover:text-green-800">
+                        Ver más →
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="text-center mt-8">
+            <a href="{% url 'rsocial:programa_list' %}" class="btn-primary">
+                Ver Todos los Programas
+            </a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Alianzas Destacadas -->
+{% if alianzas_destacadas %}
+<section class="py-16">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-12">
+            <h2 class="text-4xl font-display font-bold text-gray-900 mb-4">Alianzas Estratégicas</h2>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                Trabajamos en conjunto con organizaciones para maximizar el impacto de nuestros programas sociales
+            </p>
+        </div>
+        
+        <div class="grid md:grid-cols-2 gap-8">
+            {% for alianza in alianzas_destacadas %}
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                {% if alianza.imagen_principal %}
+                <img src="{{ alianza.imagen_principal }}" alt="{{ alianza.nombre }}" class="w-full h-64 object-cover">
+                {% endif %}
+                <div class="p-6">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm font-medium rounded-full">
+                            {{ alianza.get_tipo_alianza_display }}
+                        </span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-3">{{ alianza.nombre }}</h3>
+                    <p class="text-gray-600 mb-4">{{ alianza.descripcion|truncatewords:25 }}</p>
+                    <p class="text-sm text-gray-500 mb-4">
+                        <strong>Organización:</strong> {{ alianza.organizacion }}
+                    </p>
+                    <a href="{{ alianza.get_absolute_url }}" class="text-blue-600 font-semibold hover:text-blue-800">
+                        Ver detalles →
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="text-center mt-8">
+            <a href="{% url 'rsocial:alianza_list' %}" class="btn-primary">
+                Ver Todas las Alianzas
+            </a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Impactos Ambientales Destacados -->
+{% if impactos_destacados %}
+<section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-12">
+            <h2 class="text-4xl font-display font-bold text-gray-900 mb-4">Impacto Ambiental</h2>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                Programas de conservación y sostenibilidad ambiental que protegen nuestro entorno
+            </p>
+        </div>
+        
+        <div class="grid md:grid-cols-3 gap-8">
+            {% for impacto in impactos_destacados %}
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                {% if impacto.imagen_principal %}
+                <img src="{{ impacto.imagen_principal }}" alt="{{ impacto.nombre }}" class="w-full h-48 object-cover">
+                {% endif %}
+                <div class="p-6">
+                    <div class="flex items-center mb-3">
+                        <span class="px-3 py-1 bg-green-100 text-green-800 text-sm font-medium rounded-full">
+                            {{ impacto.get_categoria_display }}
+                        </span>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">{{ impacto.nombre }}</h3>
+                    <p class="text-gray-600 mb-4">{{ impacto.descripcion_corta|truncatewords:15 }}</p>
+                    {% if impacto.hectareas_afectadas %}
+                    <p class="text-sm text-gray-500 mb-4">
+                        <strong>Área:</strong> {{ impacto.hectareas_afectadas }} hectáreas
+                    </p>
+                    {% endif %}
+                    <a href="{{ impacto.get_absolute_url }}" class="text-green-600 font-semibold hover:text-green-800">
+                        Ver detalles →
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="text-center mt-8">
+            <a href="{% url 'rsocial:impacto_list' %}" class="btn-primary">
+                Ver Todos los Impactos
+            </a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Último Reporte de Sostenibilidad -->
+{% if ultimo_reporte %}
+<section class="py-16">
+    <div class="container mx-auto px-4">
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+            <div class="grid lg:grid-cols-2">
+                {% if ultimo_reporte.imagen_portada %}
+                <div class="relative">
+                    <img src="{{ ultimo_reporte.imagen_portada }}" alt="{{ ultimo_reporte.titulo }}" class="w-full h-full object-cover">
+                </div>
+                {% endif %}
+                <div class="p-8">
+                    <div class="flex items-center mb-4">
+                        <span class="px-3 py-1 bg-purple-100 text-purple-800 text-sm font-medium rounded-full">
+                            {{ ultimo_reporte.get_tipo_reporte_display }}
+                        </span>
+                    </div>
+                    <h2 class="text-3xl font-display font-bold text-gray-900 mb-4">{{ ultimo_reporte.titulo }}</h2>
+                    <p class="text-gray-600 mb-6">{{ ultimo_reporte.descripcion|truncatewords:30 }}</p>
+                    <p class="text-sm text-gray-500 mb-6">
+                        <strong>Año:</strong> {{ ultimo_reporte.año }}
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <a href="{{ ultimo_reporte.get_absolute_url }}" class="btn-primary">
+                            Ver Reporte
+                        </a>
+                        {% if ultimo_reporte.archivo_pdf %}
+                        <a href="{{ ultimo_reporte.archivo_pdf }}" class="btn-secondary" target="_blank">
+                            Descargar PDF
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- CTA Section -->
+<section class="py-16 bg-green-600 text-white">
+    <div class="container mx-auto px-4 text-center">
+        <h2 class="text-4xl font-display font-bold mb-6">¿Quieres colaborar con nosotros?</h2>
+        <p class="text-xl mb-8 max-w-2xl mx-auto">
+            Trabajamos con organizaciones, universidades y comunidades para crear un impacto positivo duradero
+        </p>
+        <a href="{% url 'contacto:contacto' %}" class="btn-secondary">
+            Contáctanos
+        </a>
+    </div>
+</section>
+{% endblock %} 

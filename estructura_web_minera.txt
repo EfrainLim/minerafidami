@@ -1,0 +1,864 @@
+
+QUIERO HACER MI PAGANINA WEB EMPRESARIAL PARA MINER FIDAMI S.A ahi te dejo la estructura como seria si se puede puedes mejorar
+quiero sea moderno y unico elegante co UI/UX quiero hacer con django y django-tailwind y no quiero incluir otros css solo todo relacionado 
+con tailwind , todo es administrable  para los colores te evio fotos , usar estructura mvc o mejor todo proyecto debe estar bien organizado
+para facil de entender te envio para colores de pagina en foto trabajar solo con django-tailwind y django
+
+ESTRUCTURA COMPLETA PARA PÁGINA WEB EMPRESARIAL - EMPRESA MINERA
+================================================================
+
+1. PÁGINA DE INICIO (HOME)
+---------------------------
+
+ENCABEZADO (HEADER):
+- Logo de la empresa (izquierda) - Simple y profesional
+- Menú de navegación:
+  * Inicio
+  * Sobre Nosotros
+  * Servicios
+  * Proyectos
+  * Innovación
+  * Responsabilidad Social
+  * Noticias y Blog
+  * Carreras
+  * Contacto
+- Enlaces a redes sociales (LinkedIn, Twitter, Facebook)
+- Botón CTA: "Solicita una cotización", "Contáctanos", "Descubre nuestros proyectos"
+
+BANNER PRINCIPAL:
+- Imagen de alta resolución (maquinaria minera, trabajadores en campo, minería sostenible)
+- Texto destacado: "Líderes en Minería Sostenible y Eficiente"
+- Subtítulo: "Comprometidos con la seguridad, la innovación y el respeto al medio ambiente"
+- Botón CTA: "Explora nuestros proyectos" o "Solicita más información"
+
+SECCIÓN DE INTRODUCCIÓN:
+- Breve presentación: Quienes somos, qué hacemos, cómo lo hacemos
+- Enlace a página "Sobre Nosotros"
+
+SERVICIOS DESTACADOS (3-5 iconos):
+- Explotación minera (cielo abierto, subterránea)
+- Consultoría minera (optimización, evaluación de proyectos)
+- Sostenibilidad ambiental (gestión residuos, restauración ecológica)
+- Transporte y logística minera
+- Gestión de recursos humanos (formación, seguridad)
+- Botón CTA: "Descubre nuestros servicios completos"
+
+PROYECTOS DESTACADOS:
+- Proyectos en curso con imágenes y descripciones
+- Casos de éxito con impacto positivo
+- Enlaces a detalles completos
+
+TESTIMONIOS:
+- Citas de clientes y colaboradores
+- Opiniones que reflejen confianza y profesionalismo
+
+2. SOBRE NOSOTROS (ABOUT US)
+-----------------------------
+
+MISIÓN Y VISIÓN:
+- Misión: Propósito en la industria minera
+- Visión: Objetivos futuros e impacto en la industria
+
+HISTORIA DE LA EMPRESA:
+- Evolución de la empresa
+- Logros importantes
+- Crecimiento en el sector
+
+VALORES EMPRESARIALES:
+- Seguridad: Compromiso con empleados
+- Innovación: Tecnología y procesos innovadores
+- Sostenibilidad: Respeto al medio ambiente
+- Ética empresarial: Transparencia y responsabilidad
+
+EQUIPO DIRECTIVO:
+- Fotos y biografías de principales miembros
+- Experiencia y trayectoria en minería
+
+CERTIFICACIONES Y PREMIOS:
+- Certificaciones de calidad, seguridad y medioambientales
+
+3. SERVICIOS (SERVICES)
+-----------------------
+
+EXPLOTACIÓN MINERA:
+- Procesos de minería (cielo abierto y subterránea)
+- Métodos y tecnologías utilizadas
+- Beneficios para clientes (eficiencia, rentabilidad, seguridad)
+
+CONSULTORÍA MINERA:
+- Estudios de factibilidad
+- Gestión de proyectos
+- Asesoría técnica
+- Optimización de operaciones
+
+SOSTENIBILIDAD Y RESPONSABILIDAD AMBIENTAL:
+- Gestión de residuos
+- Restauración ecológica
+- Energías renovables en minería
+
+TRANSPORTE Y LOGÍSTICA MINERA:
+- Transporte de materiales pesados
+- Logística de maquinaria
+
+MANTENIMIENTO Y SOPORTE TÉCNICO:
+- Mantenimiento preventivo y correctivo
+- Equipos e infraestructura
+
+SEGURIDAD MINERA:
+- Entrenamiento en seguridad
+- Protocolos de emergencia
+- Equipos de protección
+
+Botón CTA: "Solicita una cotización personalizada"
+
+4. PROYECTOS (PROJECTS)
+-----------------------
+
+PROYECTOS ACTUALES:
+- Imágenes y descripciones detalladas
+- Cronograma de proyectos
+- Tecnologías utilizadas
+
+PROYECTOS PASADOS:
+- Estudios de caso
+- Impacto y resultados obtenidos
+- Beneficios para comunidades
+
+PROYECTOS DE INNOVACIÓN:
+- Tecnologías innovadoras implementadas
+
+Botón CTA: "Ver todos nuestros proyectos"
+
+5. INNOVACIÓN (INNOVATION)
+--------------------------
+
+TECNOLOGÍA EN MINERÍA:
+- Drones, inteligencia artificial
+- Automatización de maquinaria
+- Métodos que mejoran eficiencia y seguridad
+
+INVESTIGACIÓN Y DESARROLLO:
+- Proyectos de I+D
+- Procesos mineros
+- Energías renovables
+- Tecnologías emergentes
+
+6. RESPONSABILIDAD SOCIAL (CSR)
+-------------------------------
+
+COMPROMISO CON LA COMUNIDAD:
+- Programas educativos
+- Apoyo a salud y bienestar
+- Comunidades cercanas a minas
+
+IMPACTO AMBIENTAL POSITIVO:
+- Iniciativas de sostenibilidad
+- Reciclaje y reforestación
+- Preservación de ecosistemas
+
+PROGRAMAS DE INCLUSIÓN Y DIVERSIDAD:
+- Promoción de diversidad de género
+- Empleo local en comunidades
+
+CERTIFICACIONES Y PREMIOS DE RSE:
+- Distinciones por prácticas responsables
+
+7. NOTICIAS Y BLOG (NEWS & BLOG)
+---------------------------------
+
+NOTICIAS DE LA EMPRESA:
+- Actualizaciones sobre proyectos
+- Logros y eventos
+- Colaboraciones
+
+ARTÍCULOS SOBRE LA INDUSTRIA:
+- Noticias relevantes de minería
+- Nuevas regulaciones
+- Tendencias de mercado
+
+BLOG SOBRE INNOVACIÓN Y SOSTENIBILIDAD:
+- Artículos educativos
+- Minería responsable
+- Avances tecnológicos
+
+8. CARRERAS (CAREERS)
+---------------------
+
+OPORTUNIDADES LABORALES:
+- Listado de vacantes actuales
+- Descripción de beneficios
+- Entorno laboral
+
+CULTURA EMPRESARIAL:
+- Ambiente de trabajo inclusivo y seguro
+
+FORMULARIO DE POSTULACIÓN:
+- Subir CV
+- Carta de motivación
+- Documentos requeridos
+
+9. CONTACTO (CONTACT)
+---------------------
+
+FORMULARIO DE CONTACTO:
+- Nombre, correo electrónico, mensaje
+- Opción para adjuntar documentos
+- Consultas adicionales
+
+DIRECCIÓN FÍSICA:
+- Ubicación de oficinas y minas
+- Mapa interactivo
+
+TELÉFONOS Y CORREOS:
+- Números de diferentes departamentos
+- Ventas, soporte, recursos humanos
+
+REDES SOCIALES:
+- Enlaces a perfiles empresariales
+
+10. PIE DE PÁGINA (FOOTER)
+---------------------------
+
+ENLACES RÁPIDOS:
+- Accesos directos a secciones importantes
+
+POLÍTICA DE PRIVACIDAD:
+- Política de privacidad
+- Términos de uso
+- Cookies
+
+COPYRIGHT Y DETALLES LEGALES:
+- Derechos de autor
+- Registro legal de la empresa
+
+DISEÑO SUGERIDO:
+================
+
+COLORES:
+- Metálicos: oro, cobre, plata
+- Sólidos: negro, gris oscuro, blanco
+- Sensación de profesionalismo y seriedad
+
+TIPOGRAFÍA:
+- Elegantes y legibles
+- Montserrat, Roboto, Lato, Helvetica
+
+ESTILO VISUAL:
+- Minimalista con espacios amplios
+- Imágenes de alta calidad
+- Maquinaria moderna, paisajes industriales
+
+ANIMACIONES:
+- Efectos sutiles al pasar el mouse
+- Sin sobrecargar la experiencia del usuario
+
+ELEMENTOS TÉCNICOS ADICIONALES:
+================================
+
+FUNCIONALIDADES AVANZADAS:
+- Chat en vivo para atención al cliente
+- Calculadora de cotizaciones
+- Mapa interactivo de proyectos
+- Galería de imágenes con zoom
+- Formularios de contacto inteligentes
+- Sistema de newsletter
+- Integración con CRM
+- Panel de administración
+- Optimización SEO
+- Diseño responsive
+- Certificado SSL
+- Backup automático
+- Análisis de tráfico web
+- Integración con redes sociales
+- Sistema de búsqueda interna
+- Filtros avanzados en proyectos
+- Timeline de la empresa
+- Estadísticas en tiempo real
+- Chatbot para consultas frecuentes
+- Sistema de reservas para visitas
+- Integración con Google Maps
+- Sistema de notificaciones push
+- Galería de videos corporativos
+- Sección de preguntas frecuentes
+- Sistema de testimonios dinámico
+- Integración con LinkedIn para empleos
+- Sistema de blog con categorías
+- Galería de certificaciones
+- Mapa de calor de visitantes
+- Sistema de encuestas de satisfacción 
+
+
+tablas # MODELOS PRINCIPALES
+# ================================================================
+
+class ConfiguracionGeneral(models.Model):
+    """Configuración general del sitio web"""
+    nombre_empresa = models.CharField(max_length=255)
+    slogan = models.TextField(blank=True, null=True)
+    descripcion_corta = models.TextField(blank=True, null=True)
+    descripcion_larga = models.TextField(blank=True, null=True)
+    mision = models.TextField(blank=True, null=True)
+    vision = models.TextField(blank=True, null=True)
+    valores = models.JSONField(default=list, blank=True)
+    logo_url = models.URLField(blank=True, null=True)
+    favicon_url = models.URLField(blank=True, null=True)
+    email_contacto = models.EmailField(blank=True, null=True)
+    telefono_principal = models.CharField(max_length=50, blank=True, null=True)
+    direccion_oficina = models.TextField(blank=True, null=True)
+    coordenadas_lat = models.DecimalField(max_digits=10, decimal_places=8, blank=True, null=True)
+    coordenadas_lng = models.DecimalField(max_digits=11, decimal_places=8, blank=True, null=True)
+    horario_atencion = models.CharField(max_length=255, blank=True, null=True)
+    redes_sociales = models.JSONField(default=dict, blank=True)
+    meta_title_default = models.CharField(max_length=255, blank=True, null=True)
+    meta_description_default = models.TextField(blank=True, null=True)
+    meta_keywords_default = models.TextField(blank=True, null=True)
+    google_analytics_id = models.CharField(max_length=50, blank=True, null=True)
+    facebook_pixel_id = models.CharField(max_length=50, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Configuración General"
+        verbose_name_plural = "Configuración General"
+
+    def __str__(self):
+        return self.nombre_empresa
+
+class Pagina(models.Model):
+    """Páginas del sitio web"""
+    ESTADO_CHOICES = [
+        ('activo', 'Activo'),
+        ('inactivo', 'Inactivo'),
+        ('borrador', 'Borrador'),
+    ]
+
+    slug = models.SlugField(max_length=255, unique=True)
+    titulo = models.CharField(max_length=255)
+    contenido = models.TextField(blank=True, null=True)
+    meta_title = models.CharField(max_length=255, blank=True, null=True)
+    meta_description = models.TextField(blank=True, null=True)
+    meta_keywords = models.TextField(blank=True, null=True)
+    imagen_principal = models.URLField(blank=True, null=True)
+    orden = models.IntegerField(default=0)
+    estado = models.CharField(max_length=20, choices=ESTADO_CHOICES, default='activo')
+    fecha_publicacion = models.DateTimeField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Página"
+        verbose_name_plural = "Páginas"
+        ordering = ['orden', 'titulo']
+
+    def __str__(self):
+        return self.titulo
+
+    def get_absolute_url(self):
+        return reverse('pagina_detail', kwargs={'slug': self.slug})
+
+class Servicio(models.Model):
+    """Servicios de la empresa minera"""
+    slug = models.SlugField(max_length=255, unique=True)
+    nombre = models.CharField(max_length=255)
+    descripcion_corta = models.TextField(blank=True, null=True)
+    descripcion_larga = models.TextField(blank=True, null=True)
+    icono = models.CharField(max_length=255, blank=True, null=True)
+    imagen_principal = models.URLField(blank=True, null=True)
+    galeria_imagenes = models.JSONField(default=list, blank=True)
+    caracteristicas = models.JSONField(default=list, blank=True)
+    beneficios = models.JSONField(default=list, blank=True)
+    meta_title = models.CharField(max_length=255, blank=True, null=True)
+    meta_description = models.TextField(blank=True, null=True)
+    meta_keywords = models.TextField(blank=True, null=True)
+    orden = models.IntegerField(default=0)
+    estado = models.CharField(max_length=20, choices=[('activo', 'Activo'), ('inactivo', 'Inactivo')], default='activo')
+    destacado = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Servicio"
+        verbose_name_plural = "Servicios"
+        ordering = ['orden', 'nombre']
+
+    def __str__(self):
+        return self.nombre
+
+    def get_absolute_url(self):
+        return reverse('servicio_detail', kwargs={'slug': self.slug})
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.nombre)
+        super().save(*args, **kwargs)
+
+class Proyecto(models.Model):
+    """Proyectos mineros de la empresa"""
+    TIPO_PROYECTO_CHOICES = [
+        ('explotacion', 'Explotación'),
+        ('exploracion', 'Exploración'),
+        ('restauracion', 'Restauración'),
+        ('innovacion', 'Innovación'),
+        ('sostenibilidad', 'Sostenibilidad'),
+    ]
+    ESTADO_PROYECTO_CHOICES = [
+        ('planificacion', 'Planificación'),
+        ('en_curso', 'En Curso'),
+        ('completado', 'Completado'),
+        ('suspendido', 'Suspendido'),
+    ]
+
+    slug = models.SlugField(max_length=255, unique=True)
+    nombre = models.CharField(max_length=255)
+    descripcion_corta = models.TextField(blank=True, null=True)
+    descripcion_larga = models.TextField(blank=True, null=True)
+    tipo_proyecto = models.CharField(max_length=20, choices=TIPO_PROYECTO_CHOICES)
+    estado_proyecto = models.CharField(max_length=20, choices=ESTADO_PROYECTO_CHOICES, default='en_curso')
+    ubicacion = models.CharField(max_length=255, blank=True, null=True)
+    coordenadas_lat = models.DecimalField(max_digits=10, decimal_places=8, blank=True, null=True)
+    coordenadas_lng = models.DecimalField(max_digits=11, decimal_places=8, blank=True, null=True)
+    fecha_inicio = models.DateField(blank=True, null=True)
+    fecha_fin_estimada = models.DateField(blank=True, null=True)
+    fecha_fin_real = models.DateField(blank=True, null=True)
+    presupuesto = models.DecimalField(max_digits=15, decimal_places=2, blank=True, null=True)
+    moneda = models.CharField(max_length=10, default='USD')
+    imagen_principal = models.URLField(blank=True, null=True)
+    galeria_imagenes = models.JSONField(default=list, blank=True)
+    video_url = models.URLField(blank=True, null=True)
+    tecnologias_utilizadas = models.JSONField(default=list, blank=True)
+    resultados = models.JSONField(default=list, blank=True)
+    impacto_ambiental = models.TextField(blank=True, null=True)
+    beneficios_comunidad = models.TextField(blank=True, null=True)
+    meta_title = models.CharField(max_length=255, blank=True, null=True)
+    meta_description = models.TextField(blank=True, null=True)
+    meta_keywords = models.TextField(blank=True, null=True)
+    orden = models.IntegerField(default=0)
+    estado = models.CharField(max_length=20, choices=[('activo', 'Activo'), ('inactivo', 'Inactivo')], default='activo')
+    destacado = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Proyecto"
+        verbose_name_plural = "Proyectos"
+        ordering = ['-fecha_inicio', 'nombre']
+
+    def __str__(self):
+        return self.nombre
+
+    def get_absolute_url(self):
+        return reverse('proyecto_detail', kwargs={'slug': self.slug})
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.nombre)
+        super().save(*args, **kwargs)
+
+class Equipo(models.Model):
+    """Personal de la empresa"""
+    slug = models.SlugField(max_length=255, unique=True)
+    nombre = models.CharField(max_length=255)
+    apellido = models.CharField(max_length=255)
+    cargo = models.CharField(max_length=255)
+    departamento = models.CharField(max_length=255, blank=True, null=True)
+    biografia = models.TextField(blank=True, null=True)
+    experiencia_anos = models.IntegerField(blank=True, null=True)
+    especialidades = models.JSONField(default=list, blank=True)
+    educacion = models.JSONField(default=list, blank=True)
+    certificaciones = models.JSONField(default=list, blank=True)
+    foto = models.URLField(blank=True, null=True)
+    email = models.EmailField(blank=True, null=True)
+    linkedin_url = models.URLField(blank=True, null=True)
+    orden = models.IntegerField(default=0)
+    estado = models.CharField(max_length=20, choices=[('activo', 'Activo'), ('inactivo', 'Inactivo')], default='activo')
+    directivo = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Miembro del Equipo"
+        verbose_name_plural = "Miembros del Equipo"
+        ordering = ['orden', 'apellido', 'nombre']
+
+    def __str__(self):
+        return f"{self.nombre} {self.apellido}"
+
+    def get_absolute_url(self):
+        return reverse('equipo_detail', kwargs={'slug': self.slug})
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(f"{self.nombre}-{self.apellido}")
+        super().save(*args, **kwargs)
+
+class CertificacionPremio(models.Model):
+    """Certificaciones y premios de la empresa"""
+    TIPO_CHOICES = [
+        ('certificacion', 'Certificación'),
+        ('premio', 'Premio'),
+        ('reconocimiento', 'Reconocimiento'),
+    ]
+
+    slug = models.SlugField(max_length=255, unique=True)
+    nombre = models.CharField(max_length=255)
+    tipo = models.CharField(max_length=20, choices=TIPO_CHOICES)
+    categoria = models.CharField(max_length=255, blank=True, null=True)
+    descripcion = models.TextField(blank=True, null=True)
+    organismo_otorgante = models.CharField(max_length=255, blank=True, null=True)
+    fecha_otorgamiento = models.DateField(blank=True, null=True)
+    fecha_vencimiento = models.DateField(blank=True, null=True)
+    logo_certificacion = models.URLField(blank=True, null=True)
+    documento_certificacion = models.URLField(blank=True, null=True)
+    estado = models.CharField(max_length=20, choices=[('activo', 'Activo'), ('vencido', 'Vencido'), ('suspendido', 'Suspendido')], default='activo')
+    orden = models.IntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Certificación/Premio"
+        verbose_name_plural = "Certificaciones y Premios"
+        ordering = ['orden', 'nombre']
+
+    def __str__(self):
+        return self.nombre
+
+    def get_absolute_url(self):
+        return reverse('certificacion_detail', kwargs={'slug': self.slug})
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.nombre)
+        super().save(*args, **kwargs)
+
+class NoticiaBlog(models.Model):
+    """Noticias y artículos del blog"""
+    TIPO_CHOICES = [
+        ('noticia', 'Noticia'),
+        ('articulo', 'Artículo'),
+        ('comunicado', 'Comunicado'),
+        ('blog', 'Blog'),
+    ]
+    ESTADO_CHOICES = [
+        ('borrador', 'Borrador'),
+        ('publicado', 'Publicado'),
+        ('archivado', 'Archivado'),
+    ]
+
+    slug = models.SlugField(max_length=255, unique=True)
+    titulo = models.CharField(max_length=255)
+    subtitulo = models.CharField(max_length=500, blank=True, null=True)
+    contenido = models.TextField()
+    resumen = models.TextField(blank=True, null=True)
+    tipo = models.CharField(max_length=20, choices=TIPO_CHOICES, default='noticia')
+    categoria = models.CharField(max_length=255, blank=True, null=True)
+    etiquetas = models.JSONField(default=list, blank=True)
+    autor = models.ForeignKey(Equipo, on_delete=models.SET_NULL, blank=True, null=True)
+    imagen_principal = models.URLField(blank=True, null=True)
+    galeria_imagenes = models.JSONField(default=list, blank=True)
+    video_url = models.URLField(blank=True, null=True)
+    meta_title = models.CharField(max_length=255, blank=True, null=True)
+    meta_description = models.TextField(blank=True, null=True)
+    meta_keywords = models.TextField(blank=True, null=True)
+    estado = models.CharField(max_length=20, choices=ESTADO_CHOICES, default='borrador')
+    fecha_publicacion = models.DateTimeField(blank=True, null=True)
+    fecha_expiracion = models.DateTimeField(blank=True, null=True)
+    vistas = models.IntegerField(default=0)
+    destacado = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Noticia/Blog"
+        verbose_name_plural = "Noticias y Blog"
+        ordering = ['-fecha_publicacion', 'titulo']
+
+    def __str__(self):
+        return self.titulo
+
+    def get_absolute_url(self):
+        return reverse('noticia_detail', kwargs={'slug': self.slug})
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.titulo)
+        if self.estado == 'publicado' and not self.fecha_publicacion:
+            self.fecha_publicacion = timezone.now()
+        super().save(*args, **kwargs)
+
+class Vacante(models.Model):
+    """Ofertas de trabajo"""
+    TIPO_CONTRATO_CHOICES = [
+        ('tiempo_completo', 'Tiempo Completo'),
+        ('tiempo_parcial', 'Tiempo Parcial'),
+        ('contrato', 'Contrato'),
+        ('practicas', 'Prácticas'),
+    ]
+
+    slug = models.SlugField(max_length=255, unique=True)
+    titulo = models.CharField(max_length=255)
+    descripcion = models.TextField()
+    requisitos = models.JSONField(default=list, blank=True)
+    responsabilidades = models.JSONField(default=list, blank=True)
+    beneficios = models.JSONField(default=list, blank=True)
+    tipo_contrato = models.CharField(max_length=20, choices=TIPO_CONTRATO_CHOICES)
+    ubicacion = models.CharField(max_length=255, blank=True, null=True)
+    departamento = models.CharField(max_length=255, blank=True, null=True)
+    experiencia_minima = models.IntegerField(blank=True, null=True)
+    experiencia_maxima = models.IntegerField(blank=True, null=True)
+    salario_min = models.DecimalField(max_digits=12, decimal_places=2, blank=True, null=True)
+    salario_max = models.DecimalField(max_digits=12, decimal_places=2, blank=True, null=True)
+    moneda = models.CharField(max_length=10, default='USD')
+    fecha_limite = models.DateField(blank=True, null=True)
+    estado = models.CharField(max_length=20, choices=[('abierta', 'Abierta'), ('cerrada', 'Cerrada'), ('suspendida', 'Suspendida')], default='abierta')
+    destacada = models.BooleanField(default=False)
+    vistas = models.IntegerField(default=0)
+    postulaciones = models.IntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Vacante"
+        verbose_name_plural = "Vacantes"
+        ordering = ['-created_at', 'titulo']
+
+    def __str__(self):
+        return self.titulo
+
+    def get_absolute_url(self):
+        return reverse('vacante_detail', kwargs={'slug': self.slug})
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.titulo)
+        super().save(*args, **kwargs)
+
+class Postulacion(models.Model):
+    """Postulaciones a vacantes"""
+    ESTADO_CHOICES = [
+        ('recibida', 'Recibida'),
+        ('revisando', 'Revisando'),
+        ('entrevista', 'Entrevista'),
+        ('rechazada', 'Rechazada'),
+        ('contratada', 'Contratada'),
+    ]
+
+    vacante = models.ForeignKey(Vacante, on_delete=models.CASCADE)
+    nombre = models.CharField(max_length=255)
+    apellido = models.CharField(max_length=255)
+    email = models.EmailField()
+    telefono = models.CharField(max_length=50, blank=True, null=True)
+    fecha_nacimiento = models.DateField(blank=True, null=True)
+    nacionalidad = models.CharField(max_length=100, blank=True, null=True)
+    experiencia_anos = models.IntegerField(blank=True, null=True)
+    educacion = models.TextField(blank=True, null=True)
+    cv_url = models.URLField(blank=True, null=True)
+    carta_motivacion = models.TextField(blank=True, null=True)
+    referencias = models.TextField(blank=True, null=True)
+    estado = models.CharField(max_length=20, choices=ESTADO_CHOICES, default='recibida')
+    notas_internas = models.TextField(blank=True, null=True)
+    fecha_postulacion = models.DateTimeField(auto_now_add=True)
+    fecha_revision = models.DateTimeField(blank=True, null=True)
+
+    class Meta:
+        verbose_name = "Postulación"
+        verbose_name_plural = "Postulaciones"
+        ordering = ['-fecha_postulacion']
+
+    def __str__(self):
+        return f"{self.nombre} {self.apellido} - {self.vacante.titulo}"
+
+class Testimonio(models.Model):
+    """Testimonios de clientes y colaboradores"""
+    nombre = models.CharField(max_length=255)
+    cargo = models.CharField(max_length=255, blank=True, null=True)
+    empresa = models.CharField(max_length=255, blank=True, null=True)
+    testimonio = models.TextField()
+    calificacion = models.IntegerField(default=5, choices=[(i, i) for i in range(1, 6)])
+    imagen = models.URLField(blank=True, null=True)
+    proyecto_relacionado = models.CharField(max_length=255, blank=True, null=True)
+    estado = models.CharField(max_length=20, choices=[('activo', 'Activo'), ('inactivo', 'Inactivo')], default='activo')
+    destacado = models.BooleanField(default=False)
+    orden = models.IntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Testimonio"
+        verbose_name_plural = "Testimonios"
+        ordering = ['orden', 'nombre']
+
+    def __str__(self):
+        return f"{self.nombre} - {self.empresa}"
+
+class Contacto(models.Model):
+    """Formularios de contacto"""
+    TIPO_CONSULTA_CHOICES = [
+        ('general', 'General'),
+        ('cotizacion', 'Cotización'),
+        ('trabajo', 'Trabajo'),
+        ('prensa', 'Prensa'),
+        ('inversion', 'Inversión'),
+    ]
+    ESTADO_CHOICES = [
+        ('nuevo', 'Nuevo'),
+        ('en_revision', 'En Revisión'),
+        ('respondido', 'Respondido'),
+        ('archivado', 'Archivado'),
+    ]
+
+    nombre = models.CharField(max_length=255)
+    email = models.EmailField()
+    telefono = models.CharField(max_length=50, blank=True, null=True)
+    empresa = models.CharField(max_length=255, blank=True, null=True)
+    cargo = models.CharField(max_length=255, blank=True, null=True)
+    asunto = models.CharField(max_length=255, blank=True, null=True)
+    mensaje = models.TextField()
+    tipo_consulta = models.CharField(max_length=20, choices=TIPO_CONSULTA_CHOICES, default='general')
+    estado = models.CharField(max_length=20, choices=ESTADO_CHOICES, default='nuevo')
+    respuesta = models.TextField(blank=True, null=True)
+    fecha_contacto = models.DateTimeField(auto_now_add=True)
+    fecha_respuesta = models.DateTimeField(blank=True, null=True)
+
+    class Meta:
+        verbose_name = "Contacto"
+        verbose_name_plural = "Contactos"
+        ordering = ['-fecha_contacto']
+
+    def __str__(self):
+        return f"{self.nombre} - {self.asunto}"
+
+class Newsletter(models.Model):
+    """Suscriptores del newsletter"""
+    ESTADO_CHOICES = [
+        ('activo', 'Activo'),
+        ('inactivo', 'Inactivo'),
+        ('baja', 'Baja'),
+    ]
+
+    email = models.EmailField(unique=True)
+    nombre = models.CharField(max_length=255, blank=True, null=True)
+    empresa = models.CharField(max_length=255, blank=True, null=True)
+    cargo = models.CharField(max_length=255, blank=True, null=True)
+    intereses = models.JSONField(default=list, blank=True)
+    estado = models.CharField(max_length=20, choices=ESTADO_CHOICES, default='activo')
+    fecha_suscripcion = models.DateTimeField(auto_now_add=True)
+    fecha_baja = models.DateTimeField(blank=True, null=True)
+
+    class Meta:
+        verbose_name = "Suscriptor Newsletter"
+        verbose_name_plural = "Suscriptores Newsletter"
+        ordering = ['-fecha_suscripcion']
+
+    def __str__(self):
+        return self.email
+
+class Estadistica(models.Model):
+    """Estadísticas del sitio web"""
+    TIPO_EVENTO_CHOICES = [
+        ('pagina_vista', 'Página Vista'),
+        ('descarga', 'Descarga'),
+        ('formulario', 'Formulario'),
+        ('click', 'Click'),
+    ]
+
+    fecha = models.DateField()
+    pagina = models.CharField(max_length=255, blank=True, null=True)
+    ip_visitante = models.GenericIPAddressField(blank=True, null=True)
+    user_agent = models.TextField(blank=True, null=True)
+    referer = models.URLField(blank=True, null=True)
+    tiempo_visita = models.IntegerField(blank=True, null=True)
+    tipo_evento = models.CharField(max_length=20, choices=TIPO_EVENTO_CHOICES, default='pagina_vista')
+    datos_adicionales = models.JSONField(default=dict, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = "Estadística"
+        verbose_name_plural = "Estadísticas"
+        ordering = ['-fecha', '-created_at']
+
+    def __str__(self):
+        return f"{self.fecha} - {self.tipo_evento} - {self.pagina}"
+
+class ConfiguracionSEO(models.Model):
+    """Configuración SEO por página"""
+    pagina = models.CharField(max_length=255, unique=True)
+    meta_title = models.CharField(max_length=255, blank=True, null=True)
+    meta_description = models.TextField(blank=True, null=True)
+    meta_keywords = models.TextField(blank=True, null=True)
+    og_title = models.CharField(max_length=255, blank=True, null=True)
+    og_description = models.TextField(blank=True, null=True)
+    og_image = models.URLField(blank=True, null=True)
+    twitter_card = models.CharField(max_length=50, blank=True, null=True)
+    twitter_title = models.CharField(max_length=255, blank=True, null=True)
+    twitter_description = models.TextField(blank=True, null=True)
+    twitter_image = models.URLField(blank=True, null=True)
+    schema_markup = models.TextField(blank=True, null=True)
+    canonical_url = models.URLField(blank=True, null=True)
+    robots_txt = models.TextField(blank=True, null=True)
+    sitemap_url = models.URLField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Configuración SEO"
+        verbose_name_plural = "Configuraciones SEO"
+
+    def __str__(self):
+        return self.pagina
+
+class Galeria(models.Model):
+    """Galerías multimedia"""
+    TIPO_CHOICES = [
+        ('imagenes', 'Imágenes'),
+        ('videos', 'Videos'),
+        ('documentos', 'Documentos'),
+    ]
+
+    nombre = models.CharField(max_length=255)
+    descripcion = models.TextField(blank=True, null=True)
+    tipo = models.CharField(max_length=20, choices=TIPO_CHOICES, default='imagenes')
+    categoria = models.CharField(max_length=255, blank=True, null=True)
+    orden = models.IntegerField(default=0)
+    estado = models.CharField(max_length=20, choices=[('activo', 'Activo'), ('inactivo', 'Inactivo')], default='activo')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Galería"
+        verbose_name_plural = "Galerías"
+        ordering = ['orden', 'nombre']
+
+    def __str__(self):
+        return self.nombre
+
+class ArchivoMultimedia(models.Model):
+    """Archivos multimedia"""
+    TIPO_CHOICES = [
+        ('imagen', 'Imagen'),
+        ('video', 'Video'),
+        ('documento', 'Documento'),
+        ('audio', 'Audio'),
+    ]
+
+    galeria = models.ForeignKey(Galeria, on_delete=models.SET_NULL, blank=True, null=True)
+    nombre = models.CharField(max_length=255)
+    descripcion = models.TextField(blank=True, null=True)
+    tipo = models.CharField(max_length=20, choices=TIPO_CHOICES)
+    url = models.URLField()
+    url_thumbnail = models.URLField(blank=True, null=True)
+    tamaño = models.IntegerField(blank=True, null=True)
+    dimensiones = models.CharField(max_length=50, blank=True, null=True)
+    duracion = models.IntegerField(blank=True, null=True)
+    alt_text = models.CharField(max_length=255, blank=True, null=True)
+    orden = models.IntegerField(default=0)
+    estado = models.CharField(max_length=20, choices=[('activo', 'Activo'), ('inactivo', 'Inactivo')], default='activo')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Archivo Multimedia"
+        verbose_name_plural = "Archivos Multimedia"
+        ordering = ['orden', 'nombre']
+
+    def __str__(self):
+        return self.nombre

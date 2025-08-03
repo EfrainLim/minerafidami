@@ -1,0 +1,168 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ noticia.titulo }} - Blog - Minera Fidami S.A.{% endblock %}
+
+{% block content %}
+<!-- Breadcrumbs -->
+<section class="py-4 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <nav class="flex" aria-label="Breadcrumb">
+            <ol class="flex items-center space-x-2">
+                <li><a href="{% url 'core:home' %}" class="text-gray-500 hover:text-primary-600">Inicio</a></li>
+                <li><span class="text-gray-400">/</span></li>
+                <li><a href="{% url 'blog:blog_list' %}" class="text-gray-500 hover:text-primary-600">Blog</a></li>
+                <li><span class="text-gray-400">/</span></li>
+                <li class="text-gray-900">{{ noticia.titulo }}</li>
+            </ol>
+        </nav>
+    </div>
+</section>
+
+<!-- Hero Section -->
+<section class="py-16">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+            <div class="flex items-center gap-4 mb-6">
+                <span class="px-4 py-2 bg-primary-100 text-primary-800 text-sm font-medium rounded-full">
+                    {{ noticia.get_tipo_display }}
+                </span>
+                {% if noticia.fecha_publicacion %}
+                <span class="text-gray-500">
+                    {{ noticia.fecha_publicacion|date:"d de F de Y" }}
+                </span>
+                {% endif %}
+            </div>
+            
+            <h1 class="text-4xl lg:text-5xl font-display font-bold text-gray-900 mb-6">{{ noticia.titulo }}</h1>
+            
+            {% if noticia.subtitulo %}
+            <p class="text-xl text-gray-600 mb-8">{{ noticia.subtitulo }}</p>
+            {% endif %}
+            
+            {% if noticia.autor %}
+            <div class="flex items-center mb-8">
+                <div class="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center mr-4">
+                    <span class="text-primary-600 font-bold text-lg">{{ noticia.autor.nombre|first }}</span>
+                </div>
+                <div>
+                    <p class="font-semibold text-gray-900">{{ noticia.autor.nombre }}</p>
+                    <p class="text-sm text-gray-500">{{ noticia.autor.cargo }}</p>
+                </div>
+            </div>
+            {% endif %}
+            
+            {% if noticia.get_imagen_principal_url %}
+            <div class="mb-8">
+                <img src="{{ noticia.get_imagen_principal_url }}" alt="{{ noticia.titulo }}" class="w-full h-96 object-cover rounded-lg shadow-lg">
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<!-- Contenido del Artículo -->
+<section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+            <div class="bg-white rounded-lg shadow-lg p-8">
+                <div class="prose prose-lg max-w-none">
+                    {{ noticia.contenido|linebreaks }}
+                </div>
+                
+                {% if noticia.etiquetas %}
+                <div class="mt-8 pt-8 border-t border-gray-200">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Etiquetas:</h3>
+                    <div class="flex flex-wrap gap-2">
+                        {% for etiqueta in noticia.etiquetas %}
+                        <span class="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full">
+                            {{ etiqueta }}
+                        </span>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Galería de Imágenes -->
+{% if noticia.galeria_imagenes %}
+<section class="py-16">
+    <div class="container mx-auto px-4">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-3xl font-display font-bold text-gray-900 mb-8 text-center">Galería</h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {% for imagen in noticia.galeria_imagenes %}
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <img src="{{ imagen }}" alt="{{ noticia.titulo }}" class="w-full h-48 object-cover">
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Video -->
+{% if noticia.video_url %}
+<section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl font-display font-bold text-gray-900 mb-8 text-center">Video Relacionado</h2>
+            <div class="relative aspect-video rounded-lg overflow-hidden shadow-lg">
+                <iframe src="{{ noticia.get_youtube_embed_url }}" class="w-full h-full" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Artículos Relacionados -->
+{% if noticias_relacionadas %}
+<section class="py-16">
+    <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-display font-bold text-gray-900 mb-8 text-center">Artículos Relacionados</h2>
+        <div class="grid md:grid-cols-3 gap-8">
+            {% for noticia_rel in noticias_relacionadas %}
+            <article class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                {% if noticia_rel.imagen_principal %}
+                <img src="{{ noticia_rel.imagen_principal }}" alt="{{ noticia_rel.titulo }}" class="w-full h-48 object-cover">
+                {% endif %}
+                <div class="p-6">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="px-3 py-1 bg-primary-100 text-primary-800 text-sm font-medium rounded-full">
+                            {{ noticia_rel.get_tipo_display }}
+                        </span>
+                        {% if noticia_rel.fecha_publicacion %}
+                        <span class="text-sm text-gray-500">
+                            {{ noticia_rel.fecha_publicacion|date:"d/m/Y" }}
+                        </span>
+                        {% endif %}
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">{{ noticia_rel.titulo }}</h3>
+                    <p class="text-gray-600 mb-4">{{ noticia_rel.resumen|truncatewords:15 }}</p>
+                    <a href="{{ noticia_rel.get_absolute_url }}" class="text-primary-600 font-semibold hover:text-primary-800">
+                        Leer más →
+                    </a>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- CTA Section -->
+<section class="py-16 bg-primary-600 text-white">
+    <div class="container mx-auto px-4 text-center">
+        <h2 class="text-4xl font-display font-bold mb-6">¿Te gustó este artículo?</h2>
+        <p class="text-xl mb-8 max-w-2xl mx-auto">
+            Suscríbete a nuestro newsletter para recibir más artículos como este
+        </p>
+        <a href="{% url 'contacto:contacto' %}" class="btn-secondary">
+            Suscribirse
+        </a>
+    </div>
+</section>
+{% endblock %} 

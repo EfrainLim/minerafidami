@@ -1,0 +1,6 @@
+# Django y dependencias principales
+Django==5.2.4
+django-tailwind==4.2.0
+asgiref==3.9.1
+sqlparse==0.5.3
+pillow==11.3.0

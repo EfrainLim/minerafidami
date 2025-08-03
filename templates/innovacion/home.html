@@ -1,0 +1,172 @@
+{% extends 'base.html' %}
+
+{% block title %}Innovación - Minera Fidami S.A.{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="relative bg-gradient-to-br from-primary-600 to-primary-800 text-white py-20">
+    <div class="container mx-auto px-4">
+        <div class="text-center">
+            <h1 class="text-5xl font-display font-bold mb-6">Innovación Tecnológica</h1>
+            <p class="text-xl mb-8 max-w-3xl mx-auto">
+                Lideramos la transformación digital en la industria minera con tecnologías de vanguardia y soluciones innovadoras
+            </p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="{% url 'innovacion:tecnologia_list' %}" class="btn-primary">
+                    Ver Tecnologías
+                </a>
+                <a href="{% url 'innovacion:proyecto_list' %}" class="btn-secondary">
+                    Proyectos de Innovación
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Tecnologías Destacadas -->
+{% if tecnologias_destacadas %}
+<section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-12">
+            <h2 class="text-4xl font-display font-bold text-gray-900 mb-4">Tecnologías Destacadas</h2>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                Descubre las tecnologías más avanzadas que estamos implementando en nuestros proyectos
+            </p>
+        </div>
+        
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for tecnologia in tecnologias_destacadas %}
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                {% if tecnologia.imagen_principal %}
+                <img src="{{ tecnologia.imagen_principal }}" alt="{{ tecnologia.nombre }}" class="w-full h-48 object-cover">
+                {% endif %}
+                <div class="p-6">
+                    <div class="flex items-center mb-3">
+                        <span class="px-3 py-1 bg-primary-100 text-primary-800 text-sm font-medium rounded-full">
+                            {{ tecnologia.get_categoria_display }}
+                        </span>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">{{ tecnologia.nombre }}</h3>
+                    <p class="text-gray-600 mb-4">{{ tecnologia.descripcion_corta|truncatewords:20 }}</p>
+                    <a href="{{ tecnologia.get_absolute_url }}" class="text-primary-600 font-semibold hover:text-primary-800">
+                        Ver más →
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="text-center mt-8">
+            <a href="{% url 'innovacion:tecnologia_list' %}" class="btn-primary">
+                Ver Todas las Tecnologías
+            </a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Proyectos de Innovación Destacados -->
+{% if proyectos_destacados %}
+<section class="py-16">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-12">
+            <h2 class="text-4xl font-display font-bold text-gray-900 mb-4">Proyectos de Innovación</h2>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                Conoce nuestros proyectos más ambiciosos en investigación y desarrollo tecnológico
+            </p>
+        </div>
+        
+        <div class="grid md:grid-cols-2 gap-8">
+            {% for proyecto in proyectos_destacados %}
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                {% if proyecto.imagen_principal %}
+                <img src="{{ proyecto.imagen_principal }}" alt="{{ proyecto.nombre }}" class="w-full h-64 object-cover">
+                {% endif %}
+                <div class="p-6">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm font-medium rounded-full">
+                            {{ proyecto.get_tipo_proyecto_display }}
+                        </span>
+                        <span class="px-3 py-1 bg-green-100 text-green-800 text-sm font-medium rounded-full">
+                            {{ proyecto.get_estado_proyecto_display }}
+                        </span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-3">{{ proyecto.nombre }}</h3>
+                    <p class="text-gray-600 mb-4">{{ proyecto.descripcion_corta|truncatewords:25 }}</p>
+                    {% if proyecto.fecha_inicio %}
+                    <p class="text-sm text-gray-500 mb-4">
+                        <strong>Inicio:</strong> {{ proyecto.fecha_inicio|date:"F Y" }}
+                    </p>
+                    {% endif %}
+                    <a href="{{ proyecto.get_absolute_url }}" class="text-primary-600 font-semibold hover:text-primary-800">
+                        Ver detalles →
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="text-center mt-8">
+            <a href="{% url 'innovacion:proyecto_list' %}" class="btn-primary">
+                Ver Todos los Proyectos
+            </a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Patentes Destacadas -->
+{% if patentes_destacadas %}
+<section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-12">
+            <h2 class="text-4xl font-display font-bold text-gray-900 mb-4">Propiedad Intelectual</h2>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                Nuestras patentes y desarrollos tecnológicos que están transformando la industria
+            </p>
+        </div>
+        
+        <div class="grid md:grid-cols-3 gap-8">
+            {% for patente in patentes_destacadas %}
+            <div class="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
+                <div class="flex items-center mb-3">
+                    <span class="px-3 py-1 bg-purple-100 text-purple-800 text-sm font-medium rounded-full">
+                        {{ patente.get_tipo_display }}
+                    </span>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-3">{{ patente.titulo }}</h3>
+                <p class="text-gray-600 mb-4">{{ patente.descripcion|truncatewords:15 }}</p>
+                {% if patente.numero_patente %}
+                <p class="text-sm text-gray-500 mb-4">
+                    <strong>Número:</strong> {{ patente.numero_patente }}
+                </p>
+                {% endif %}
+                <a href="{{ patente.get_absolute_url }}" class="text-primary-600 font-semibold hover:text-primary-800">
+                    Ver detalles →
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="text-center mt-8">
+            <a href="{% url 'innovacion:patente_list' %}" class="btn-primary">
+                Ver Todas las Patentes
+            </a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- CTA Section -->
+<section class="py-16 bg-primary-600 text-white">
+    <div class="container mx-auto px-4 text-center">
+        <h2 class="text-4xl font-display font-bold mb-6">¿Tienes una idea innovadora?</h2>
+        <p class="text-xl mb-8 max-w-2xl mx-auto">
+            Colaboramos con universidades, centros de investigación y empresas para desarrollar soluciones que transformen la minería
+        </p>
+        <a href="{% url 'contacto:contacto' %}" class="btn-secondary">
+            Contáctanos
+        </a>
+    </div>
+</section>
+{% endblock %} 

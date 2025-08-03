@@ -1,0 +1,596 @@
+{% extends 'base.html' %}
+
+{% block title %}Sobre Nosotros - Minera Fidami S.A.{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Animaciones para el modal */
+    .animate-fadeIn {
+        animation: fadeIn 0.3s ease-out;
+    }
+    
+    .animate-fadeOut {
+        animation: fadeOut 0.2s ease-in;
+    }
+    
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: scale(0.95) translateY(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+    }
+    
+    @keyframes fadeOut {
+        from {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+        to {
+            opacity: 0;
+            transform: scale(0.95) translateY(-20px);
+        }
+    }
+    
+    /* Estilos para el modal */
+    .modal-backdrop {
+        backdrop-filter: blur(4px);
+    }
+    
+    /* Scroll personalizado para el modal */
+    .modal-content::-webkit-scrollbar {
+        width: 6px;
+    }
+    
+    .modal-content::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 3px;
+    }
+    
+    .modal-content::-webkit-scrollbar-thumb {
+        background: #c1c1c1;
+        border-radius: 3px;
+    }
+    
+    .modal-content::-webkit-scrollbar-thumb:hover {
+        background: #a8a8a8;
+    }
+    
+    /* Efectos hover para botones */
+    .btn-outline-primary:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+    
+    /* Transiciones suaves */
+    .transition-all {
+        transition: all 0.3s ease;
+    }
+    
+    .miembro-detalle {
+        transition: max-height 0.3s ease-in-out;
+        max-height: 0;
+        overflow: hidden;
+    }
+    
+    .card.expanded {
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        transform: translateY(-2px);
+    }
+    
+    .toggle-miembro svg {
+        transition: transform 0.3s ease;
+    }
+    
+    .miembro-detalle .space-y-4 > div {
+        animation: fadeInUp 0.3s ease-out;
+    }
+    
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .miembro-detalle .space-y-4 > div:nth-child(1) { animation-delay: 0.1s; }
+    .miembro-detalle .space-y-4 > div:nth-child(2) { animation-delay: 0.2s; }
+    .miembro-detalle .space-y-4 > div:nth-child(3) { animation-delay: 0.3s; }
+    .miembro-detalle .space-y-4 > div:nth-child(4) { animation-delay: 0.4s; }
+    .miembro-detalle .space-y-4 > div:nth-child(5) { animation-delay: 0.5s; }
+    .miembro-detalle .space-y-4 > div:nth-child(6) { animation-delay: 0.6s; }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="relative py-20 bg-gradient-to-r from-primary-500 to-primary-600">
+    <div class="container mx-auto px-4 text-center">
+        <h1 class="text-4xl md:text-5xl font-display font-bold text-white mb-6">
+            Sobre Nosotros
+        </h1>
+        <p class="text-xl text-white/90 max-w-3xl mx-auto">
+            Conoce nuestra historia, misión, visión y el equipo que hace posible nuestro compromiso con la minería sostenible.
+        </p>
+    </div>
+</section>
+
+<!-- Mission & Vision Section -->
+<section class="py-20">
+    <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            <!-- Mission -->
+            <div class="card p-8">
+                <div class="w-16 h-16 bg-primary-500 rounded-full flex items-center justify-center mb-6">
+                    <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"></path>
+                    </svg>
+                </div>
+                <h2 class="text-3xl font-display font-bold text-gray-800 mb-6">Nuestra Misión</h2>
+                <p class="text-gray-600 text-lg leading-relaxed">
+                    {{ config.mision|default:"Ser líderes en la industria minera peruana, desarrollando operaciones sostenibles que generen valor para nuestros accionistas, empleados y comunidades, mientras protegemos el medio ambiente y contribuimos al desarrollo social del país." }}
+                </p>
+            </div>
+            
+            <!-- Vision -->
+            <div class="card p-8">
+                <div class="w-16 h-16 bg-primary-500 rounded-full flex items-center justify-center mb-6">
+                    <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"></path>
+                        <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"></path>
+                    </svg>
+                </div>
+                <h2 class="text-3xl font-display font-bold text-gray-800 mb-6">Nuestra Visión</h2>
+                <p class="text-gray-600 text-lg leading-relaxed">
+                    {{ config.vision|default:"Ser reconocidos como la empresa minera más innovadora y responsable de Perú, estableciendo nuevos estándares en sostenibilidad, seguridad y excelencia operativa, mientras construimos un futuro próspero para las próximas generaciones." }}
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Values Section -->
+<section class="py-20 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+            <h2 class="section-title">Nuestros Valores</h2>
+            <p class="section-subtitle">
+                Los principios que guían nuestras acciones y decisiones en cada proyecto.
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div class="card p-6 text-center">
+                <div class="w-16 h-16 bg-primary-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold mb-4">Seguridad</h3>
+                <p class="text-gray-600">
+                    La seguridad de nuestros trabajadores es nuestra máxima prioridad. Implementamos los más altos estándares de seguridad en todas nuestras operaciones.
+                </p>
+            </div>
+            
+            <div class="card p-6 text-center">
+                <div class="w-16 h-16 bg-primary-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold mb-4">Sostenibilidad</h3>
+                <p class="text-gray-600">
+                    Nos comprometemos con el medio ambiente y las comunidades locales, implementando prácticas mineras responsables.
+                </p>
+            </div>
+            
+            <div class="card p-6 text-center">
+                <div class="w-16 h-16 bg-primary-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold mb-4">Innovación</h3>
+                <p class="text-gray-600">
+                    Utilizamos tecnología de vanguardia para optimizar nuestros procesos y maximizar la eficiencia operativa.
+                </p>
+            </div>
+            
+            <div class="card p-6 text-center">
+                <div class="w-16 h-16 bg-primary-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold mb-4">Excelencia</h3>
+                <p class="text-gray-600">
+                    Buscamos la excelencia en todo lo que hacemos, desde la exploración hasta la comercialización de minerales.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Team Section -->
+{% if equipo_principal %}
+<section class="py-20">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+            <h2 class="section-title">Nuestro Equipo</h2>
+            <p class="section-subtitle">
+                Conoce a los profesionales que lideran nuestras operaciones y proyectos.
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {% for miembro in equipo_principal %}
+            <div class="card p-6 text-center hover:shadow-lg transition-all duration-300" id="miembro-{{ miembro.id }}">
+                {% if miembro.get_foto_url %}
+                <img src="{{ miembro.get_foto_url }}" alt="{{ miembro.nombre }} {{ miembro.apellido }}" 
+                     class="w-32 h-32 rounded-full mx-auto mb-6 object-cover">
+                {% else %}
+                <div class="w-32 h-32 bg-primary-100 rounded-full mx-auto mb-6 flex items-center justify-center">
+                    <svg class="w-16 h-16 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+                    </svg>
+                </div>
+                {% endif %}
+                
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">
+                    {{ miembro.nombre }} {{ miembro.apellido }}
+                </h3>
+                <p class="text-primary-600 font-medium mb-3">{{ miembro.cargo }}</p>
+                {% if miembro.departamento %}
+                <p class="text-gray-500 text-sm mb-4">{{ miembro.departamento }}</p>
+                {% endif %}
+                
+                {% if miembro.biografia %}
+                <p class="text-gray-600 text-sm mb-4">{{ miembro.biografia|truncatewords:15 }}</p>
+                {% endif %}
+                
+                <!-- Botón Ver Más -->
+                <button class="btn btn-outline-primary mb-4 w-full open-modal" 
+                        data-miembro-id="{{ miembro.id }}">
+                    <span>Ver más</span>
+                    <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                    </svg>
+                </button>
+                
+                <!-- Modal para cada miembro -->
+                <div id="modal-{{ miembro.id }}" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
+                    <div class="bg-white rounded-xl shadow-2xl max-w-lg w-full max-h-[85vh] overflow-hidden">
+                        <!-- Header del Modal -->
+                        <div class="relative bg-gradient-to-r from-primary-500 to-primary-600 text-white p-6">
+                            <button class="close-modal absolute top-4 right-4 text-white hover:text-gray-200 transition-colors" data-miembro-id="{{ miembro.id }}">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                            </button>
+                            <div class="flex items-center space-x-4">
+                                {% if miembro.get_foto_url %}
+                                <img src="{{ miembro.get_foto_url }}" alt="{{ miembro.nombre }} {{ miembro.apellido }}" 
+                                     class="w-20 h-20 rounded-full object-cover border-4 border-white/20">
+                                {% else %}
+                                <div class="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center border-4 border-white/20">
+                                    <svg class="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </div>
+                                {% endif %}
+                                <div class="flex-1">
+                                    <h3 class="text-2xl font-bold">{{ miembro.nombre }} {{ miembro.apellido }}</h3>
+                                    <p class="text-primary-100 font-medium">{{ miembro.cargo }}</p>
+                                    {% if miembro.departamento %}
+                                    <p class="text-primary-200 text-sm">{{ miembro.departamento }}</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Contenido del Modal -->
+                        <div class="p-6 space-y-4 max-h-[60vh] overflow-y-auto">
+                            <!-- Información Principal -->
+                            <div class="grid grid-cols-2 gap-4 mb-4">
+                                {% if miembro.experiencia_anos %}
+                                <div class="bg-gray-50 rounded-lg p-3 text-center">
+                                    <div class="text-2xl font-bold text-primary-600">{{ miembro.experiencia_anos }}</div>
+                                    <div class="text-xs text-gray-600">años de experiencia</div>
+                                </div>
+                                {% endif %}
+                                {% if miembro.directivo %}
+                                <div class="bg-yellow-50 rounded-lg p-3 text-center">
+                                    <div class="text-sm font-semibold text-yellow-700">Miembro del Directorio</div>
+                                    <div class="text-xs text-yellow-600">Rol ejecutivo</div>
+                                </div>
+                                {% endif %}
+                            </div>
+                            
+                            <!-- Especialidades -->
+                            {% if miembro.especialidades %}
+                            <div>
+                                <h4 class="text-sm font-semibold text-gray-700 mb-2 flex items-center">
+                                    <svg class="w-4 h-4 text-primary-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                    </svg>
+                                    Especialidades
+                                </h4>
+                                <div class="flex flex-wrap gap-1">
+                                    {% for especialidad in miembro.especialidades %}
+                                    <span class="bg-primary-100 text-primary-700 px-2 py-1 rounded-md text-xs font-medium">
+                                        {{ especialidad }}
+                                    </span>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            {% endif %}
+                            
+                            <!-- Educación y Certificaciones en Grid -->
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                {% if miembro.educacion %}
+                                <div>
+                                    <h4 class="text-sm font-semibold text-gray-700 mb-2 flex items-center">
+                                        <svg class="w-4 h-4 text-primary-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838l-2.727 1.17 1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z"></path>
+                                        </svg>
+                                        Educación
+                                    </h4>
+                                    <div class="space-y-1">
+                                        {% for item in miembro.educacion %}
+                                        <div class="flex items-start space-x-2">
+                                            <div class="w-1.5 h-1.5 bg-primary-400 rounded-full mt-2 flex-shrink-0"></div>
+                                            <p class="text-sm text-gray-600">{{ item }}</p>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                {% endif %}
+                                
+                                {% if miembro.certificaciones %}
+                                <div>
+                                    <h4 class="text-sm font-semibold text-gray-700 mb-2 flex items-center">
+                                        <svg class="w-4 h-4 text-primary-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        </svg>
+                                        Certificaciones
+                                    </h4>
+                                    <div class="flex flex-wrap gap-1">
+                                        {% for certificacion in miembro.certificaciones %}
+                                        <span class="bg-green-100 text-green-700 px-2 py-1 rounded-md text-xs font-medium">
+                                            {{ certificacion }}
+                                        </span>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                {% endif %}
+                            </div>
+                            
+                            <!-- Biografía -->
+                            {% if miembro.biografia %}
+                            <div>
+                                <h4 class="text-sm font-semibold text-gray-700 mb-2 flex items-center">
+                                    <svg class="w-4 h-4 text-primary-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+                                    </svg>
+                                    Biografía
+                                </h4>
+                                <div class="bg-gray-50 p-3 rounded-lg">
+                                    <p class="text-sm text-gray-700 leading-relaxed">{{ miembro.biografia|truncatewords:50 }}</p>
+                                </div>
+                            </div>
+                            {% endif %}
+                            
+                            <!-- Contacto -->
+                            {% if miembro.email or miembro.linkedin_url %}
+                            <div class="pt-2 border-t border-gray-200">
+                                <h4 class="text-sm font-semibold text-gray-700 mb-2 flex items-center">
+                                    <svg class="w-4 h-4 text-primary-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                        <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
+                                        <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
+                                    </svg>
+                                    Contacto
+                                </h4>
+                                <div class="flex space-x-3">
+                                    {% if miembro.email %}
+                                    <a href="mailto:{{ miembro.email }}" class="flex items-center space-x-2 text-primary-600 hover:text-primary-700 transition-colors text-sm">
+                                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
+                                            <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
+                                        </svg>
+                                        <span>Email</span>
+                                    </a>
+                                    {% endif %}
+                                    {% if miembro.linkedin_url %}
+                                    <a href="{{ miembro.linkedin_url }}" target="_blank" class="flex items-center space-x-2 text-primary-600 hover:text-primary-700 transition-colors text-sm">
+                                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M16.338 16.338H13.67V12.16c0-.995-.017-2.277-1.387-2.277-1.39 0-1.601 1.086-1.601 2.207v4.248H8.014v-8.59h2.559v1.174h.037c.356-.675 1.227-1.387 2.526-1.387 2.703 0 3.203 1.778 3.203 4.092v4.711zM5.005 6.575a1.548 1.548 0 11-.003-3.096 1.548 1.548 0 01.003 3.096zm-1.337 9.763H6.34v-8.59H3.667v8.59zM17.668 1H2.328C1.595 1 1 1.581 1 2.298v15.403C1 18.418 1.595 19 2.328 19h15.34c.734 0 1.332-.582 1.332-1.299V2.298C19 1.581 18.402 1 17.668 1z"></path>
+                                        </svg>
+                                        <span>LinkedIn</span>
+                                    </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Footer del Modal -->
+                        <div class="bg-gray-50 px-6 py-4 border-t border-gray-200">
+                            <button class="close-modal w-full btn btn-primary" data-miembro-id="{{ miembro.id }}">
+                                Cerrar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <!-- Enlace al equipo completo -->
+        <div class="text-center mt-12">
+            <a href="{% url 'core:equipo_list' %}" class="btn btn-primary inline-flex items-center">
+                <span>Ver todo el equipo</span>
+                <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                </svg>
+            </a>
+            <p class="text-gray-600 mt-4 text-sm">
+                Conoce a todos los profesionales que forman parte de nuestro equipo
+            </p>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Certifications Section -->
+{% if certificaciones %}
+<section class="py-20 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+            <h2 class="section-title">Certificaciones y Premios</h2>
+            <p class="section-subtitle">
+                Reconocimientos que avalan nuestro compromiso con la calidad y la excelencia.
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for certificacion in certificaciones %}
+            <div class="card p-6">
+                {% if certificacion.url_logo %}
+                <img src="{{ certificacion.url_logo }}" alt="{{ certificacion.nombre }}" class="w-full h-32 object-contain">
+                {% endif %}
+                
+                <h3 class="text-xl font-semibold text-gray-800 mb-3">{{ certificacion.nombre }}</h3>
+                <p class="text-primary-600 font-medium mb-2">{{ certificacion.get_tipo_display }}</p>
+                
+                {% if certificacion.descripcion %}
+                <p class="text-gray-600 mb-4">{{ certificacion.descripcion }}</p>
+                {% endif %}
+                
+                <div class="text-sm text-gray-500">
+                    {% if certificacion.organismo_otorgante %}
+                    <p><strong>Otorgado por:</strong> {{ certificacion.organismo_otorgante }}</p>
+                    {% endif %}
+                    {% if certificacion.fecha_otorgamiento %}
+                    <p><strong>Fecha:</strong> {{ certificacion.fecha_otorgamiento|date:"F Y" }}</p>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- CTA Section -->
+<section class="py-20 bg-gradient-to-r from-primary-500 to-primary-600">
+    <div class="container mx-auto px-4 text-center">
+        <h2 class="text-3xl md:text-4xl font-display font-bold text-white mb-6">
+            ¿Te gustaría trabajar con nosotros?
+        </h2>
+        <p class="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
+            Únete a nuestro equipo de profesionales comprometidos con la excelencia y la innovación en la minería.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="{% url 'carreras:vacante_list' %}" class="bg-white text-primary-500 font-bold py-4 px-8 rounded-lg hover:bg-gray-100 transition-colors">
+                Ver oportunidades laborales
+            </a>
+            <a href="{% url 'core:equipo_list' %}" class="border-2 border-white text-white font-bold py-4 px-8 rounded-lg hover:bg-white hover:text-primary-500 transition-colors">
+                Ver equipo completo
+            </a>
+            <a href="{% url 'contacto:contacto' %}" class="border-2 border-white text-white font-bold py-4 px-8 rounded-lg hover:bg-white hover:text-primary-500 transition-colors">
+                Contáctanos
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Obtener todos los botones de abrir modal
+    const openModalButtons = document.querySelectorAll('.open-modal');
+    const closeModalButtons = document.querySelectorAll('.close-modal');
+    const modals = document.querySelectorAll('[id^="modal-"]');
+    
+    // Función para abrir modal
+    function openModal(miembroId) {
+        const modal = document.getElementById(`modal-${miembroId}`);
+        if (modal) {
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden'; // Prevenir scroll del body
+            modal.classList.add('animate-fadeIn');
+        }
+    }
+    
+    // Función para cerrar modal
+    function closeModal(miembroId) {
+        const modal = document.getElementById(`modal-${miembroId}`);
+        if (modal) {
+            modal.classList.add('animate-fadeOut');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('animate-fadeOut');
+                document.body.style.overflow = ''; // Restaurar scroll del body
+            }, 200);
+        }
+    }
+    
+    // Event listeners para abrir modales
+    openModalButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            const miembroId = this.getAttribute('data-miembro-id');
+            openModal(miembroId);
+        });
+    });
+    
+    // Event listeners para cerrar modales
+    closeModalButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            const miembroId = this.getAttribute('data-miembro-id');
+            closeModal(miembroId);
+        });
+    });
+    
+    // Cerrar modal al hacer click en el overlay
+    modals.forEach(modal => {
+        modal.addEventListener('click', function(e) {
+            if (e.target === this) {
+                const miembroId = this.id.replace('modal-', '');
+                closeModal(miembroId);
+            }
+        });
+    });
+    
+    // Cerrar modal con la tecla Escape
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            const openModal = document.querySelector('[id^="modal-"]:not(.hidden)');
+            if (openModal) {
+                const miembroId = openModal.id.replace('modal-', '');
+                closeModal(miembroId);
+            }
+        }
+    });
+    
+    // Prevenir que el click dentro del modal lo cierre
+    modals.forEach(modal => {
+        const modalContent = modal.querySelector('.bg-white');
+        if (modalContent) {
+            modalContent.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+        }
+    });
+});
+</script>
+{% endblock %} 

@@ -1,0 +1,12 @@
+{
+  "name": "theme",
+  "version": "1.0.0",
+  "description": "Tema de Tailwind para Minera Fidami S.A.",
+  "scripts": {
+    "build": "tailwindcss -i ./static_src/src/styles/input.css -o ./static/css/output.css --watch",
+    "build-prod": "tailwindcss -i ./static_src/src/styles/input.css -o ./static/css/output.css --minify"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.0"
+  }
+} 

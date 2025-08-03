@@ -1,0 +1,259 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ patente.titulo }} - Patentes - Innovación - Minera Fidami S.A.{% endblock %}
+
+{% block content %}
+<!-- Breadcrumbs -->
+<section class="py-4 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <nav class="flex" aria-label="Breadcrumb">
+            <ol class="flex items-center space-x-2">
+                <li><a href="{% url 'core:home' %}" class="text-gray-500 hover:text-primary-600">Inicio</a></li>
+                <li><span class="text-gray-400">/</span></li>
+                <li><a href="{% url 'innovacion:home' %}" class="text-gray-500 hover:text-primary-600">Innovación</a></li>
+                <li><span class="text-gray-400">/</span></li>
+                <li><a href="{% url 'innovacion:patente_list' %}" class="text-gray-500 hover:text-primary-600">Patentes</a></li>
+                <li><span class="text-gray-400">/</span></li>
+                <li class="text-gray-900">{{ patente.titulo }}</li>
+            </ol>
+        </nav>
+    </div>
+</section>
+
+<!-- Hero Section -->
+<section class="py-16">
+    <div class="container mx-auto px-4">
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+            <div>
+                <div class="flex items-center mb-4">
+                    <span class="px-4 py-2 bg-purple-100 text-purple-800 text-sm font-medium rounded-full">
+                        {{ patente.get_tipo_display }}
+                    </span>
+                </div>
+                <h1 class="text-4xl lg:text-5xl font-display font-bold text-gray-900 mb-6">{{ patente.titulo }}</h1>
+                <p class="text-xl text-gray-600 mb-8">{{ patente.descripcion }}</p>
+                
+                {% if patente.numero_patente %}
+                <div class="mb-6">
+                    <p class="text-sm text-gray-500">
+                        <strong>Número de patente:</strong> {{ patente.numero_patente }}
+                    </p>
+                </div>
+                {% endif %}
+                
+                {% if patente.fecha_registro %}
+                <div class="mb-6">
+                    <p class="text-sm text-gray-500">
+                        <strong>Fecha de registro:</strong> {{ patente.fecha_registro|date:"F Y" }}
+                    </p>
+                </div>
+                {% endif %}
+                
+                <div class="flex flex-wrap gap-4">
+                    <a href="{% url 'contacto:contacto' %}" class="btn-primary">
+                        Solicitar Información
+                    </a>
+                    <a href="{% url 'innovacion:patente_list' %}" class="btn-secondary">
+                        Ver Otras Patentes
+                    </a>
+                </div>
+            </div>
+            
+            {% if patente.get_imagen_principal_url %}
+            <div class="relative">
+                <img src="{{ patente.get_imagen_principal_url }}" alt="{{ patente.titulo }}" class="w-full h-96 object-cover rounded-lg shadow-lg">
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<!-- Descripción Detallada -->
+{% if patente.descripcion_larga %}
+<section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl font-display font-bold text-gray-900 mb-8">Descripción de la Patente</h2>
+            <div class="prose prose-lg max-w-none">
+                {{ patente.descripcion_larga|linebreaks }}
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Información de la Patente -->
+<section class="py-16">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl font-display font-bold text-gray-900 mb-8">Información de la Patente</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Detalles Generales</h3>
+                    <ul class="space-y-3">
+                        <li><strong>Tipo:</strong> {{ patente.get_tipo_display }}</li>
+                        {% if patente.numero_patente %}
+                        <li><strong>Número:</strong> {{ patente.numero_patente }}</li>
+                        {% endif %}
+                        {% if patente.fecha_registro %}
+                        <li><strong>Fecha de registro:</strong> {{ patente.fecha_registro|date:"d/m/Y" }}</li>
+                        {% endif %}
+                        {% if patente.fecha_publicacion %}
+                        <li><strong>Fecha de publicación:</strong> {{ patente.fecha_publicacion|date:"d/m/Y" }}</li>
+                        {% endif %}
+                        {% if patente.estado %}
+                        <li><strong>Estado:</strong> {{ patente.get_estado_display }}</li>
+                        {% endif %}
+                        {% if patente.pais %}
+                        <li><strong>País:</strong> {{ patente.pais }}</li>
+                        {% endif %}
+                    </ul>
+                </div>
+                
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Información Adicional</h3>
+                    <ul class="space-y-3">
+                        {% if patente.inventores %}
+                        <li><strong>Inventores:</strong> {{ patente.inventores }}</li>
+                        {% endif %}
+                        {% if patente.solicitantes %}
+                        <li><strong>Solicitantes:</strong> {{ patente.solicitantes }}</li>
+                        {% endif %}
+                        {% if patente.clasificacion_internacional %}
+                        <li><strong>Clasificación:</strong> {{ patente.clasificacion_internacional }}</li>
+                        {% endif %}
+                        {% if patente.prioridad %}
+                        <li><strong>Prioridad:</strong> {{ patente.prioridad|date:"d/m/Y" }}</li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Aplicaciones -->
+{% if patente.aplicaciones %}
+<section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl font-display font-bold text-gray-900 mb-8 text-center">Aplicaciones</h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {% for aplicacion in patente.aplicaciones %}
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="flex items-center mb-4">
+                        <div class="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center mr-3">
+                            <svg class="w-5 h-5 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-900">{{ aplicacion }}</h3>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Ventajas -->
+{% if patente.ventajas %}
+<section class="py-16">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl font-display font-bold text-gray-900 mb-8 text-center">Ventajas</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                {% for ventaja in patente.ventajas %}
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="flex items-center mb-4">
+                        <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center mr-3">
+                            <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-900">{{ ventaja }}</h3>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Galería de Imágenes -->
+{% if patente.galeria_imagenes %}
+<section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-3xl font-display font-bold text-gray-900 mb-8 text-center">Galería</h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {% for imagen in patente.galeria_imagenes %}
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <img src="{{ imagen }}" alt="{{ patente.titulo }}" class="w-full h-48 object-cover">
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Video -->
+{% if patente.video_url %}
+<section class="py-16">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl font-display font-bold text-gray-900 mb-8 text-center">Video Demostrativo</h2>
+            <div class="relative aspect-video rounded-lg overflow-hidden shadow-lg">
+                <iframe src="{{ patente.video_url }}" class="w-full h-full" frameborder="0" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Patentes Relacionadas -->
+{% if patentes_relacionadas %}
+<section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-display font-bold text-gray-900 mb-8 text-center">Patentes Relacionadas</h2>
+        <div class="grid md:grid-cols-3 gap-8">
+            {% for patente_rel in patentes_relacionadas %}
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                {% if patente_rel.imagen_principal %}
+                <img src="{{ patente_rel.imagen_principal }}" alt="{{ patente_rel.titulo }}" class="w-full h-48 object-cover">
+                {% endif %}
+                <div class="p-6">
+                    <div class="flex items-center mb-3">
+                        <span class="px-3 py-1 bg-purple-100 text-purple-800 text-sm font-medium rounded-full">
+                            {{ patente_rel.get_tipo_display }}
+                        </span>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">{{ patente_rel.titulo }}</h3>
+                    <p class="text-gray-600 mb-4">{{ patente_rel.descripcion|truncatewords:15 }}</p>
+                    <a href="{{ patente_rel.get_absolute_url }}" class="text-primary-600 font-semibold hover:text-primary-800">
+                        Ver más →
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- CTA Section -->
+<section class="py-16 bg-primary-600 text-white">
+    <div class="container mx-auto px-4 text-center">
+        <h2 class="text-4xl font-display font-bold mb-6">¿Interesado en esta patente?</h2>
+        <p class="text-xl mb-8 max-w-2xl mx-auto">
+            Contáctanos para conocer más sobre esta patente y oportunidades de licenciamiento
+        </p>
+        <a href="{% url 'contacto:contacto' %}" class="btn-secondary">
+            Solicitar Información
+        </a>
+    </div>
+</section>
+{% endblock %} 

@@ -1,0 +1,266 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ vacante.titulo }} - Carreras - Minera Fidami S.A.{% endblock %}
+
+{% block content %}
+<!-- Breadcrumbs -->
+<section class="py-4 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <nav class="flex" aria-label="Breadcrumb">
+            <ol class="flex items-center space-x-2">
+                <li><a href="{% url 'core:home' %}" class="text-gray-500 hover:text-primary-600">Inicio</a></li>
+                <li><span class="text-gray-400">/</span></li>
+                <li><a href="{% url 'carreras:vacante_list' %}" class="text-gray-500 hover:text-primary-600">Carreras</a></li>
+                <li><span class="text-gray-400">/</span></li>
+                <li class="text-gray-900">{{ vacante.titulo }}</li>
+            </ol>
+        </nav>
+    </div>
+</section>
+
+<!-- Hero Section -->
+<section class="py-16">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+            <div class="flex items-center gap-4 mb-6">
+                <span class="px-4 py-2 bg-primary-100 text-primary-800 text-sm font-medium rounded-full">
+                    {{ vacante.get_tipo_contrato_display }}
+                </span>
+                <span class="px-4 py-2 {% if vacante.estado == 'abierta' %}bg-green-100 text-green-800{% else %}bg-red-100 text-red-800{% endif %} text-sm font-medium rounded-full">
+                    {{ vacante.get_estado_display }}
+                </span>
+            </div>
+            
+            <h1 class="text-4xl lg:text-5xl font-display font-bold text-gray-900 mb-6">{{ vacante.titulo }}</h1>
+            
+            {% if vacante.ubicacion %}
+            <p class="text-xl text-gray-600 mb-8">
+                <strong>Ubicación:</strong> {{ vacante.ubicacion }}
+            </p>
+            {% endif %}
+            
+            <div class="flex flex-wrap gap-4">
+                <a href="#postular" class="btn-primary">
+                    Postular Ahora
+                </a>
+                <a href="{% url 'carreras:vacante_list' %}" class="btn-secondary">
+                    Ver Otras Vacantes
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Información de la Vacante -->
+<section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h2 class="text-2xl font-display font-bold text-gray-900 mb-6">Detalles de la Posición</h2>
+                    <ul class="space-y-3">
+                        {% if vacante.departamento %}
+                        <li><strong>Departamento:</strong> {{ vacante.departamento }}</li>
+                        {% endif %}
+                        {% if vacante.experiencia_minima %}
+                        <li><strong>Experiencia mínima:</strong> {{ vacante.experiencia_minima }} años</li>
+                        {% endif %}
+                        {% if vacante.experiencia_maxima %}
+                        <li><strong>Experiencia máxima:</strong> {{ vacante.experiencia_maxima }} años</li>
+                        {% endif %}
+                        {% if vacante.salario_min and vacante.salario_max %}
+                        <li><strong>Rango salarial:</strong> {{ vacante.moneda }} {{ vacante.salario_min|floatformat:0 }} - {{ vacante.salario_max|floatformat:0 }}</li>
+                        {% endif %}
+                        {% if vacante.fecha_limite %}
+                        <li><strong>Fecha límite:</strong> {{ vacante.fecha_limite|date:"d/m/Y" }}</li>
+                        {% endif %}
+                        <li><strong>Vistas:</strong> {{ vacante.vistas }}</li>
+                        <li><strong>Postulaciones:</strong> {{ vacante.postulaciones }}</li>
+                    </ul>
+                </div>
+                
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h2 class="text-2xl font-display font-bold text-gray-900 mb-6">Descripción</h2>
+                    <div class="prose prose-sm max-w-none">
+                        {{ vacante.descripcion|linebreaks }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Requisitos -->
+{% if vacante.requisitos %}
+<section class="py-16">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl font-display font-bold text-gray-900 mb-8">Requisitos</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                {% for requisito in vacante.requisitos %}
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="flex items-center mb-4">
+                        <div class="w-8 h-8 bg-primary-100 rounded-full flex items-center justify-center mr-3">
+                            <svg class="w-5 h-5 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-900">{{ requisito }}</h3>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Responsabilidades -->
+{% if vacante.responsabilidades %}
+<section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl font-display font-bold text-gray-900 mb-8">Responsabilidades</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                {% for responsabilidad in vacante.responsabilidades %}
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="flex items-center mb-4">
+                        <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-3">
+                            <svg class="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-900">{{ responsabilidad }}</h3>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Beneficios -->
+{% if vacante.beneficios %}
+<section class="py-16">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl font-display font-bold text-gray-900 mb-8 text-center">Beneficios</h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {% for beneficio in vacante.beneficios %}
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="flex items-center mb-4">
+                        <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center mr-3">
+                            <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-900">{{ beneficio }}</h3>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Formulario de Postulación -->
+<section id="postular" class="py-16 bg-primary-600 text-white">
+    <div class="container mx-auto px-4">
+        <div class="max-w-2xl mx-auto">
+            <h2 class="text-3xl font-display font-bold mb-8 text-center">Postular a esta Vacante</h2>
+            
+            {% if messages %}
+            <div class="mb-6">
+                {% for message in messages %}
+                <div class="p-4 rounded-lg {% if message.tags == 'success' %}bg-green-100 text-green-800{% elif message.tags == 'error' %}bg-red-100 text-red-800{% else %}bg-blue-100 text-blue-800{% endif %}">
+                    {{ message }}
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+            
+            <form method="post" class="space-y-6">
+                {% csrf_token %}
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="nombre" class="block text-sm font-medium mb-2">Nombre *</label>
+                        <input type="text" id="nombre" name="nombre" required class="w-full px-4 py-3 rounded-lg text-gray-900">
+                    </div>
+                    <div>
+                        <label for="apellido" class="block text-sm font-medium mb-2">Apellido *</label>
+                        <input type="text" id="apellido" name="apellido" required class="w-full px-4 py-3 rounded-lg text-gray-900">
+                    </div>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="email" class="block text-sm font-medium mb-2">Email *</label>
+                        <input type="email" id="email" name="email" required class="w-full px-4 py-3 rounded-lg text-gray-900">
+                    </div>
+                    <div>
+                        <label for="telefono" class="block text-sm font-medium mb-2">Teléfono</label>
+                        <input type="tel" id="telefono" name="telefono" class="w-full px-4 py-3 rounded-lg text-gray-900">
+                    </div>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="fecha_nacimiento" class="block text-sm font-medium mb-2">Fecha de Nacimiento</label>
+                        <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" class="w-full px-4 py-3 rounded-lg text-gray-900">
+                    </div>
+                    <div>
+                        <label for="nacionalidad" class="block text-sm font-medium mb-2">Nacionalidad</label>
+                        <input type="text" id="nacionalidad" name="nacionalidad" class="w-full px-4 py-3 rounded-lg text-gray-900">
+                    </div>
+                </div>
+                
+                <div>
+                    <label for="experiencia_anos" class="block text-sm font-medium mb-2">Años de Experiencia</label>
+                    <input type="number" id="experiencia_anos" name="experiencia_anos" min="0" class="w-full px-4 py-3 rounded-lg text-gray-900">
+                </div>
+                
+                <div>
+                    <label for="educacion" class="block text-sm font-medium mb-2">Educación</label>
+                    <textarea id="educacion" name="educacion" rows="3" class="w-full px-4 py-3 rounded-lg text-gray-900"></textarea>
+                </div>
+                
+                <div>
+                    <label for="cv_url" class="block text-sm font-medium mb-2">URL del CV</label>
+                    <input type="url" id="cv_url" name="cv_url" class="w-full px-4 py-3 rounded-lg text-gray-900">
+                </div>
+                
+                <div>
+                    <label for="carta_motivacion" class="block text-sm font-medium mb-2">Carta de Motivación</label>
+                    <textarea id="carta_motivacion" name="carta_motivacion" rows="5" class="w-full px-4 py-3 rounded-lg text-gray-900" placeholder="Cuéntanos por qué te interesa esta posición..."></textarea>
+                </div>
+                
+                <div>
+                    <label for="referencias" class="block text-sm font-medium mb-2">Referencias</label>
+                    <textarea id="referencias" name="referencias" rows="3" class="w-full px-4 py-3 rounded-lg text-gray-900"></textarea>
+                </div>
+                
+                <div class="text-center">
+                    <button type="submit" class="btn-secondary">
+                        Enviar Postulación
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4 text-center">
+        <h2 class="text-4xl font-display font-bold text-gray-900 mb-6">¿Te interesa esta posición?</h2>
+        <p class="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+            Si tienes alguna pregunta sobre esta vacante, no dudes en contactarnos
+        </p>
+        <a href="{% url 'contacto:contacto' %}" class="btn-primary">
+            Contactar
+        </a>
+    </div>
+</section>
+{% endblock %} 

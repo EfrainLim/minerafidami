@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+
+{% block title %}Programas Sociales - Responsabilidad Social - Minera Fidami S.A.{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="relative bg-gradient-to-br from-green-600 to-green-800 text-white py-20">
+    <div class="container mx-auto px-4">
+        <div class="text-center">
+            <h1 class="text-5xl font-display font-bold mb-6">Programas Sociales</h1>
+            <p class="text-xl mb-8 max-w-3xl mx-auto">
+                Desarrollamos programas integrales que benefician directamente a las comunidades donde operamos
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- Filtros -->
+{% if categorias %}
+<section class="py-8 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="flex flex-wrap justify-center gap-4">
+            <a href="{% url 'rsocial:programa_list' %}" class="px-6 py-2 rounded-full {% if not request.GET.categoria %}bg-green-600 text-white{% else %}bg-white text-gray-700 hover:bg-green-50{% endif %} transition-colors">
+                Todos
+            </a>
+            {% for categoria in categorias %}
+            <a href="?categoria={{ categoria }}" class="px-6 py-2 rounded-full {% if request.GET.categoria == categoria %}bg-green-600 text-white{% else %}bg-white text-gray-700 hover:bg-green-50{% endif %} transition-colors">
+                {{ categoria|title }}
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Lista de Programas -->
+<section class="py-16">
+    <div class="container mx-auto px-4">
+        {% if programas %}
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for programa in programas %}
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                {% if programa.imagen_principal %}
+                <img src="{{ programa.imagen_principal }}" alt="{{ programa.nombre }}" class="w-full h-48 object-cover">
+                {% endif %}
+                <div class="p-6">
+                    <div class="flex items-center mb-3">
+                        <span class="px-3 py-1 bg-green-100 text-green-800 text-sm font-medium rounded-full">
+                            {{ programa.get_categoria_display }}
+                        </span>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">{{ programa.nombre }}</h3>
+                    <p class="text-gray-600 mb-4">{{ programa.descripcion_corta|truncatewords:25 }}</p>
+                    
+                    {% if programa.ubicacion %}
+                    <p class="text-sm text-gray-500 mb-2">
+                        <strong>Ubicación:</strong> {{ programa.ubicacion }}
+                    </p>
+                    {% endif %}
+                    
+                    {% if programa.beneficiarios_directos %}
+                    <p class="text-sm text-gray-500 mb-4">
+                        <strong>Beneficiarios:</strong> {{ programa.beneficiarios_directos }} personas
+                    </p>
+                    {% endif %}
+                    
+                    {% if programa.fecha_inicio %}
+                    <p class="text-sm text-gray-500 mb-4">
+                        <strong>Inicio:</strong> {{ programa.fecha_inicio|date:"F Y" }}
+                    </p>
+                    {% endif %}
+                    
+                    <a href="{{ programa.get_absolute_url }}" class="text-green-600 font-semibold hover:text-green-800">
+                        Ver detalles →
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <!-- Paginación -->
+        {% if is_paginated %}
+        <div class="flex justify-center mt-12">
+            <nav class="flex items-center space-x-2">
+                {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.categoria %}&categoria={{ request.GET.categoria }}{% endif %}" class="px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
+                    Anterior
+                </a>
+                {% endif %}
+                
+                <span class="px-4 py-2 bg-green-600 text-white rounded-lg">
+                    Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+                </span>
+                
+                {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}{% if request.GET.categoria %}&categoria={{ request.GET.categoria }}{% endif %}" class="px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
+                    Siguiente
+                </a>
+                {% endif %}
+            </nav>
+        </div>
+        {% endif %}
+        
+        {% else %}
+        <div class="text-center py-16">
+            <h3 class="text-2xl font-bold text-gray-900 mb-4">No se encontraron programas</h3>
+            <p class="text-gray-600 mb-8">Pronto agregaremos nuevos programas sociales.</p>
+            <a href="{% url 'rsocial:home' %}" class="btn-primary">
+                Volver a Responsabilidad Social
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4 text-center">
+        <h2 class="text-4xl font-display font-bold text-gray-900 mb-6">¿Quieres colaborar con nuestros programas?</h2>
+        <p class="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+            Trabajamos con organizaciones y comunidades para maximizar el impacto de nuestros programas sociales
+        </p>
+        <div class="flex flex-wrap justify-center gap-4">
+            <a href="{% url 'contacto:contacto' %}" class="btn-primary">
+                Contáctanos
+            </a>
+            <a href="{% url 'rsocial:alianza_list' %}" class="btn-secondary">
+                Ver Alianzas
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %} 

@@ -1,0 +1,279 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ proyecto.nombre }} - Proyectos de Innovación - Minera Fidami S.A.{% endblock %}
+
+{% block content %}
+<!-- Breadcrumbs -->
+<section class="py-4 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <nav class="flex" aria-label="Breadcrumb">
+            <ol class="flex items-center space-x-2">
+                <li><a href="{% url 'core:home' %}" class="text-gray-500 hover:text-primary-600">Inicio</a></li>
+                <li><span class="text-gray-400">/</span></li>
+                <li><a href="{% url 'innovacion:home' %}" class="text-gray-500 hover:text-primary-600">Innovación</a></li>
+                <li><span class="text-gray-400">/</span></li>
+                <li><a href="{% url 'innovacion:proyecto_list' %}" class="text-gray-500 hover:text-primary-600">Proyectos</a></li>
+                <li><span class="text-gray-400">/</span></li>
+                <li class="text-gray-900">{{ proyecto.nombre }}</li>
+            </ol>
+        </nav>
+    </div>
+</section>
+
+<!-- Hero Section -->
+<section class="py-16">
+    <div class="container mx-auto px-4">
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+            <div>
+                <div class="flex items-center gap-4 mb-6">
+                    <span class="px-4 py-2 bg-blue-100 text-blue-800 text-sm font-medium rounded-full">
+                        {{ proyecto.get_tipo_proyecto_display }}
+                    </span>
+                    <span class="px-4 py-2 bg-green-100 text-green-800 text-sm font-medium rounded-full">
+                        {{ proyecto.get_estado_proyecto_display }}
+                    </span>
+                </div>
+                
+                <h1 class="text-4xl lg:text-5xl font-display font-bold text-gray-900 mb-6">{{ proyecto.nombre }}</h1>
+                <p class="text-xl text-gray-600 mb-8">{{ proyecto.descripcion_corta }}</p>
+                
+                {% if proyecto.ubicacion %}
+                <div class="mb-6">
+                    <p class="text-sm text-gray-500">
+                        <strong>Ubicación:</strong> {{ proyecto.ubicacion }}
+                    </p>
+                </div>
+                {% endif %}
+                
+                {% if proyecto.fecha_inicio %}
+                <div class="mb-6">
+                    <p class="text-sm text-gray-500">
+                        <strong>Fecha de inicio:</strong> {{ proyecto.fecha_inicio|date:"F Y" }}
+                    </p>
+                </div>
+                {% endif %}
+                
+                <div class="flex flex-wrap gap-4">
+                    <a href="{% url 'contacto:contacto' %}" class="btn-primary">
+                        Solicitar Información
+                    </a>
+                    <a href="{% url 'innovacion:proyecto_list' %}" class="btn-secondary">
+                        Ver Otros Proyectos
+                    </a>
+                </div>
+            </div>
+            
+            {% if proyecto.get_imagen_principal_url %}
+            <div class="relative">
+                <img src="{{ proyecto.get_imagen_principal_url }}" alt="{{ proyecto.nombre }}" class="w-full h-96 object-cover rounded-lg shadow-lg">
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<!-- Descripción Detallada -->
+{% if proyecto.descripcion_larga %}
+<section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl font-display font-bold text-gray-900 mb-8">Descripción del Proyecto</h2>
+            <div class="prose prose-lg max-w-none">
+                {{ proyecto.descripcion_larga|linebreaks }}
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Información del Proyecto -->
+<section class="py-16">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl font-display font-bold text-gray-900 mb-8">Información del Proyecto</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Detalles Generales</h3>
+                    <ul class="space-y-3">
+                        <li><strong>Tipo:</strong> {{ proyecto.get_tipo_proyecto_display }}</li>
+                        <li><strong>Estado:</strong> {{ proyecto.get_estado_proyecto_display }}</li>
+                        {% if proyecto.ubicacion %}
+                        <li><strong>Ubicación:</strong> {{ proyecto.ubicacion }}</li>
+                        {% endif %}
+                        {% if proyecto.fecha_inicio %}
+                        <li><strong>Fecha de inicio:</strong> {{ proyecto.fecha_inicio|date:"d/m/Y" }}</li>
+                        {% endif %}
+                        {% if proyecto.fecha_fin_estimada %}
+                        <li><strong>Fecha estimada de finalización:</strong> {{ proyecto.fecha_fin_estimada|date:"d/m/Y" }}</li>
+                        {% endif %}
+                        {% if proyecto.presupuesto %}
+                        <li><strong>Presupuesto:</strong> {{ proyecto.moneda }} {{ proyecto.presupuesto|floatformat:0 }}</li>
+                        {% endif %}
+                        {% if proyecto.equipo %}
+                        <li><strong>Equipo:</strong> {{ proyecto.equipo }}</li>
+                        {% endif %}
+                    </ul>
+                </div>
+                
+                {% if proyecto.coordenadas_lat and proyecto.coordenadas_lng %}
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Ubicación</h3>
+                    <p class="text-gray-600 mb-4">Coordenadas del proyecto:</p>
+                    <p class="text-sm text-gray-500">
+                        <strong>Latitud:</strong> {{ proyecto.coordenadas_lat }}<br>
+                        <strong>Longitud:</strong> {{ proyecto.coordenadas_lng }}
+                    </p>
+                    <!-- Aquí se podría agregar un mapa interactivo -->
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Objetivos -->
+{% if proyecto.objetivos %}
+<section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl font-display font-bold text-gray-900 mb-8 text-center">Objetivos</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                {% for objetivo in proyecto.objetivos %}
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="flex items-center mb-4">
+                        <div class="w-8 h-8 bg-primary-100 rounded-full flex items-center justify-center mr-3">
+                            <svg class="w-5 h-5 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-900">{{ objetivo }}</h3>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Resultados Esperados -->
+{% if proyecto.resultados_esperados %}
+<section class="py-16">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl font-display font-bold text-gray-900 mb-8 text-center">Resultados Esperados</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                {% for resultado in proyecto.resultados_esperados %}
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="flex items-center mb-4">
+                        <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-3">
+                            <svg class="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-900">{{ resultado }}</h3>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Tecnologías Utilizadas -->
+{% if proyecto.tecnologias_utilizadas %}
+<section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl font-display font-bold text-gray-900 mb-8 text-center">Tecnologías Utilizadas</h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {% for tecnologia in proyecto.tecnologias_utilizadas %}
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">{{ tecnologia }}</h3>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Galería de Imágenes -->
+{% if proyecto.galeria_imagenes %}
+<section class="py-16">
+    <div class="container mx-auto px-4">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-3xl font-display font-bold text-gray-900 mb-8 text-center">Galería del Proyecto</h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {% for imagen in proyecto.galeria_imagenes %}
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <img src="{{ imagen }}" alt="{{ proyecto.nombre }}" class="w-full h-48 object-cover">
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Video -->
+{% if proyecto.video_url %}
+<section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl font-display font-bold text-gray-900 mb-8 text-center">Video del Proyecto</h2>
+            <div class="relative aspect-video rounded-lg overflow-hidden shadow-lg">
+                <iframe src="{{ proyecto.video_url }}" class="w-full h-full" frameborder="0" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Proyectos Relacionados -->
+{% if proyectos_relacionados %}
+<section class="py-16">
+    <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-display font-bold text-gray-900 mb-8 text-center">Proyectos Relacionados</h2>
+        <div class="grid md:grid-cols-2 gap-8">
+            {% for proyecto_rel in proyectos_relacionados %}
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                {% if proyecto_rel.imagen_principal %}
+                <img src="{{ proyecto_rel.imagen_principal }}" alt="{{ proyecto_rel.nombre }}" class="w-full h-64 object-cover">
+                {% endif %}
+                <div class="p-6">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm font-medium rounded-full">
+                            {{ proyecto_rel.get_tipo_proyecto_display }}
+                        </span>
+                        <span class="px-3 py-1 bg-green-100 text-green-800 text-sm font-medium rounded-full">
+                            {{ proyecto_rel.get_estado_proyecto_display }}
+                        </span>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">{{ proyecto_rel.nombre }}</h3>
+                    <p class="text-gray-600 mb-4">{{ proyecto_rel.descripcion_corta|truncatewords:15 }}</p>
+                    <a href="{{ proyecto_rel.get_absolute_url }}" class="text-primary-600 font-semibold hover:text-primary-800">
+                        Ver más →
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- CTA Section -->
+<section class="py-16 bg-primary-600 text-white">
+    <div class="container mx-auto px-4 text-center">
+        <h2 class="text-4xl font-display font-bold mb-6">¿Interesado en este proyecto?</h2>
+        <p class="text-xl mb-8 max-w-2xl mx-auto">
+            Contáctanos para conocer más sobre este proyecto de innovación y oportunidades de colaboración
+        </p>
+        <a href="{% url 'contacto:contacto' %}" class="btn-secondary">
+            Solicitar Información
+        </a>
+    </div>
+</section>
+{% endblock %} 

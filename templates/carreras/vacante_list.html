@@ -1,0 +1,159 @@
+{% extends 'base.html' %}
+
+{% block title %}Carreras - Minera Fidami S.A.{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="relative bg-gradient-to-br from-primary-600 to-primary-800 text-white py-20">
+    <div class="container mx-auto px-4">
+        <div class="text-center">
+            <h1 class="text-5xl font-display font-bold mb-6">Carreras y Oportunidades</h1>
+            <p class="text-xl mb-8 max-w-3xl mx-auto">
+                Únete a nuestro equipo y forma parte de una empresa líder en la industria minera
+            </p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="#vacantes" class="btn-primary">
+                    Ver Vacantes
+                </a>
+                <a href="{% url 'contacto:contacto' %}" class="btn-secondary">
+                    Enviar CV
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Filtros -->
+{% if tipos_contrato %}
+<section class="py-8 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="flex flex-wrap justify-center gap-4">
+            <a href="{% url 'carreras:vacante_list' %}" class="px-6 py-2 rounded-full {% if not request.GET.tipo %}bg-primary-600 text-white{% else %}bg-white text-gray-700 hover:bg-primary-50{% endif %} transition-colors">
+                Todas
+            </a>
+            {% for tipo in tipos_contrato %}
+            <a href="?tipo={{ tipo }}" class="px-6 py-2 rounded-full {% if request.GET.tipo == tipo %}bg-primary-600 text-white{% else %}bg-white text-gray-700 hover:bg-primary-50{% endif %} transition-colors">
+                {{ tipo|title }}
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Lista de Vacantes -->
+<section id="vacantes" class="py-16">
+    <div class="container mx-auto px-4">
+        {% if vacantes %}
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for vacante in vacantes %}
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                <div class="p-6">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="px-3 py-1 bg-primary-100 text-primary-800 text-sm font-medium rounded-full">
+                            {{ vacante.get_tipo_contrato_display }}
+                        </span>
+                        <span class="px-3 py-1 {% if vacante.estado == 'abierta' %}bg-green-100 text-green-800{% else %}bg-red-100 text-red-800{% endif %} text-sm font-medium rounded-full">
+                            {{ vacante.get_estado_display }}
+                        </span>
+                    </div>
+                    
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">{{ vacante.titulo }}</h3>
+                    <p class="text-gray-600 mb-4">{{ vacante.descripcion|truncatewords:25 }}</p>
+                    
+                    {% if vacante.ubicacion %}
+                    <p class="text-sm text-gray-500 mb-2">
+                        <strong>Ubicación:</strong> {{ vacante.ubicacion }}
+                    </p>
+                    {% endif %}
+                    
+                    {% if vacante.departamento %}
+                    <p class="text-sm text-gray-500 mb-2">
+                        <strong>Departamento:</strong> {{ vacante.departamento }}
+                    </p>
+                    {% endif %}
+                    
+                    {% if vacante.experiencia_minima %}
+                    <p class="text-sm text-gray-500 mb-2">
+                        <strong>Experiencia:</strong> {{ vacante.experiencia_minima }} años
+                    </p>
+                    {% endif %}
+                    
+                    {% if vacante.salario_min and vacante.salario_max %}
+                    <p class="text-sm text-gray-500 mb-4">
+                        <strong>Salario:</strong> {{ vacante.moneda }} {{ vacante.salario_min|floatformat:0 }} - {{ vacante.salario_max|floatformat:0 }}
+                    </p>
+                    {% endif %}
+                    
+                    {% if vacante.fecha_limite %}
+                    <p class="text-sm text-gray-500 mb-4">
+                        <strong>Fecha límite:</strong> {{ vacante.fecha_limite|date:"d/m/Y" }}
+                    </p>
+                    {% endif %}
+                    
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm text-gray-500">
+                            {{ vacante.vistas }} vistas
+                        </span>
+                        <a href="{{ vacante.get_absolute_url }}" class="text-primary-600 font-semibold hover:text-primary-800">
+                            Ver detalles →
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <!-- Paginación -->
+        {% if is_paginated %}
+        <div class="flex justify-center mt-12">
+            <nav class="flex items-center space-x-2">
+                {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.tipo %}&tipo={{ request.GET.tipo }}{% endif %}" class="px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
+                    Anterior
+                </a>
+                {% endif %}
+                
+                <span class="px-4 py-2 bg-primary-600 text-white rounded-lg">
+                    Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+                </span>
+                
+                {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}{% if request.GET.tipo %}&tipo={{ request.GET.tipo }}{% endif %}" class="px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
+                    Siguiente
+                </a>
+                {% endif %}
+            </nav>
+        </div>
+        {% endif %}
+        
+        {% else %}
+        <div class="text-center py-16">
+            <h3 class="text-2xl font-bold text-gray-900 mb-4">No hay vacantes disponibles</h3>
+            <p class="text-gray-600 mb-8">Actualmente no tenemos vacantes abiertas, pero puedes enviarnos tu CV para futuras oportunidades.</p>
+            <a href="{% url 'contacto:contacto' %}" class="btn-primary">
+                Enviar CV
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4 text-center">
+        <h2 class="text-4xl font-display font-bold text-gray-900 mb-6">¿No encuentras la vacante ideal?</h2>
+        <p class="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+            Envíanos tu CV y te contactaremos cuando tengamos una oportunidad que se ajuste a tu perfil
+        </p>
+        <div class="flex flex-wrap justify-center gap-4">
+            <a href="{% url 'contacto:contacto' %}" class="btn-primary">
+                Enviar CV
+            </a>
+            <a href="{% url 'core:home' %}" class="btn-secondary">
+                Conocer la Empresa
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %} 

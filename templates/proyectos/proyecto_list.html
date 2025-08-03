@@ -1,0 +1,201 @@
+{% extends 'base.html' %}
+
+{% block title %}Proyectos - Minera Fidami S.A.{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="relative bg-gradient-to-br from-primary-600 to-primary-800 text-white py-20">
+    <div class="container mx-auto px-4">
+        <div class="text-center">
+            <h1 class="text-5xl font-display font-bold mb-6">Nuestros Proyectos</h1>
+            <p class="text-xl mb-8 max-w-3xl mx-auto">
+                Conoce nuestros proyectos mineros más importantes y su impacto en el desarrollo regional
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- Filtros -->
+{% if categorias %}
+<section class="py-6 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+            <h3 class="text-sm font-medium text-gray-700 mb-3 text-center">Filtrar por Categoría</h3>
+            <div class="flex flex-wrap justify-center gap-2">
+                <a href="{% url 'proyectos:proyecto_list' %}" 
+                   class="px-3 py-1.5 rounded-full text-xs font-medium {% if not request.GET.categoria %}bg-primary-600 text-white{% else %}bg-white text-gray-600 hover:bg-gray-50 border{% endif %}">
+                    Todas las Categorías
+                </a>
+                {% for categoria in categorias %}
+                <a href="?categoria={{ categoria.slug }}" 
+                   class="px-3 py-1.5 rounded-full text-xs font-medium {% if request.GET.categoria == categoria.slug %}bg-primary-600 text-white{% else %}bg-white text-gray-600 hover:bg-gray-50 border{% endif %}">
+                    {{ categoria.nombre }}
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Lista de Proyectos -->
+<section class="py-16">
+    <div class="container mx-auto px-4">
+        {% if proyectos %}
+        <!-- Información de resultados -->
+        <div class="text-center mb-8">
+            <p class="text-gray-600">
+                Mostrando {{ page_obj.start_index }}-{{ page_obj.end_index }} de {{ page_obj.paginator.count }} proyectos
+                {% if categoria_actual %}
+                <span class="text-primary-600 font-medium">
+                    • Categoría: {{ categoria_actual|title }}
+                </span>
+                {% endif %}
+            </p>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for proyecto in proyectos %}
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+                {% if proyecto.get_imagen_principal_url %}
+                <div class="relative overflow-hidden">
+                    <img src="{{ proyecto.get_imagen_principal_url }}" alt="{{ proyecto.nombre }}" class="w-full h-48 object-cover transition-transform duration-300 hover:scale-105">
+                    <div class="absolute top-4 left-4 flex flex-col gap-2">
+                        {% if proyecto.categoria %}
+                        <span class="px-3 py-1 bg-primary-600 text-white text-xs font-medium rounded-full shadow-lg">
+                            {{ proyecto.categoria.nombre }}
+                        </span>
+                        {% endif %}
+                        <span class="px-3 py-1 {% if proyecto.estado_proyecto == 'en_curso' %}bg-green-600{% elif proyecto.estado_proyecto == 'completado' %}bg-blue-600{% elif proyecto.estado_proyecto == 'pausado' %}bg-yellow-600{% else %}bg-gray-600{% endif %} text-white text-xs font-medium rounded-full shadow-lg">
+                            {{ proyecto.get_estado_proyecto_display }}
+                        </span>
+                    </div>
+                </div>
+                {% endif %}
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-gray-900 mb-3 truncate">{{ proyecto.nombre }}</h3>
+                    <p class="text-gray-600 mb-4 h-16 overflow-hidden">{{ proyecto.descripcion_corta|truncatewords:20 }}</p>
+                    
+                    {% if proyecto.ubicacion %}
+                    <div class="flex items-center text-sm text-gray-500 mb-2">
+                        <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path>
+                        </svg>
+                        <span class="truncate">{{ proyecto.ubicacion }}</span>
+                    </div>
+                    {% endif %}
+                    
+                    {% if proyecto.fecha_inicio %}
+                    <div class="flex items-center text-sm text-gray-500 mb-4">
+                        <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path>
+                        </svg>
+                        {{ proyecto.fecha_inicio|date:"F Y" }}
+                    </div>
+                    {% endif %}
+                    
+                    <a href="{{ proyecto.get_absolute_url }}" class="inline-flex items-center text-primary-600 font-semibold hover:text-primary-800">
+                        Ver detalles
+                        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <!-- Paginación Profesional -->
+        {% if is_paginated %}
+        <div class="flex justify-center mt-16">
+            <nav class="flex items-center space-x-1 bg-white rounded-lg shadow-lg p-2">
+                <!-- Botón Anterior -->
+                {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.categoria %}&categoria={{ request.GET.categoria }}{% endif %}" 
+                   class="px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50 hover:text-gray-700">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                    </svg>
+                </a>
+                {% else %}
+                <span class="px-4 py-2 text-sm font-medium text-gray-300 bg-gray-100 border border-gray-200 rounded-md cursor-not-allowed">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                    </svg>
+                </span>
+                {% endif %}
+
+                <!-- Números de página -->
+                {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                    <span class="px-4 py-2 text-sm font-medium text-white bg-primary-600 border border-primary-600 rounded-md">
+                        {{ num }}
+                    </span>
+                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                    <a href="?page={{ num }}{% if request.GET.categoria %}&categoria={{ request.GET.categoria }}{% endif %}" 
+                       class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 hover:text-gray-900">
+                        {{ num }}
+                    </a>
+                    {% endif %}
+                {% endfor %}
+
+                <!-- Botón Siguiente -->
+                {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}{% if request.GET.categoria %}&categoria={{ request.GET.categoria }}{% endif %}" 
+                   class="px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50 hover:text-gray-700">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </a>
+                {% else %}
+                <span class="px-4 py-2 text-sm font-medium text-gray-300 bg-gray-100 border border-gray-200 rounded-md cursor-not-allowed">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </span>
+                {% endif %}
+            </nav>
+        </div>
+        {% endif %}
+        
+        {% else %}
+        <div class="text-center py-16">
+            <div class="max-w-md mx-auto">
+                <svg class="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                </svg>
+                <h3 class="text-2xl font-bold text-gray-900 mb-4">No se encontraron proyectos</h3>
+                <p class="text-gray-600 mb-8">
+                    {% if categoria_actual %}
+                    No hay proyectos que coincidan con la categoría seleccionada.
+                    {% else %}
+                    Pronto agregaremos nuevos proyectos.
+                    {% endif %}
+                </p>
+                <a href="{% url 'proyectos:proyecto_list' %}" class="btn-primary">
+                    Ver Todos los Proyectos
+                </a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4 text-center">
+        <h2 class="text-4xl font-display font-bold text-gray-900 mb-6">¿Interesado en nuestros proyectos?</h2>
+        <p class="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+            Contáctanos para conocer más sobre nuestros proyectos y oportunidades de colaboración
+        </p>
+        <div class="flex flex-wrap justify-center gap-4">
+            <a href="{% url 'contacto:contacto' %}" class="btn-primary">
+                Solicitar Información
+            </a>
+            <a href="{% url 'servicios:servicio_list' %}" class="btn-secondary">
+                Ver Servicios
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %} 

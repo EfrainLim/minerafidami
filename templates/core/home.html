@@ -1,0 +1,1037 @@
+{% extends 'base.html' %}
+
+{% block title %}Minera Fidami S.A. - Líderes en Minería Sostenible{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="relative h-screen flex items-center justify-center overflow-hidden">
+    <!-- Background Image -->
+    <div class="absolute inset-0 bg-gradient-to-r from-dark-900/80 to-dark-900/60 z-10"></div>
+    <div id="hero-background" class="absolute inset-0 bg-cover bg-center transition-all duration-1000 ease-in-out">
+        {% if hero_section and hero_section.get_imagen_fondo_url %}
+        <div class="w-full h-full bg-cover bg-center" style="background-image: url('{{ hero_section.get_imagen_fondo_url }}');"></div>
+        {% else %}
+        <div class="w-full h-full bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');"></div>
+        {% endif %}
+    </div>
+    
+    <!-- Content -->
+    <div class="relative z-20 text-center text-white px-4">
+        <h1 id="hero-title" class="text-5xl md:text-7xl font-display font-bold mb-6 text-shadow transition-all duration-1000 ease-in-out">
+            {{ hero_section.titulo_principal|default:"HACIENDO LO COMPLEJO SIMPLE" }}
+        </h1>
+        <p id="hero-subtitle" class="text-xl md:text-2xl mb-8 max-w-4xl mx-auto text-shadow transition-all duration-1000 ease-in-out">
+            {{ hero_section.subtitulo|default:"Líderes en minería sostenible y eficiente. Comprometidos con la seguridad, la innovación y el respeto al medio ambiente." }}
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a id="hero-primary-btn" href="{% url 'contacto:contacto' %}" class="btn-primary text-lg px-8 py-4 transition-all duration-1000 ease-in-out">
+                {{ hero_section.texto_boton_principal|default:"Contáctanos" }}
+            </a>
+            <a id="hero-secondary-btn" href="{% url 'proyectos:proyecto_list' %}" class="btn-outline text-lg px-8 py-4 border-white text-white hover:bg-white hover:text-dark-900 transition-all duration-1000 ease-in-out">
+                {{ hero_section.texto_boton_secundario|default:"Explora nuestros proyectos" }}
+            </a>
+        </div>
+    </div>
+    
+    <!-- Hero Navigation Dots -->
+    {% if heroes_activos|length > 1 %}
+    <div class="absolute bottom-20 left-1/2 transform -translate-x-1/2 z-30 flex space-x-2">
+        {% for hero in heroes_activos %}
+        <button class="hero-dot w-3 h-3 rounded-full bg-white/50 hover:bg-white transition-all duration-300 {% if forloop.first %}bg-white{% endif %}" 
+                data-index="{{ forloop.counter0 }}" 
+                onclick="goToHero({{ forloop.counter0 }})">
+        </button>
+        {% endfor %}
+    </div>
+    {% endif %}
+    
+    <!-- Scroll indicator -->
+    <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20">
+        <div class="animate-bounce">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+            </svg>
+        </div>
+    </div>
+</section>
+
+<!-- Hero Sections Data for JavaScript -->
+{% if heroes_activos|length > 1 %}
+<script>
+const heroSections = [
+    {% for hero in heroes_activos %}
+    {
+        titulo: "{{ hero.titulo_principal|escapejs }}",
+        subtitulo: "{{ hero.subtitulo|escapejs }}",
+        imagen: "{{ hero.get_imagen_fondo_url|default:''|escapejs }}",
+        boton_principal: "{{ hero.texto_boton_principal|escapejs }}",
+        boton_secundario: "{{ hero.texto_boton_secundario|escapejs }}",
+        url_principal: "{{ hero.url_boton_principal|escapejs }}",
+        url_secundario: "{{ hero.url_boton_secundario|escapejs }}"
+    }{% if not forloop.last %},{% endif %}
+    {% endfor %}
+];
+
+let currentHeroIndex = 0;
+const rotationInterval = 10000; // 10 segundos (más lento)
+let rotationTimer;
+
+function updateHero(index) {
+    const hero = heroSections[index];
+    
+    // Actualizar título
+    document.getElementById('hero-title').textContent = hero.titulo;
+    
+    // Actualizar subtítulo
+    document.getElementById('hero-subtitle').textContent = hero.subtitulo;
+    
+    // Actualizar botones
+    const primaryBtn = document.getElementById('hero-primary-btn');
+    const secondaryBtn = document.getElementById('hero-secondary-btn');
+    
+    primaryBtn.textContent = hero.boton_principal;
+    secondaryBtn.textContent = hero.boton_secundario;
+    
+    if (hero.url_principal) {
+        primaryBtn.href = hero.url_principal;
+    }
+    if (hero.url_secundario) {
+        secondaryBtn.href = hero.url_secundario;
+    }
+    
+    // Actualizar imagen de fondo
+    const background = document.getElementById('hero-background');
+    if (hero.imagen) {
+        background.innerHTML = `<div class="w-full h-full bg-cover bg-center" style="background-image: url('${hero.imagen}');"></div>`;
+    } else {
+        background.innerHTML = `<div class="w-full h-full bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');"></div>`;
+    }
+    
+    // Actualizar dots
+    document.querySelectorAll('.hero-dot').forEach((dot, i) => {
+        dot.classList.toggle('bg-white', i === index);
+        dot.classList.toggle('bg-white/50', i !== index);
+    });
+    
+    currentHeroIndex = index;
+}
+
+function nextHero() {
+    const nextIndex = (currentHeroIndex + 1) % heroSections.length;
+    updateHero(nextIndex);
+}
+
+function goToHero(index) {
+    updateHero(index);
+    resetTimer();
+}
+
+function resetTimer() {
+    if (rotationTimer) {
+        clearInterval(rotationTimer);
+    }
+    rotationTimer = setInterval(nextHero, rotationInterval);
+}
+
+// Iniciar rotación automática
+document.addEventListener('DOMContentLoaded', function() {
+    if (heroSections.length > 1) {
+        rotationTimer = setInterval(nextHero, rotationInterval);
+    }
+});
+
+// Pausar rotación cuando el usuario está interactuando
+document.addEventListener('mouseenter', function() {
+    if (rotationTimer) {
+        clearInterval(rotationTimer);
+    }
+});
+
+// Reanudar rotación cuando el usuario sale
+document.addEventListener('mouseleave', function() {
+    if (heroSections.length > 1) {
+        rotationTimer = setInterval(nextHero, rotationInterval);
+    }
+});
+</script>
+{% endif %}
+
+<!-- Mensajes del Sistema -->
+{% if mensajes %}
+<div class="fixed top-20 left-4 z-50 space-y-2">
+    {% for mensaje in mensajes %}
+    <div class="bg-white border-l-4 border-{{ mensaje.tipo }} shadow-lg rounded-lg p-4 max-w-sm">
+        <div class="flex">
+            <div class="flex-shrink-0">
+                {% if mensaje.tipo == 'success' %}
+                <svg class="h-5 w-5 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                {% elif mensaje.tipo == 'error' %}
+                <svg class="h-5 w-5 text-red-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                </svg>
+                {% elif mensaje.tipo == 'warning' %}
+                <svg class="h-5 w-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                </svg>
+                {% else %}
+                <svg class="h-5 w-5 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+                </svg>
+                {% endif %}
+            </div>
+            <div class="ml-3">
+                <h3 class="text-sm font-medium text-gray-900">{{ mensaje.titulo }}</h3>
+                <p class="text-sm text-gray-700">{{ mensaje.mensaje }}</p>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+<!-- About Section -->
+<section class="py-20 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+            <h2 class="section-title">Sobre Minera Fidami S.A.</h2>
+            <p class="section-subtitle">
+                Somos una empresa minera comprometida con la exploración, explotación, beneficio y comercialización de minerales en la región, aplicando las mejores prácticas de sostenibilidad y responsabilidad social.
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="card p-8 text-center">
+                <div class="w-16 h-16 bg-primary-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold mb-4">Innovación</h3>
+                <p class="text-gray-600">
+                    Utilizamos tecnología de vanguardia para optimizar nuestros procesos mineros y maximizar la eficiencia.
+                </p>
+            </div>
+            
+            <div class="card p-8 text-center">
+                <div class="w-16 h-16 bg-primary-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold mb-4">Sostenibilidad</h3>
+                <p class="text-gray-600">
+                    Nos comprometemos con el medio ambiente y las comunidades locales en todos nuestros proyectos.
+                </p>
+            </div>
+            
+            <div class="card p-8 text-center">
+                <div class="w-16 h-16 bg-primary-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold mb-4">Seguridad</h3>
+                <p class="text-gray-600">
+                    La seguridad de nuestros trabajadores es nuestra máxima prioridad en todas las operaciones.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Statistics Section -->
+<section class="py-20 bg-gradient-to-r from-primary-500 to-primary-600">
+    <div class="container mx-auto px-4">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center text-white">
+            <div class="group">
+                <div class="text-4xl md:text-5xl font-bold mb-2 group-hover:scale-110 transition-transform duration-300">15+</div>
+                <div class="text-sm md:text-base opacity-90">Años de Experiencia</div>
+            </div>
+            <div class="group">
+                <div class="text-4xl md:text-5xl font-bold mb-2 group-hover:scale-110 transition-transform duration-300">50+</div>
+                <div class="text-sm md:text-base opacity-90">Proyectos Completados</div>
+            </div>
+            <div class="group">
+                <div class="text-4xl md:text-5xl font-bold mb-2 group-hover:scale-110 transition-transform duration-300">200+</div>
+                <div class="text-sm md:text-base opacity-90">Profesionales</div>
+            </div>
+            <div class="group">
+                <div class="text-4xl md:text-5xl font-bold mb-2 group-hover:scale-110 transition-transform duration-300">100%</div>
+                <div class="text-sm md:text-base opacity-90">Compromiso con la Seguridad</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Services Section -->
+{% if servicios_destacados %}
+<section class="py-20 bg-gradient-to-br from-gray-50 to-white">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+            <h2 class="section-title">Nuestros Servicios</h2>
+            <p class="section-subtitle">
+                Ofrecemos una amplia gama de servicios mineros con los más altos estándares de calidad y seguridad.
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+            {% for servicio in servicios_destacados %}
+            <div class="group relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden transform hover:-translate-y-2 border border-gray-100">
+                <!-- Service Icon/Image Container -->
+                <div class="relative h-48 overflow-hidden bg-gradient-to-br from-primary-50 to-primary-100">
+                    {% if servicio.imagen_principal %}
+                    <img src="{{ servicio.imagen_principal }}" alt="{{ servicio.nombre }}" 
+                         class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    {% else %}
+                    <div class="w-full h-full bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center">
+                        <svg class="w-16 h-16 text-white opacity-70" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"></path>
+                        </svg>
+                    </div>
+                    {% endif %}
+                    
+                    <!-- Service category badge -->
+                    {% if servicio.categoria %}
+                    <div class="absolute top-4 left-4">
+                        <span class="bg-white/90 backdrop-blur-sm text-primary-800 text-xs font-semibold px-3 py-1 rounded-full shadow-lg">
+                            {{ servicio.categoria.nombre }}
+                        </span>
+                    </div>
+                    {% endif %}
+                    
+                    <!-- Hover overlay -->
+                    <div class="absolute inset-0 bg-gradient-to-t from-primary-600/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                </div>
+                
+                <!-- Content -->
+                <div class="p-8">
+                    <div class="flex items-start justify-between mb-4">
+                        <h3 class="text-2xl font-bold text-gray-900 group-hover:text-primary-600 transition-colors duration-300">
+                            {{ servicio.nombre }}
+                        </h3>
+                    </div>
+                    
+                    <p class="text-gray-600 mb-6 leading-relaxed">
+                        {{ servicio.descripcion_corta }}
+                    </p>
+                    
+                    <!-- Service features -->
+                    {% if servicio.caracteristicas %}
+                    <div class="mb-6">
+                        <div class="flex flex-wrap gap-2">
+                            {% for caracteristica in servicio.caracteristicas|slice:":3" %}
+                            <span class="bg-primary-50 text-primary-700 text-xs font-medium px-3 py-1 rounded-full">
+                                {{ caracteristica }}
+                            </span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+                    <!-- CTA Button -->
+                    <div class="flex items-center justify-between">
+                        <a href="{{ servicio.get_absolute_url }}" 
+                           class="inline-flex items-center text-primary-600 font-semibold hover:text-primary-700 transition-colors duration-300 group-hover:translate-x-1">
+                            Saber más
+                            <svg class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                            </svg>
+                        </a>
+                        
+                        <!-- Service type indicator -->
+                        {% if servicio.tipo_servicio %}
+                        <span class="px-3 py-1 text-xs font-medium rounded-full 
+                                   {% if servicio.tipo_servicio == 'consultoria' %}bg-blue-100 text-blue-800
+                                   {% elif servicio.tipo_servicio == 'exploracion' %}bg-green-100 text-green-800
+                                   {% elif servicio.tipo_servicio == 'explotacion' %}bg-orange-100 text-orange-800
+                                   {% elif servicio.tipo_servicio == 'procesamiento' %}bg-purple-100 text-purple-800
+                                   {% else %}bg-gray-100 text-gray-800{% endif %}">
+                            {{ servicio.get_tipo_servicio_display }}
+                        </span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <!-- View all services button -->
+        <div class="text-center mt-16">
+            <a href="{% url 'servicios:servicio_list' %}" 
+               class="inline-flex items-center bg-white border-2 border-primary-500 text-primary-600 font-bold py-4 px-8 rounded-xl hover:bg-primary-500 hover:text-white transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                <span>Ver todos nuestros servicios</span>
+                <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                </svg>
+            </a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Projects Section -->
+{% if proyectos_destacados %}
+<section class="py-20 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+            <h2 class="section-title">Proyectos Destacados</h2>
+            <p class="section-subtitle">
+                Conoce algunos de nuestros proyectos más importantes y el impacto positivo que generamos.
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+            {% for proyecto in proyectos_destacados %}
+            <div class="group relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden transform hover:-translate-y-2">
+                <!-- Image Container -->
+                <div class="relative h-64 overflow-hidden">
+                    {% if proyecto.imagen_principal %}
+                    <img src="{{ proyecto.imagen_principal }}" alt="{{ proyecto.nombre }}" 
+                         class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    {% else %}
+                    <div class="w-full h-full bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center">
+                        <svg class="w-16 h-16 text-white opacity-50" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"></path>
+                        </svg>
+                    </div>
+                    {% endif %}
+                    
+                    <!-- Overlay with category -->
+                    <div class="absolute top-4 left-4">
+                        <span class="bg-white/90 backdrop-blur-sm text-primary-800 text-xs font-semibold px-4 py-2 rounded-full shadow-lg">
+                            {{ proyecto.get_tipo_proyecto_display }}
+                        </span>
+                    </div>
+                    
+                    <!-- Location badge -->
+                    <div class="absolute top-4 right-4">
+                        <span class="bg-dark-900/80 backdrop-blur-sm text-white text-xs font-medium px-3 py-1 rounded-full">
+                            📍 {{ proyecto.ubicacion }}
+                        </span>
+                    </div>
+                    
+                    <!-- Hover overlay -->
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                </div>
+                
+                <!-- Content -->
+                <div class="p-8">
+                    <div class="flex items-start justify-between mb-4">
+                        <h3 class="text-2xl font-bold text-gray-900 group-hover:text-primary-600 transition-colors duration-300">
+                            {{ proyecto.nombre }}
+                        </h3>
+                    </div>
+                    
+                    <p class="text-gray-600 mb-6 leading-relaxed">
+                        {{ proyecto.descripcion_corta }}
+                    </p>
+                    
+                    <!-- Stats row -->
+                    {% if proyecto.fecha_inicio or proyecto.presupuesto %}
+                    <div class="flex items-center space-x-6 mb-6 text-sm text-gray-500">
+                        {% if proyecto.fecha_inicio %}
+                        <div class="flex items-center">
+                            <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>{{ proyecto.fecha_inicio|date:"M Y" }}</span>
+                        </div>
+                        {% endif %}
+                        {% if proyecto.presupuesto %}
+                        <div class="flex items-center">
+                            <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z"></path>
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>{{ proyecto.moneda }} {{ proyecto.presupuesto|floatformat:0 }}</span>
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                    
+                    <!-- CTA Button -->
+                    <div class="flex items-center justify-between">
+                        <a href="{{ proyecto.get_absolute_url }}" 
+                           class="inline-flex items-center text-primary-600 font-semibold hover:text-primary-700 transition-colors duration-300 group-hover:translate-x-1">
+                            Ver proyecto completo
+                            <svg class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                            </svg>
+                        </a>
+                        
+                        <!-- Status indicator -->
+                        {% if proyecto.estado %}
+                        <span class="px-3 py-1 text-xs font-medium rounded-full 
+                                   {% if proyecto.estado == 'en_progreso' %}bg-blue-100 text-blue-800
+                                   {% elif proyecto.estado == 'completado' %}bg-green-100 text-green-800
+                                   {% elif proyecto.estado == 'planificacion' %}bg-yellow-100 text-yellow-800
+                                   {% else %}bg-gray-100 text-gray-800{% endif %}">
+                            {{ proyecto.get_estado_display }}
+                        </span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <!-- View all projects button -->
+        <div class="text-center mt-16">
+            <a href="{% url 'proyectos:proyecto_list' %}" 
+               class="inline-flex items-center bg-white border-2 border-primary-500 text-primary-600 font-bold py-4 px-8 rounded-xl hover:bg-primary-500 hover:text-white transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                <span>Ver todos nuestros proyectos</span>
+                <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                </svg>
+            </a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Innovation Section -->
+{% if tecnologias_destacadas or patentes_destacadas %}
+<section class="py-20 bg-gradient-to-br from-gray-50 to-white">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+            <h2 class="section-title">Innovación y Tecnología</h2>
+            <p class="section-subtitle">
+                Tecnología de vanguardia para maximizar la eficiencia y seguridad en minería.
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% if tecnologias_destacadas %}
+            {% for tecnologia in tecnologias_destacadas|slice:":3" %}
+            <div class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden transform hover:-translate-y-2">
+                <div class="relative h-48 overflow-hidden">
+                    {% if tecnologia.imagen_principal %}
+                    <img src="{{ tecnologia.imagen_principal }}" alt="{{ tecnologia.nombre }}" 
+                         class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    {% else %}
+                    <div class="w-full h-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center">
+                        <svg class="w-16 h-16 text-white opacity-70" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"></path>
+                        </svg>
+                    </div>
+                    {% endif %}
+                </div>
+                
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">{{ tecnologia.nombre }}</h3>
+                    <p class="text-gray-600 mb-4">{{ tecnologia.descripcion_corta|truncatewords:15 }}</p>
+                    <a href="{{ tecnologia.get_absolute_url }}" class="text-blue-600 font-semibold hover:text-blue-700 transition-colors">
+                        Conocer más →
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+        
+        <div class="text-center mt-12">
+            <a href="{% url 'innovacion:tecnologia_list' %}" class="btn-secondary">
+                Ver todas nuestras tecnologías
+            </a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Certifications Section -->
+{% if certificaciones_destacadas %}
+<section class="py-20 bg-white">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+            <h2 class="section-title">Certificaciones y Premios</h2>
+            <p class="section-subtitle">
+                Reconocimientos que avalan nuestra excelencia y compromiso con la calidad.
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {% for certificacion in certificaciones_destacadas|slice:":4" %}
+            <div class="group bg-gray-50 rounded-2xl p-6 text-center hover:bg-white hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
+                {% if certificacion.url_logo %}
+                <div class="w-16 h-16 mx-auto mb-4">
+                    <img src="{{ certificacion.url_logo }}" alt="{{ certificacion.nombre }}" class="w-full h-full object-contain">
+                </div>
+                {% else %}
+                <div class="w-16 h-16 bg-primary-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                </div>
+                {% endif %}
+                
+                <h3 class="text-lg font-bold text-gray-900 mb-2">{{ certificacion.nombre }}</h3>
+                <p class="text-gray-600 text-sm">{{ certificacion.descripcion|truncatewords:8 }}</p>
+                
+                {% if certificacion.fecha_obtencion %}
+                <div class="text-xs text-gray-500 mt-2">
+                    Obtenida: {{ certificacion.fecha_obtencion|date:"M Y" }}
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Social Responsibility Section -->
+{% if programas_sociales or alianzas_destacadas %}
+<section class="py-20 bg-primary-50">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+            <h2 class="section-title">Responsabilidad Social</h2>
+            <p class="section-subtitle">
+                Comprometidos con las comunidades y el medio ambiente.
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {% if programas_sociales %}
+            {% for programa in programas_sociales|slice:":4" %}
+            <div class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden transform hover:-translate-y-2">
+                <div class="p-6 text-center">
+                    <div class="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">{{ programa.nombre }}</h3>
+                    <p class="text-gray-600 text-sm">{{ programa.descripcion_corta|truncatewords:10 }}</p>
+                </div>
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+        
+        <div class="text-center mt-12">
+            <a href="{% url 'rsocial:programa_list' %}" class="btn-secondary">
+                Conocer nuestros programas sociales
+            </a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Testimonials Section -->
+{% if testimonios %}
+<section class="py-20">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+            <h2 class="section-title">Lo que dicen nuestros clientes</h2>
+            <p class="section-subtitle">
+                Testimonios de clientes y colaboradores que confían en nuestra experiencia y profesionalismo.
+            </p>
+        </div>
+        
+        <!-- Testimonials Carousel -->
+        <div class="relative group">
+            <!-- Progress Indicator -->
+            <div class="absolute top-0 left-0 right-0 h-1 bg-gray-200 rounded-full overflow-hidden z-20">
+                <div class="h-full bg-primary-500 transition-all duration-500 ease-in-out" id="carouselProgress"></div>
+            </div>
+            
+            <!-- Carousel Container -->
+            <div class="testimonials-carousel overflow-hidden mt-2">
+                <div class="testimonials-track flex transition-transform duration-500 ease-in-out" id="testimonialsTrack">
+                    {% for testimonio in testimonios %}
+                    <div class="testimonial-slide flex-shrink-0 w-full md:w-1/2 lg:w-1/3 px-4">
+                        <div class="card p-6 h-full bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                            <!-- Rating Stars -->
+                            <div class="flex items-center mb-4">
+                                {% for i in "12345" %}
+                                <svg class="w-5 h-5 {% if forloop.counter <= testimonio.calificacion %}text-yellow-400{% else %}text-gray-300{% endif %}" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                </svg>
+                                {% endfor %}
+                            </div>
+                            
+                            <!-- Testimonial Text -->
+                            <div class="flex-grow">
+                                <p class="text-gray-600 mb-6 italic leading-relaxed">"{{ testimonio.testimonio }}"</p>
+                            </div>
+                            
+                            <!-- Author Info -->
+                            <div class="flex items-center mt-auto">
+                                {% if testimonio.get_imagen_url %}
+                                <img src="{{ testimonio.get_imagen_url }}" alt="{{ testimonio.nombre }}" class="w-12 h-12 rounded-full mr-4 object-cover border-2 border-primary-100">
+                                {% else %}
+                                <div class="w-12 h-12 rounded-full mr-4 bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center text-white font-bold text-lg">
+                                    {{ testimonio.nombre|first|upper }}
+                                </div>
+                                {% endif %}
+                                <div>
+                                    <h4 class="font-semibold text-gray-900">{{ testimonio.nombre }}</h4>
+                                    <p class="text-sm text-gray-500">{{ testimonio.cargo }}{% if testimonio.empresa %}, {{ testimonio.empresa }}{% endif %}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            
+            <!-- Navigation Arrows -->
+            <button class="absolute left-2 md:left-4 top-1/2 transform -translate-y-1/2 bg-white/95 backdrop-blur-sm text-primary-600 p-2 md:p-3 rounded-full shadow-lg hover:bg-white hover:shadow-xl transition-all duration-300 z-10 opacity-100 md:opacity-0 md:group-hover:opacity-100 border border-gray-200 hover:border-primary-300" id="prevBtn" aria-label="Testimonio anterior">
+                <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                </svg>
+            </button>
+            
+            <button class="absolute right-2 md:right-4 top-1/2 transform -translate-y-1/2 bg-white/95 backdrop-blur-sm text-primary-600 p-2 md:p-3 rounded-full shadow-lg hover:bg-white hover:shadow-xl transition-all duration-300 z-10 opacity-100 md:opacity-0 md:group-hover:opacity-100 border border-gray-200 hover:border-primary-300" id="nextBtn" aria-label="Testimonio siguiente">
+                <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+            </button>
+            
+            <!-- Dots Navigation -->
+            <div class="flex justify-center mt-6 md:mt-8 space-x-2" id="testimonialDots">
+                {% for testimonio in testimonios %}
+                <button class="testimonial-dot w-3 h-3 md:w-4 md:h-4 rounded-full bg-gray-300 hover:bg-primary-400 transition-all duration-300 {% if forloop.first %}bg-primary-600{% endif %} focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2" data-index="{{ forloop.counter0 }}" aria-label="Ir al testimonio {{ forloop.counter }}"></button>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Carousel JavaScript -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const track = document.getElementById('testimonialsTrack');
+    const slides = track.querySelectorAll('.testimonial-slide');
+    const dots = document.querySelectorAll('.testimonial-dot');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    
+    let currentIndex = 0;
+    const slidesPerView = window.innerWidth >= 1024 ? 3 : window.innerWidth >= 768 ? 2 : 1;
+    const maxIndex = Math.max(0, slides.length - slidesPerView);
+    
+    // Auto-play interval
+    let autoPlayInterval;
+    const autoPlayDelay = 5000; // 5 segundos
+    
+    function updateCarousel() {
+        const translateX = -currentIndex * (100 / slidesPerView);
+        track.style.transform = `translateX(${translateX}%)`;
+        
+        // Update dots
+        dots.forEach((dot, index) => {
+            dot.classList.toggle('bg-primary-600', index === currentIndex);
+            dot.classList.toggle('bg-gray-300', index !== currentIndex);
+        });
+        
+        // Update progress indicator
+        const progressBar = document.getElementById('carouselProgress');
+        if (progressBar) {
+            const progress = ((currentIndex + 1) / (maxIndex + 1)) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+    }
+    
+    function nextSlide() {
+        currentIndex = currentIndex >= maxIndex ? 0 : currentIndex + 1;
+        updateCarousel();
+    }
+    
+    function prevSlide() {
+        currentIndex = currentIndex <= 0 ? maxIndex : currentIndex - 1;
+        updateCarousel();
+    }
+    
+    function goToSlide(index) {
+        currentIndex = Math.max(0, Math.min(index, maxIndex));
+        updateCarousel();
+    }
+    
+    // Event listeners
+    nextBtn.addEventListener('click', () => {
+        nextSlide();
+        resetAutoPlay();
+    });
+    
+    prevBtn.addEventListener('click', () => {
+        prevSlide();
+        resetAutoPlay();
+    });
+    
+    dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+            goToSlide(index);
+            resetAutoPlay();
+        });
+    });
+    
+    // Auto-play functionality
+    function startAutoPlay() {
+        autoPlayInterval = setInterval(nextSlide, autoPlayDelay);
+    }
+    
+    function stopAutoPlay() {
+        clearInterval(autoPlayInterval);
+    }
+    
+    function resetAutoPlay() {
+        stopAutoPlay();
+        startAutoPlay();
+    }
+    
+    // Pause on hover
+    const carouselContainer = track.parentElement;
+    carouselContainer.addEventListener('mouseenter', stopAutoPlay);
+    carouselContainer.addEventListener('mouseleave', startAutoPlay);
+    
+    // Touch/swipe support for mobile
+    let startX = 0;
+    let endX = 0;
+    
+    track.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].clientX;
+        stopAutoPlay();
+    });
+    
+    track.addEventListener('touchend', (e) => {
+        endX = e.changedTouches[0].clientX;
+        const diff = startX - endX;
+        
+        if (Math.abs(diff) > 50) { // Minimum swipe distance
+            if (diff > 0) {
+                nextSlide();
+            } else {
+                prevSlide();
+            }
+        }
+        
+        startAutoPlay();
+    });
+    
+    // Responsive handling
+    function updateSlidesPerView() {
+        const newSlidesPerView = window.innerWidth >= 1024 ? 3 : window.innerWidth >= 768 ? 2 : 1;
+        if (newSlidesPerView !== slidesPerView) {
+            slidesPerView = newSlidesPerView;
+            maxIndex = Math.max(0, slides.length - slidesPerView);
+            currentIndex = Math.min(currentIndex, maxIndex);
+            updateCarousel();
+        }
+    }
+    
+    window.addEventListener('resize', updateSlidesPerView);
+    
+    // Initialize
+    updateCarousel();
+    startAutoPlay();
+    
+    // Show/hide navigation arrows on hover (desktop only)
+    carouselContainer.addEventListener('mouseenter', () => {
+        if (window.innerWidth >= 768) {
+            prevBtn.style.opacity = '1';
+            nextBtn.style.opacity = '1';
+        }
+    });
+    
+    carouselContainer.addEventListener('mouseleave', () => {
+        if (window.innerWidth >= 768) {
+            prevBtn.style.opacity = '0';
+            nextBtn.style.opacity = '0';
+        }
+    });
+    
+    // Add visual feedback for button clicks
+    [prevBtn, nextBtn].forEach(btn => {
+        btn.addEventListener('mousedown', () => {
+            btn.style.transform = 'translate(-50%, -50%) scale(0.95)';
+        });
+        
+        btn.addEventListener('mouseup', () => {
+            btn.style.transform = 'translate(-50%, -50%) scale(1)';
+        });
+        
+        btn.addEventListener('mouseleave', () => {
+            btn.style.transform = 'translate(-50%, -50%) scale(1)';
+        });
+    });
+    
+    // Add keyboard navigation
+    document.addEventListener('keydown', (e) => {
+        if (carouselContainer.contains(document.activeElement) || carouselContainer.matches(':hover')) {
+            if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                prevSlide();
+                resetAutoPlay();
+            } else if (e.key === 'ArrowRight') {
+                e.preventDefault();
+                nextSlide();
+                resetAutoPlay();
+            }
+        }
+    });
+});
+</script>
+{% endif %}
+
+<!-- Latest News Section -->
+{% if noticias_recientes %}
+<section class="py-20 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+            <h2 class="section-title">Últimas Noticias</h2>
+            <p class="section-subtitle">
+                Mantente informado sobre nuestros proyectos y la industria minera.
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for noticia in noticias_recientes %}
+            <div class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden transform hover:-translate-y-2">
+                <div class="relative h-48 overflow-hidden">
+                    {% if noticia.imagen_principal %}
+                    <img src="{{ noticia.imagen_principal }}" alt="{{ noticia.titulo }}" 
+                         class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    {% else %}
+                    <div class="w-full h-full bg-gradient-to-br from-gray-400 to-gray-600 flex items-center justify-center">
+                        <svg class="w-16 h-16 text-white opacity-70" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"></path>
+                        </svg>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="absolute top-4 left-4">
+                        <span class="bg-white/90 backdrop-blur-sm text-gray-800 text-xs font-semibold px-3 py-1 rounded-full">
+                            {{ noticia.categoria.nombre|default:"Noticias" }}
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="p-6">
+                    <div class="flex items-center text-sm text-gray-500 mb-3">
+                        <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path>
+                        </svg>
+                        {{ noticia.fecha_publicacion|date:"d M Y" }}
+                    </div>
+                    
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">{{ noticia.titulo }}</h3>
+                    <p class="text-gray-600 mb-4">{{ noticia.resumen|truncatewords:15 }}</p>
+                    
+                    <a href="{{ noticia.get_absolute_url }}" class="text-primary-600 font-semibold hover:text-primary-700 transition-colors">
+                        Leer más →
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="text-center mt-12">
+            <a href="{% url 'blog:blog_list' %}" class="btn-secondary">
+                Ver todas las noticias
+            </a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Careers Section -->
+{% if vacantes_destacadas %}
+<section class="py-20 bg-gradient-to-br from-orange-50 to-orange-100">
+    <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+            <h2 class="section-title">Únete a Nuestro Equipo</h2>
+            <p class="section-subtitle">
+                Oportunidades de crecimiento profesional en una empresa líder en minería.
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for vacante in vacantes_destacadas|slice:":3" %}
+            <div class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden transform hover:-translate-y-2">
+                <div class="p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-xl font-bold text-gray-900">{{ vacante.titulo }}</h3>
+                        {% if vacante.destacada %}
+                        <span class="bg-orange-100 text-orange-800 text-xs font-medium px-3 py-1 rounded-full">
+                            Destacada
+                        </span>
+                        {% endif %}
+                    </div>
+                    
+                    <p class="text-gray-600 mb-4">{{ vacante.descripcion|truncatewords:12 }}</p>
+                    
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-sm text-gray-500">{{ vacante.ubicacion|default:"Sancos, Ayacucho" }}</span>
+                        <span class="text-sm text-gray-500">{{ vacante.tipo_contrato|title }}</span>
+                    </div>
+                    
+                    <a href="{{ vacante.get_absolute_url }}" class="text-orange-600 font-semibold hover:text-orange-700 transition-colors">
+                        Ver detalles →
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="text-center mt-12">
+            <a href="{% url 'carreras:vacante_list' %}" class="btn-primary">
+                Ver todas las oportunidades
+            </a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Newsletter Section -->
+<section class="py-20 bg-primary-500 py-12">
+    <div class="container mx-auto px-4">
+        <div class="flex flex-col lg:flex-row items-center justify-between">
+            <div class="flex items-center space-x-4 mb-6 lg:mb-0">
+                <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center">
+                    <svg class="w-6 h-6 text-primary-500" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
+                        <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
+                    </svg>
+                </div>
+                <div>
+                    <h3 class="text-white text-xl font-semibold">Registre su correo para mayor información</h3>
+                </div>
+            </div>
+            <form method="post" action="{% url 'contacto:suscribir_newsletter' %}" class="flex flex-col sm:flex-row gap-4 w-full lg:w-auto">
+                {% csrf_token %}
+                <input type="email" name="email" placeholder="su correo electrónico" 
+                       class="px-6 py-3 rounded-lg border-0 focus:ring-2 focus:ring-white focus:ring-opacity-50 text-dark-900">
+                <button type="submit" class="bg-white text-primary-500 font-bold py-3 px-6 rounded-lg hover:bg-gray-100 transition-colors flex items-center justify-center">
+                    <span>Enviar</span>
+                    <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                    </svg>
+                </button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-20 bg-gradient-to-r from-primary-500 to-primary-600">
+    <div class="container mx-auto px-4 text-center">
+        <h2 class="text-3xl md:text-4xl font-display font-bold text-white mb-6">
+            ¿Listo para trabajar con nosotros?
+        </h2>
+        <p class="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
+            Contáctanos hoy mismo para discutir cómo podemos ayudarte con tu próximo proyecto minero.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="{% url 'contacto:contacto' %}" class="bg-white text-primary-500 font-bold py-4 px-8 rounded-lg hover:bg-gray-100 transition-colors">
+                Solicitar cotización
+            </a>
+            <a href="{% url 'carreras:vacante_list' %}" class="border-2 border-white text-white font-bold py-4 px-8 rounded-lg hover:bg-white hover:text-primary-500 transition-colors">
+                Ver oportunidades laborales
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %} 

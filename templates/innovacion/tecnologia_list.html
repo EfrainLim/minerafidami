@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+
+{% block title %}Tecnologías - Innovación - Minera Fidami S.A.{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="relative bg-gradient-to-br from-primary-600 to-primary-800 text-white py-20">
+    <div class="container mx-auto px-4">
+        <div class="text-center">
+            <h1 class="text-5xl font-display font-bold mb-6">Tecnologías Innovadoras</h1>
+            <p class="text-xl mb-8 max-w-3xl mx-auto">
+                Descubre las tecnologías de vanguardia que estamos implementando para revolucionar la industria minera
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- Filtros -->
+{% if categorias %}
+<section class="py-8 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="flex flex-wrap justify-center gap-4">
+            <a href="{% url 'innovacion:tecnologia_list' %}" class="px-6 py-2 rounded-full {% if not request.GET.categoria %}bg-primary-600 text-white{% else %}bg-white text-gray-700 hover:bg-primary-50{% endif %} transition-colors">
+                Todas
+            </a>
+            {% for categoria in categorias %}
+            <a href="?categoria={{ categoria }}" class="px-6 py-2 rounded-full {% if request.GET.categoria == categoria %}bg-primary-600 text-white{% else %}bg-white text-gray-700 hover:bg-primary-50{% endif %} transition-colors">
+                {{ categoria|title }}
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Lista de Tecnologías -->
+<section class="py-16">
+    <div class="container mx-auto px-4">
+        {% if tecnologias %}
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for tecnologia in tecnologias %}
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                {% if tecnologia.get_imagen_principal_url %}
+                <img src="{{ tecnologia.get_imagen_principal_url }}" alt="{{ tecnologia.nombre }}" class="w-full h-48 object-cover">
+                {% endif %}
+                <div class="p-6">
+                    <div class="flex items-center mb-3">
+                        <span class="px-3 py-1 bg-primary-100 text-primary-800 text-sm font-medium rounded-full">
+                            {{ tecnologia.get_categoria_display }}
+                        </span>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">{{ tecnologia.nombre }}</h3>
+                    <p class="text-gray-600 mb-4">{{ tecnologia.descripcion_corta|truncatewords:25 }}</p>
+                    {% if tecnologia.fecha_implementacion %}
+                    <p class="text-sm text-gray-500 mb-4">
+                        <strong>Implementada:</strong> {{ tecnologia.fecha_implementacion|date:"F Y" }}
+                    </p>
+                    {% endif %}
+                    <a href="{{ tecnologia.get_absolute_url }}" class="text-primary-600 font-semibold hover:text-primary-800">
+                        Ver detalles →
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <!-- Paginación -->
+        {% if is_paginated %}
+        <div class="flex justify-center mt-12">
+            <nav class="flex items-center space-x-2">
+                {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.categoria %}&categoria={{ request.GET.categoria }}{% endif %}" class="px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
+                    Anterior
+                </a>
+                {% endif %}
+                
+                <span class="px-4 py-2 bg-primary-600 text-white rounded-lg">
+                    Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+                </span>
+                
+                {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}{% if request.GET.categoria %}&categoria={{ request.GET.categoria }}{% endif %}" class="px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
+                    Siguiente
+                </a>
+                {% endif %}
+            </nav>
+        </div>
+        {% endif %}
+        
+        {% else %}
+        <div class="text-center py-16">
+            <h3 class="text-2xl font-bold text-gray-900 mb-4">No se encontraron tecnologías</h3>
+            <p class="text-gray-600 mb-8">Pronto agregaremos nuevas tecnologías innovadoras.</p>
+            <a href="{% url 'innovacion:home' %}" class="btn-primary">
+                Volver a Innovación
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4 text-center">
+        <h2 class="text-4xl font-display font-bold text-gray-900 mb-6">¿Interesado en nuestras tecnologías?</h2>
+        <p class="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+            Contáctanos para conocer más sobre cómo podemos implementar estas tecnologías en tu proyecto
+        </p>
+        <div class="flex flex-wrap justify-center gap-4">
+            <a href="{% url 'contacto:contacto' %}" class="btn-primary">
+                Solicitar Información
+            </a>
+            <a href="{% url 'innovacion:proyecto_list' %}" class="btn-secondary">
+                Ver Proyectos
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %} 

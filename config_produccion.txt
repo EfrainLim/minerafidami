@@ -1,0 +1,39 @@
+# ========================================
+# CONFIGURACIÓN PARA PRODUCCIÓN
+# ========================================
+
+# 1. CAMBIAR EN settings.py:
+# Cambiar esta línea:
+# DEBUG = True
+# Por esta:
+# DEBUG = False
+
+# 2. CONFIGURAR SECRET KEY:
+# Cambiar esta línea en settings.py:
+# SECRET_KEY = 'django-insecure-your-secret-key-here'
+# Por una clave secreta real (generar con: python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())")
+
+# 3. COMANDOS PARA PRODUCCIÓN:
+# python manage.py migrate
+# python manage.py collectstatic --noinput
+# python manage.py tailwind build
+
+# 4. DEPENDENCIAS:
+# requirements.txt - Solo desarrollo
+# requirements_produccion.txt - Solo producción (Django + Gunicorn + Whitenoise)
+
+# 5. PUERTO: 8005
+# Gunicorn configurado para puerto 8005
+
+# 6. RUTA: /root/minerafidami/
+# Proyecto ubicado en /root/minerafidami/
+
+# 7. BASE DE DATOS: SQLite
+# Archivo: /root/minerafidami/db.sqlite3
+
+# 8. CONFIGURACIONES:
+# - Gunicorn: Se crea automáticamente en la guía
+# - Nginx: Se crea automáticamente en la guía
+# - SSL: Se configura con Certbot
+
+# ¡ESO ES TODO! MUY SIMPLE 🎯 

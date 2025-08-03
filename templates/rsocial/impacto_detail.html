@@ -1,0 +1,310 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ impacto.nombre }} - Impactos Ambientales - Responsabilidad Social - Minera Fidami S.A.{% endblock %}
+
+{% block content %}
+<!-- Breadcrumbs -->
+<section class="py-4 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <nav class="flex" aria-label="Breadcrumb">
+            <ol class="flex items-center space-x-2">
+                <li><a href="{% url 'core:home' %}" class="text-gray-500 hover:text-primary-600">Inicio</a></li>
+                <li><span class="text-gray-400">/</span></li>
+                <li><a href="{% url 'rsocial:home' %}" class="text-gray-500 hover:text-primary-600">Responsabilidad Social</a></li>
+                <li><span class="text-gray-400">/</span></li>
+                <li><a href="{% url 'rsocial:impacto_list' %}" class="text-gray-500 hover:text-primary-600">Impactos Ambientales</a></li>
+                <li><span class="text-gray-400">/</span></li>
+                <li class="text-gray-900">{{ impacto.nombre }}</li>
+            </ol>
+        </nav>
+    </div>
+</section>
+
+<!-- Hero Section -->
+<section class="py-16">
+    <div class="container mx-auto px-4">
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+            <div>
+                <div class="flex items-center gap-4 mb-4">
+                    <span class="px-4 py-2 bg-green-100 text-green-800 text-sm font-medium rounded-full">
+                        {{ impacto.get_tipo_impacto_display }}
+                    </span>
+                    <span class="px-4 py-2 bg-blue-100 text-blue-800 text-sm font-medium rounded-full">
+                        {{ impacto.get_estado_display }}
+                    </span>
+                </div>
+                <h1 class="text-4xl lg:text-5xl font-display font-bold text-gray-900 mb-6">{{ impacto.nombre }}</h1>
+                <p class="text-xl text-gray-600 mb-8">{{ impacto.descripcion }}</p>
+                
+                {% if impacto.ubicacion %}
+                <div class="mb-6">
+                    <p class="text-sm text-gray-500">
+                        <strong>Ubicación:</strong> {{ impacto.ubicacion }}
+                    </p>
+                </div>
+                {% endif %}
+                
+                {% if impacto.fecha_identificacion %}
+                <div class="mb-6">
+                    <p class="text-sm text-gray-500">
+                        <strong>Fecha de identificación:</strong> {{ impacto.fecha_identificacion|date:"F Y" }}
+                    </p>
+                </div>
+                {% endif %}
+                
+                <div class="flex flex-wrap gap-4">
+                    <a href="{% url 'contacto:contacto' %}" class="btn-primary">
+                        Solicitar Información
+                    </a>
+                    <a href="{% url 'rsocial:impacto_list' %}" class="btn-secondary">
+                        Ver Otros Impactos
+                    </a>
+                </div>
+            </div>
+            
+            {% if impacto.imagen_principal %}
+            <div class="relative">
+                <img src="{{ impacto.imagen_principal }}" alt="{{ impacto.nombre }}" class="w-full h-96 object-cover rounded-lg shadow-lg">
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<!-- Descripción Detallada -->
+{% if impacto.descripcion_larga %}
+<section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl font-display font-bold text-gray-900 mb-8">Descripción del Impacto</h2>
+            <div class="prose prose-lg max-w-none">
+                {{ impacto.descripcion_larga|linebreaks }}
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Información del Impacto -->
+<section class="py-16">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl font-display font-bold text-gray-900 mb-8">Información del Impacto</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Detalles Generales</h3>
+                    <ul class="space-y-3">
+                        <li><strong>Tipo:</strong> {{ impacto.get_tipo_impacto_display }}</li>
+                        <li><strong>Estado:</strong> {{ impacto.get_estado_display }}</li>
+                        {% if impacto.ubicacion %}
+                        <li><strong>Ubicación:</strong> {{ impacto.ubicacion }}</li>
+                        {% endif %}
+                        {% if impacto.fecha_identificacion %}
+                        <li><strong>Fecha de identificación:</strong> {{ impacto.fecha_identificacion|date:"d/m/Y" }}</li>
+                        {% endif %}
+                        {% if impacto.magnitud %}
+                        <li><strong>Magnitud:</strong> {{ impacto.get_magnitud_display }}</li>
+                        {% endif %}
+                        {% if impacto.duration %}
+                        <li><strong>Duración:</strong> {{ impacto.duration }}</li>
+                        {% endif %}
+                        {% if impacto.frecuencia %}
+                        <li><strong>Frecuencia:</strong> {{ impacto.get_frecuencia_display }}</li>
+                        {% endif %}
+                    </ul>
+                </div>
+                
+                {% if impacto.coordenadas_lat and impacto.coordenadas_lng %}
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Ubicación</h3>
+                    <p class="text-gray-600 mb-4">Coordenadas del impacto:</p>
+                    <p class="text-sm text-gray-500">
+                        <strong>Latitud:</strong> {{ impacto.coordenadas_lat }}<br>
+                        <strong>Longitud:</strong> {{ impacto.coordenadas_lng }}
+                    </p>
+                    <!-- Aquí se podría agregar un mapa interactivo -->
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Causas -->
+{% if impacto.causas %}
+<section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl font-display font-bold text-gray-900 mb-8 text-center">Causas</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                {% for causa in impacto.causas %}
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="flex items-center mb-4">
+                        <div class="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center mr-3">
+                            <svg class="w-5 h-5 text-red-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-900">{{ causa }}</h3>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Medidas de Mitigación -->
+{% if impacto.medidas_mitigacion %}
+<section class="py-16">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl font-display font-bold text-gray-900 mb-8 text-center">Medidas de Mitigación</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                {% for medida in impacto.medidas_mitigacion %}
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="flex items-center mb-4">
+                        <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center mr-3">
+                            <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-900">{{ medida }}</h3>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Efectos -->
+{% if impacto.efectos %}
+<section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl font-display font-bold text-gray-900 mb-8 text-center">Efectos</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                {% for efecto in impacto.efectos %}
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="flex items-center mb-4">
+                        <div class="w-8 h-8 bg-orange-100 rounded-full flex items-center justify-center mr-3">
+                            <svg class="w-5 h-5 text-orange-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-900">{{ efecto }}</h3>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Monitoreo -->
+{% if impacto.actividades_monitoreo %}
+<section class="py-16">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl font-display font-bold text-gray-900 mb-8 text-center">Actividades de Monitoreo</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                {% for actividad in impacto.actividades_monitoreo %}
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="flex items-center mb-4">
+                        <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-3">
+                            <svg class="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-900">{{ actividad }}</h3>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Galería de Imágenes -->
+{% if impacto.galeria_imagenes %}
+<section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-3xl font-display font-bold text-gray-900 mb-8 text-center">Galería del Impacto</h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {% for imagen in impacto.galeria_imagenes %}
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <img src="{{ imagen }}" alt="{{ impacto.nombre }}" class="w-full h-48 object-cover">
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Video -->
+{% if impacto.video_url %}
+<section class="py-16">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl font-display font-bold text-gray-900 mb-8 text-center">Video del Impacto</h2>
+            <div class="relative aspect-video rounded-lg overflow-hidden shadow-lg">
+                <iframe src="{{ impacto.video_url }}" class="w-full h-full" frameborder="0" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Impactos Relacionados -->
+{% if impactos_relacionados %}
+<section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-display font-bold text-gray-900 mb-8 text-center">Impactos Relacionados</h2>
+        <div class="grid md:grid-cols-2 gap-8">
+            {% for impacto_rel in impactos_relacionados %}
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                {% if impacto_rel.imagen_principal %}
+                <img src="{{ impacto_rel.imagen_principal }}" alt="{{ impacto_rel.nombre }}" class="w-full h-64 object-cover">
+                {% endif %}
+                <div class="p-6">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="px-3 py-1 bg-green-100 text-green-800 text-sm font-medium rounded-full">
+                            {{ impacto_rel.get_tipo_impacto_display }}
+                        </span>
+                        <span class="px-3 py-1 bg-blue-100 text-blue-800 text-sm font-medium rounded-full">
+                            {{ impacto_rel.get_estado_display }}
+                        </span>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">{{ impacto_rel.nombre }}</h3>
+                    <p class="text-gray-600 mb-4">{{ impacto_rel.descripcion|truncatewords:15 }}</p>
+                    <a href="{{ impacto_rel.get_absolute_url }}" class="text-green-600 font-semibold hover:text-green-800">
+                        Ver más →
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- CTA Section -->
+<section class="py-16 bg-green-600 text-white">
+    <div class="container mx-auto px-4 text-center">
+        <h2 class="text-4xl font-display font-bold mb-6">¿Quieres conocer más sobre nuestra gestión ambiental?</h2>
+        <p class="text-xl mb-8 max-w-2xl mx-auto">
+            Estamos comprometidos con la transparencia y la mejora continua en nuestros procesos ambientales
+        </p>
+        <a href="{% url 'contacto:contacto' %}" class="btn-secondary">
+            Solicitar Información
+        </a>
+    </div>
+</section>
+{% endblock %} 
