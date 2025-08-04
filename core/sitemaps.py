@@ -24,24 +24,28 @@ class StaticViewSitemap(Sitemap):
         ]
 
     def location(self, item):
-        if item == 'home':
-            return reverse('home')
-        elif item == 'sobre_nosotros':
-            return reverse('sobre_nosotros')
-        elif item == 'servicios':
-            return reverse('servicios:servicio_list')
-        elif item == 'proyectos':
-            return reverse('proyectos:proyecto_list')
-        elif item == 'innovacion':
-            return reverse('innovacion:home')
-        elif item == 'responsabilidad_social':
-            return reverse('rsocial:home')
-        elif item == 'blog':
-            return reverse('blog:blog_list')
-        elif item == 'carreras':
-            return reverse('carreras:vacante_list')
-        elif item == 'contacto':
-            return reverse('contacto:contacto')
+        try:
+            if item == 'home':
+                return reverse('home')
+            elif item == 'sobre_nosotros':
+                return reverse('sobre_nosotros')
+            elif item == 'servicios':
+                return reverse('servicios:servicio_list')
+            elif item == 'proyectos':
+                return reverse('proyectos:proyecto_list')
+            elif item == 'innovacion':
+                return reverse('innovacion:home')
+            elif item == 'responsabilidad_social':
+                return reverse('rsocial:home')
+            elif item == 'blog':
+                return reverse('blog:blog_list')
+            elif item == 'carreras':
+                return reverse('carreras:vacante_list')
+            elif item == 'contacto':
+                return reverse('contacto:contacto')
+        except Exception as e:
+            print(f"Error en URL {item}: {e}")
+            return f"/{item}/"
 
 
 class ServicioSitemap(Sitemap):
@@ -50,10 +54,17 @@ class ServicioSitemap(Sitemap):
     priority = 0.8
 
     def items(self):
-        return Servicio.objects.filter(estado='activo')
+        try:
+            return Servicio.objects.filter(estado='activo')
+        except Exception as e:
+            print(f"Error obteniendo servicios: {e}")
+            return []
 
     def lastmod(self, obj):
-        return obj.updated_at
+        try:
+            return obj.updated_at
+        except:
+            return None
 
 
 class ProyectoSitemap(Sitemap):
@@ -62,10 +73,17 @@ class ProyectoSitemap(Sitemap):
     priority = 0.8
 
     def items(self):
-        return Proyecto.objects.filter(estado='activo')
+        try:
+            return Proyecto.objects.filter(estado='activo')
+        except Exception as e:
+            print(f"Error obteniendo proyectos: {e}")
+            return []
 
     def lastmod(self, obj):
-        return obj.updated_at
+        try:
+            return obj.updated_at
+        except:
+            return None
 
 
 class NoticiaSitemap(Sitemap):
@@ -74,7 +92,14 @@ class NoticiaSitemap(Sitemap):
     priority = 0.6
 
     def items(self):
-        return NoticiaBlog.objects.filter(estado='publicado')
+        try:
+            return NoticiaBlog.objects.filter(estado='publicado')
+        except Exception as e:
+            print(f"Error obteniendo noticias: {e}")
+            return []
 
     def lastmod(self, obj):
-        return obj.updated_at 
+        try:
+            return obj.updated_at
+        except:
+            return None 

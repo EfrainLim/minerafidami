@@ -121,6 +121,33 @@ python manage.py collectstatic --noinput
 
 # Verificar configuración
 python manage.py check --deploy
+
+# Generar sitemap estáticamente
+python manage.py generate_sitemap
+
+# Generar robots.txt estáticamente
+cat > static/robots.txt << 'EOF'
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://minerafidami.com.pe/sitemap.xml
+
+# Disallow admin and private areas
+Disallow: /admin/
+Disallow: /static/admin/
+Disallow: /media/admin/
+
+# Allow important pages
+Allow: /servicios/
+Allow: /proyectos/
+Allow: /blog/
+Allow: /carreras/
+Allow: /contacto/
+
+# Crawl delay (opcional)
+Crawl-delay: 1
+EOF
 ```
 
 ### 9. Configurar Gunicorn
@@ -204,6 +231,19 @@ server {
     location /media/ {
         alias /root/minerafidami/media/;
         expires 1y;
+    }
+    
+    # Sitemap y robots.txt estáticos
+    location = /sitemap.xml {
+        alias /root/minerafidami/static/sitemap.xml;
+        expires 1d;
+        add_header Content-Type application/xml;
+    }
+    
+    location = /robots.txt {
+        alias /root/minerafidami/static/robots.txt;
+        expires 1d;
+        add_header Content-Type text/plain;
     }
     
     # Django (puerto 8005)
