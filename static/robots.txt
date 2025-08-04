@@ -1,0 +1,15 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://minerafidami.com.pe/sitemap.xml
+
+# Disallow admin
+Disallow: /admin/
+
+# Allow important pages
+Allow: /servicios/
+Allow: /proyectos/
+Allow: /blog/
+Allow: /carreras/
+Allow: /contacto/

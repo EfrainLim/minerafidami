@@ -122,10 +122,8 @@ python manage.py collectstatic --noinput
 # Verificar configuración
 python manage.py check --deploy
 
-# Generar sitemap estáticamente
-python manage.py generate_sitemap
-
-# Generar robots.txt estáticamente
+# Generar sitemap y robots.txt
+python generar_sitemap_manual.py
 cat > static/robots.txt << 'EOF'
 User-agent: *
 Allow: /
@@ -133,10 +131,8 @@ Allow: /
 # Sitemap
 Sitemap: https://minerafidami.com.pe/sitemap.xml
 
-# Disallow admin and private areas
+# Disallow admin
 Disallow: /admin/
-Disallow: /static/admin/
-Disallow: /media/admin/
 
 # Allow important pages
 Allow: /servicios/
@@ -144,9 +140,6 @@ Allow: /proyectos/
 Allow: /blog/
 Allow: /carreras/
 Allow: /contacto/
-
-# Crawl delay (opcional)
-Crawl-delay: 1
 EOF
 ```
 

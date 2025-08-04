@@ -32,6 +32,10 @@ class Command(BaseCommand):
             # Generar sitemap
             response = sitemap(request, sitemaps=sitemaps)
             
+            # Renderizar la respuesta si es necesario
+            if hasattr(response, 'render'):
+                response.render()
+            
             # Crear directorio static si no existe
             static_dir = os.path.join(settings.BASE_DIR, 'static')
             os.makedirs(static_dir, exist_ok=True)
@@ -46,7 +50,13 @@ class Command(BaseCommand):
             )
             self.stdout.write(f'Tamaño: {len(response.content)} bytes')
             
+            # Mostrar contenido del sitemap
+            self.stdout.write('\nContenido del sitemap:')
+            self.stdout.write(response.content.decode('utf-8')[:500] + '...')
+            
         except Exception as e:
             self.stdout.write(
                 self.style.ERROR(f'Error generando sitemap: {e}')
-            ) 
+            )
+            import traceback
+            traceback.print_exc() 

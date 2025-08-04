@@ -1,14 +1,15 @@
 from django.contrib.sitemaps import Sitemap
-from django.urls import reverse
 from servicios.models import Servicio
 from proyectos.models import Proyecto
 from blog.models import NoticiaBlog
+from django.utils import timezone
 
 
 class StaticViewSitemap(Sitemap):
     """Sitemap para páginas estáticas"""
     priority = 1.0
     changefreq = 'weekly'
+    lastmod = timezone.now()
 
     def items(self):
         return [
@@ -24,28 +25,19 @@ class StaticViewSitemap(Sitemap):
         ]
 
     def location(self, item):
-        try:
-            if item == 'home':
-                return reverse('home')
-            elif item == 'sobre_nosotros':
-                return reverse('sobre_nosotros')
-            elif item == 'servicios':
-                return reverse('servicios:servicio_list')
-            elif item == 'proyectos':
-                return reverse('proyectos:proyecto_list')
-            elif item == 'innovacion':
-                return reverse('innovacion:home')
-            elif item == 'responsabilidad_social':
-                return reverse('rsocial:home')
-            elif item == 'blog':
-                return reverse('blog:blog_list')
-            elif item == 'carreras':
-                return reverse('carreras:vacante_list')
-            elif item == 'contacto':
-                return reverse('contacto:contacto')
-        except Exception as e:
-            print(f"Error en URL {item}: {e}")
-            return f"/{item}/"
+        # URLs directas sin usar reverse()
+        urls = {
+            'home': '/',
+            'sobre_nosotros': '/sobre-nosotros/',
+            'servicios': '/servicios/',
+            'proyectos': '/proyectos/',
+            'innovacion': '/innovacion/',
+            'responsabilidad_social': '/responsabilidad-social/',
+            'blog': '/blog/',
+            'carreras': '/carreras/',
+            'contacto': '/contacto/',
+        }
+        return urls.get(item, f"/{item}/")
 
 
 class ServicioSitemap(Sitemap):
@@ -59,6 +51,9 @@ class ServicioSitemap(Sitemap):
         except Exception as e:
             print(f"Error obteniendo servicios: {e}")
             return []
+
+    def location(self, obj):
+        return f"/servicios/{obj.slug}/"
 
     def lastmod(self, obj):
         try:
@@ -79,6 +74,9 @@ class ProyectoSitemap(Sitemap):
             print(f"Error obteniendo proyectos: {e}")
             return []
 
+    def location(self, obj):
+        return f"/proyectos/{obj.slug}/"
+
     def lastmod(self, obj):
         try:
             return obj.updated_at
@@ -97,6 +95,9 @@ class NoticiaSitemap(Sitemap):
         except Exception as e:
             print(f"Error obteniendo noticias: {e}")
             return []
+
+    def location(self, obj):
+        return f"/blog/{obj.slug}/"
 
     def lastmod(self, obj):
         try:
