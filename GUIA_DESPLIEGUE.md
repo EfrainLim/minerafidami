@@ -183,27 +183,16 @@ apt update
 apt install nginx
 ```
 
-#### Crear configuración de Nginx
+#### Crear configuración de Nginx (sin SSL inicialmente)
 ```bash
 cat > /etc/nginx/sites-available/minerafidami.com.pe << 'EOF'
 # Configuración de Nginx para Minera Fidami
 # Archivo: /etc/nginx/sites-available/minerafidami.com.pe
 
-# Servidor HTTP (redirección a HTTPS)
+# Servidor HTTP (sin SSL inicialmente)
 server {
     listen 80;
     server_name minerafidami.com.pe www.minerafidami.com.pe;
-    return 301 https://$server_name$request_uri;
-}
-
-# Servidor HTTPS
-server {
-    listen 443 ssl http2;
-    server_name minerafidami.com.pe www.minerafidami.com.pe;
-    
-    # SSL (configurar con Certbot)
-    ssl_certificate /etc/letsencrypt/live/minerafidami.com.pe/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/minerafidami.com.pe/privkey.pem;
     
     # Archivos estáticos
     location /static/ {
@@ -246,8 +235,21 @@ systemctl restart nginx
 # Instalar Certbot
 apt install certbot python3-certbot-nginx
 
-# Obtener certificado
+# Obtener certificado (esto actualizará automáticamente la configuración de Nginx)
 certbot --nginx -d minerafidami.com.pe -d www.minerafidami.com.pe
+```
+
+### 12. Verificar que todo funciona
+```bash
+# Verificar estado de servicios
+systemctl status gunicorn nginx
+
+# Verificar que el sitio responde
+curl -I http://minerafidami.com.pe
+
+# Verificar logs si hay problemas
+journalctl -u gunicorn -f
+tail -f /var/log/nginx/minerafidami_error.log
 ```
 
 ---
@@ -329,6 +331,35 @@ cd /root
 tar -xzf minera-fidami.tar.gz
 mv minera-fidami/* /root/minerafidami/
 rm -rf minera-fidami minera-fidami.tar.gz
+```
+
+### Error de Nginx SSL
+```bash
+# Si Nginx falla por certificados SSL inexistentes:
+# 1. Usar configuración sin SSL primero
+# 2. Verificar configuración
+nginx -t
+
+# 3. Reiniciar Nginx
+systemctl restart nginx
+
+# 4. Obtener certificados SSL
+certbot --nginx -d minerafidami.com.pe
+
+# 5. Verificar que Nginx funciona
+systemctl status nginx
+```
+
+### Error de Gunicorn
+```bash
+# Verificar logs de Gunicorn
+journalctl -u gunicorn -f
+
+# Reiniciar Gunicorn
+systemctl restart gunicorn
+
+# Verificar que está ejecutándose
+systemctl status gunicorn
 ```
 
 ---
