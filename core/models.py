@@ -56,37 +56,7 @@ class ConfiguracionGeneral(models.Model):
         return None
 
 
-class Pagina(models.Model):
-    """Páginas del sitio web"""
-    ESTADO_CHOICES = [
-        ('activo', 'Activo'),
-        ('inactivo', 'Inactivo'),
-        ('borrador', 'Borrador'),
-    ]
 
-    slug = models.SlugField(max_length=255, unique=True)
-    titulo = models.CharField(max_length=255)
-    contenido = models.TextField(blank=True, null=True)
-    meta_title = models.CharField(max_length=255, blank=True, null=True)
-    meta_description = models.TextField(blank=True, null=True)
-    meta_keywords = models.TextField(blank=True, null=True)
-    imagen_principal = models.URLField(blank=True, null=True)
-    orden = models.IntegerField(default=0)
-    estado = models.CharField(max_length=20, choices=ESTADO_CHOICES, default='activo')
-    fecha_publicacion = models.DateTimeField(blank=True, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        verbose_name = "Página"
-        verbose_name_plural = "Páginas"
-        ordering = ['orden', 'titulo']
-
-    def __str__(self):
-        return self.titulo
-
-    def get_absolute_url(self):
-        return reverse('pagina_detail', kwargs={'slug': self.slug})
 
 
 class Testimonio(models.Model):
@@ -310,40 +280,4 @@ class HeroSection(models.Model):
         return None
 
 
-class Mensaje(models.Model):
-    """Mensajes del sistema (alertas, notificaciones, etc.)"""
-    TIPO_CHOICES = [
-        ('info', 'Información'),
-        ('success', 'Éxito'),
-        ('warning', 'Advertencia'),
-        ('error', 'Error'),
-    ]
-    
-    titulo = models.CharField(max_length=255)
-    mensaje = models.TextField()
-    tipo = models.CharField(max_length=20, choices=TIPO_CHOICES, default='info')
-    activo = models.BooleanField(default=True)
-    fecha_inicio = models.DateTimeField(blank=True, null=True)
-    fecha_fin = models.DateTimeField(blank=True, null=True)
-    orden = models.IntegerField(default=0)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
 
-    class Meta:
-        verbose_name = "Mensaje"
-        verbose_name_plural = "Mensajes"
-        ordering = ['orden', '-created_at']
-
-    def __str__(self):
-        return f"{self.get_tipo_display()} - {self.titulo}"
-
-    def esta_activo(self):
-        """Verifica si el mensaje está activo según las fechas"""
-        ahora = timezone.now()
-        if not self.activo:
-            return False
-        if self.fecha_inicio and ahora < self.fecha_inicio:
-            return False
-        if self.fecha_fin and ahora > self.fecha_fin:
-            return False
-        return True

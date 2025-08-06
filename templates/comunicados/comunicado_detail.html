@@ -1,0 +1,219 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ comunicado.titulo }} - Comunicados - Minera Fidami S.A.{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="bg-gradient-to-br from-dark-900 to-gray-900 text-white py-16">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+            <!-- Breadcrumb -->
+            <nav class="mb-6">
+                <ol class="flex items-center space-x-2 text-sm">
+                    <li><a href="{% url 'core:home' %}" class="hover:text-teal-400">Inicio</a></li>
+                    <li><span class="text-gray-400">/</span></li>
+                    <li><a href="{% url 'comunicados:comunicado_list' %}" class="hover:text-teal-400">Comunicados</a></li>
+                    <li><span class="text-gray-400">/</span></li>
+                    <li class="text-gray-300">{{ comunicado.titulo|truncatechars:50 }}</li>
+                </ol>
+            </nav>
+            
+            <!-- Header del comunicado -->
+            <div class="flex items-start justify-between mb-6">
+                <div class="flex-1">
+                    <h1 class="text-3xl md:text-4xl font-bold mb-4">{{ comunicado.titulo }}</h1>
+                    {% if comunicado.resumen %}
+                    <p class="text-xl text-gray-300">{{ comunicado.resumen }}</p>
+                    {% endif %}
+                </div>
+                <div class="flex flex-col items-end space-y-2">
+                    <span class="text-sm px-3 py-1 rounded-full text-white" style="background-color: {{ comunicado.get_color_prioridad }}">
+                        {{ comunicado.get_prioridad_display }}
+                    </span>
+                    {% if comunicado.categoria %}
+                    <span class="text-sm px-3 py-1 rounded-full text-white" style="background-color: {{ comunicado.categoria.color }}">
+                        {{ comunicado.categoria.nombre }}
+                    </span>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Metadatos -->
+            <div class="flex flex-wrap items-center gap-6 text-sm text-gray-300">
+                <div class="flex items-center space-x-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                    </svg>
+                    <span>{{ comunicado.fecha_publicacion|date:"d/m/Y H:i" }}</span>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                    </svg>
+                    <span>{{ comunicado.get_tipo_display }}</span>
+                </div>
+                {% if comunicado.autor %}
+                <div class="flex items-center space-x-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                    </svg>
+                    <span>Por: {{ comunicado.autor }}</span>
+                </div>
+                {% endif %}
+                <div class="flex items-center space-x-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                    </svg>
+                    <span>{{ comunicado.vistas }} vistas</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contenido Principal -->
+<section class="py-12">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Contenido del comunicado -->
+                <div class="lg:col-span-2">
+                    <div class="bg-white rounded-lg shadow-lg p-8">
+                        <!-- Imagen destacada -->
+                        {% if comunicado.imagen_destacada %}
+                        <div class="mb-8">
+                            <img src="{{ comunicado.imagen_destacada.url }}" 
+                                 alt="{{ comunicado.titulo }}" 
+                                 class="w-full h-64 object-cover rounded-lg">
+                        </div>
+                        {% endif %}
+                        
+                        <!-- Contenido -->
+                        <div class="prose prose-lg max-w-none">
+                            {{ comunicado.contenido|safe }}
+                        </div>
+                        
+                        <!-- Archivo adjunto -->
+                        {% if comunicado.archivo_adjunto %}
+                        <div class="mt-8 p-4 bg-gray-50 rounded-lg">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-3">
+                                    <svg class="w-8 h-8 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd"></path>
+                                    </svg>
+                                    <div>
+                                        <h4 class="font-semibold text-gray-900">Documento adjunto</h4>
+                                        <p class="text-sm text-gray-600">{{ nombre_archivo }}</p>
+                                    </div>
+                                </div>
+                                <a href="{{ comunicado.archivo_adjunto.url }}" 
+                                   class="px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors"
+                                   download>
+                                    📥 Descargar
+                                </a>
+                            </div>
+                        </div>
+                        {% endif %}
+                        
+                        <!-- Etiquetas -->
+                        {% if comunicado.etiquetas %}
+                        <div class="mt-8 pt-8 border-t border-gray-200">
+                            <h4 class="text-lg font-semibold text-gray-900 mb-4">Etiquetas</h4>
+                            <div class="flex flex-wrap gap-2">
+                                {% for etiqueta in comunicado.etiquetas %}
+                                <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm">
+                                    #{{ etiqueta }}
+                                </span>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <!-- Sidebar -->
+                <div class="space-y-6">
+                    <!-- Información del comunicado -->
+                    <div class="bg-white rounded-lg shadow-lg p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Información del Comunicado</h3>
+                        <div class="space-y-3">
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Estado:</span>
+                                <span class="font-medium">{{ comunicado.get_estado_display }}</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Prioridad:</span>
+                                <span class="font-medium" style="color: {{ comunicado.get_color_prioridad }}">
+                                    {{ comunicado.get_prioridad_display }}
+                                </span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Tipo:</span>
+                                <span class="font-medium">{{ comunicado.get_tipo_display }}</span>
+                            </div>
+                            {% if comunicado.categoria %}
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Categoría:</span>
+                                <span class="font-medium">{{ comunicado.categoria.nombre }}</span>
+                            </div>
+                            {% endif %}
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Vistas:</span>
+                                <span class="font-medium">{{ comunicado.vistas }}</span>
+                            </div>
+                            {% if comunicado.descargas > 0 %}
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Descargas:</span>
+                                <span class="font-medium">{{ comunicado.descargas }}</span>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <!-- Comunicados relacionados -->
+                    {% if comunicados_relacionados %}
+                    <div class="bg-white rounded-lg shadow-lg p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Comunicados Relacionados</h3>
+                        <div class="space-y-4">
+                            {% for relacionado in comunicados_relacionados %}
+                            <div class="border-l-4 p-3 rounded" style="border-left-color: {{ relacionado.get_color_prioridad }}">
+                                <h4 class="font-medium text-gray-900 mb-1">{{ relacionado.titulo }}</h4>
+                                <p class="text-sm text-gray-600 mb-2">{{ relacionado.fecha_publicacion|date:"d/m/Y" }}</p>
+                                <a href="{{ relacionado.get_absolute_url }}" 
+                                   class="text-sm text-primary-600 hover:text-primary-800 font-medium">
+                                    Leer más →
+                                </a>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+                    <!-- Comunicados recientes -->
+                    {% if comunicados_recientes %}
+                    <div class="bg-white rounded-lg shadow-lg p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Comunicados Recientes</h3>
+                        <div class="space-y-3">
+                            {% for reciente in comunicados_recientes %}
+                            <div class="flex items-start space-x-3">
+                                <div class="w-2 h-2 rounded-full mt-2" style="background-color: {{ reciente.get_color_prioridad }}"></div>
+                                <div class="flex-1">
+                                    <h4 class="font-medium text-gray-900 text-sm">{{ reciente.titulo }}</h4>
+                                    <p class="text-xs text-gray-500">{{ reciente.fecha_publicacion|date:"d/m/Y" }}</p>
+                                    <a href="{{ reciente.get_absolute_url }}" 
+                                       class="text-xs text-primary-600 hover:text-primary-800">
+                                        Ver →
+                                    </a>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %} 

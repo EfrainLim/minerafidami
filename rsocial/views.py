@@ -41,9 +41,12 @@ class ProgramaSocialListView(ListView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        from django.db.models import Count
         context['categorias'] = ProgramaSocial.objects.filter(
             estado='activo'
-        ).values_list('categoria', flat=True).distinct()
+        ).values('categoria').annotate(
+            count=Count('categoria')
+        ).values_list('categoria', flat=True).order_by('categoria')
         return context
 
 
@@ -79,9 +82,12 @@ class AlianzaListView(ListView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        from django.db.models import Count
         context['tipos_alianza'] = Alianza.objects.filter(
             estado='activa'
-        ).values_list('tipo_alianza', flat=True).distinct()
+        ).values('tipo_alianza').annotate(
+            count=Count('tipo_alianza')
+        ).values_list('tipo_alianza', flat=True).order_by('tipo_alianza')
         return context
 
 
@@ -117,9 +123,12 @@ class ImpactoAmbientalListView(ListView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        from django.db.models import Count
         context['categorias'] = ImpactoAmbiental.objects.filter(
             estado='activo'
-        ).values_list('categoria', flat=True).distinct()
+        ).values('categoria').annotate(
+            count=Count('categoria')
+        ).values_list('categoria', flat=True).order_by('categoria')
         return context
 
 
@@ -155,9 +164,12 @@ class ReporteSostenibilidadListView(ListView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        from django.db.models import Count
         context['tipos_reporte'] = ReporteSostenibilidad.objects.filter(
             estado='publicado'
-        ).values_list('tipo_reporte', flat=True).distinct()
+        ).values('tipo_reporte').annotate(
+            count=Count('tipo_reporte')
+        ).values_list('tipo_reporte', flat=True).order_by('tipo_reporte')
         return context
 
 

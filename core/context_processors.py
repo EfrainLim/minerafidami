@@ -1,51 +1,60 @@
-from .models import RedSocial, ConfiguracionGeneral, HeroSection
-import random
+from blog.models import NoticiaBlog
+from core.models import ConfiguracionGeneral, RedSocial
+from comunicados.models import Comunicado
+from django.utils import timezone
+from django.db.models import Q
 
 
-def redes_sociales(request):
-    """Context processor para incluir redes sociales en todas las plantillas"""
-    try:
-        redes = RedSocial.objects.filter(activo=True).order_by('orden')
-    except:
-        redes = []
+def global_context(request):
+    """Contexto global disponible en todas las plantillas"""
+    context = {}
     
-    return {
-        'redes_sociales': redes
-    }
-
-
-def configuracion_general(request):
-    """Context processor para incluir la configuración general en todas las plantillas"""
+    # Configuración general
     try:
-        config = ConfiguracionGeneral.objects.first()
+        context['config'] = ConfiguracionGeneral.objects.first()
     except:
-        config = None
+        context['config'] = None
     
-    return {
-        'config': config
-    }
-
-
-def hero_section_context(request):
-    """Context processor para incluir el hero section en todas las plantillas"""
+    # Redes sociales
     try:
-        # Obtener todos los hero sections activos ordenados
-        heroes_activos = list(HeroSection.objects.filter(activo=True).order_by('orden'))
-        
-        if heroes_activos:
-            # Si hay múltiples, seleccionar uno aleatoriamente
-            if len(heroes_activos) > 1:
-                # Selección aleatoria simple
-                hero = random.choice(heroes_activos)
-            else:
-                # Si solo hay uno, usarlo directamente
-                hero = heroes_activos[0]
-        else:
-            hero = None
-            
+        context['redes_sociales'] = RedSocial.objects.filter(activo=True).order_by('orden')
     except:
-        hero = None
+        context['redes_sociales'] = []
     
-    return {
-        'hero_section': hero
-    } 
+    # Noticias recientes para el footer
+    try:
+        context['noticias_recientes'] = NoticiaBlog.objects.filter(
+            estado='publicado'
+        ).order_by('-fecha_publicacion')[:2]
+    except:
+        context['noticias_recientes'] = []
+    
+    # Comunicados para la página principal
+    try:
+        context['comunicados_home'] = Comunicado.objects.filter(
+            mostrar_en_home=True,
+            estado='publicado',
+            activo=True
+        ).filter(
+            Q(fecha_publicacion__lte=timezone.now()) | Q(fecha_publicacion__isnull=True)
+        ).filter(
+            Q(fecha_expiracion__gte=timezone.now()) | Q(fecha_expiracion__isnull=True)
+        ).order_by('-prioridad', '-fecha_publicacion', 'orden')[:5]
+    except:
+        context['comunicados_home'] = []
+    
+    # Comunicados para popup
+    try:
+        context['comunicados_popup'] = Comunicado.objects.filter(
+            mostrar_en_popup=True,
+            estado='publicado',
+            activo=True
+        ).filter(
+            Q(fecha_publicacion__lte=timezone.now()) | Q(fecha_publicacion__isnull=True)
+        ).filter(
+            Q(fecha_expiracion__gte=timezone.now()) | Q(fecha_expiracion__isnull=True)
+        ).order_by('-prioridad', '-fecha_publicacion', 'orden')[:3]
+    except:
+        context['comunicados_popup'] = []
+    
+    return context 

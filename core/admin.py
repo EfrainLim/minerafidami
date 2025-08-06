@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import ConfiguracionGeneral, Pagina, Testimonio, Equipo, CertificacionPremio, RedSocial, HeroSection, Mensaje
+from .models import ConfiguracionGeneral, Testimonio, Equipo, CertificacionPremio, RedSocial, HeroSection
 
 
 @admin.register(ConfiguracionGeneral)
@@ -32,14 +32,7 @@ class ConfiguracionGeneralAdmin(admin.ModelAdmin):
     )
 
 
-@admin.register(Pagina)
-class PaginaAdmin(admin.ModelAdmin):
-    list_display = ['titulo', 'slug', 'estado', 'orden', 'fecha_publicacion']
-    list_filter = ['estado', 'fecha_publicacion']
-    list_editable = ['estado', 'orden']
-    prepopulated_fields = {'slug': ('titulo',)}
-    search_fields = ['titulo', 'contenido']
-    date_hierarchy = 'fecha_publicacion'
+
 
 
 @admin.register(Testimonio)
@@ -164,22 +157,4 @@ class HeroSectionAdmin(admin.ModelAdmin):
     )
 
 
-@admin.register(Mensaje)
-class MensajeAdmin(admin.ModelAdmin):
-    list_display = ['titulo', 'tipo', 'activo', 'fecha_inicio', 'fecha_fin', 'orden']
-    list_filter = ['tipo', 'activo', 'fecha_inicio', 'fecha_fin']
-    list_editable = ['activo', 'orden']
-    search_fields = ['titulo', 'mensaje']
-    date_hierarchy = 'created_at'
-    fieldsets = (
-        ('Contenido', {
-            'fields': ('titulo', 'mensaje', 'tipo')
-        }),
-        ('Configuración', {
-            'fields': ('activo', 'orden')
-        }),
-        ('Programación', {
-            'fields': ('fecha_inicio', 'fecha_fin'),
-            'description': 'Deja vacío para mostrar siempre o especifica fechas para programar.'
-        }),
-    )
+

@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, DetailView, TemplateView
-from .models import ConfiguracionGeneral, Pagina, Testimonio, Equipo, CertificacionPremio, RedSocial, HeroSection, Mensaje
+from .models import ConfiguracionGeneral, Testimonio, Equipo, CertificacionPremio, RedSocial, HeroSection
 from servicios.models import Servicio
 from proyectos.models import Proyecto
 from blog.models import NoticiaBlog
@@ -39,12 +39,7 @@ class HomeView(TemplateView):
             hero_section = None
             heroes_activos = []
         
-        # Obtener mensajes activos
-        try:
-            mensajes = Mensaje.objects.filter(activo=True).order_by('orden')
-            mensajes_activos = [m for m in mensajes if m.esta_activo()]
-        except:
-            mensajes_activos = []
+
         
         # Obtener redes sociales activas
         redes_sociales = RedSocial.objects.filter(activo=True).order_by('orden')
@@ -135,7 +130,7 @@ class HomeView(TemplateView):
             'config': config,
             'hero_section': hero_section,
             'heroes_activos': heroes_activos,  # Todos los hero sections para JavaScript
-            'mensajes': mensajes_activos,
+
             'redes_sociales': redes_sociales,
             'servicios_destacados': servicios_destacados,
             'proyectos_destacados': proyectos_destacados,
@@ -153,20 +148,7 @@ class HomeView(TemplateView):
         return context
 
 
-class PaginaDetailView(DetailView):
-    """Vista para páginas estáticas"""
-    model = Pagina
-    template_name = 'core/pagina_detail.html'
-    context_object_name = 'pagina'
 
-    def get_queryset(self):
-        return Pagina.objects.filter(estado='activo')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        redes_sociales = RedSocial.objects.filter(activo=True).order_by('orden')
-        context['redes_sociales'] = redes_sociales
-        return context
 
 
 class SobreNosotrosView(TemplateView):

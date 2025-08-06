@@ -25,7 +25,15 @@
             </a>
             {% for categoria in categorias %}
             <a href="?categoria={{ categoria }}" class="px-6 py-2 rounded-full {% if request.GET.categoria == categoria %}bg-green-600 text-white{% else %}bg-white text-gray-700 hover:bg-green-50{% endif %} transition-colors">
-                {{ categoria|title }}
+                {% if categoria == 'educacion' %}Educación
+                {% elif categoria == 'salud' %}Salud
+                {% elif categoria == 'empleo' %}Empleo
+                {% elif categoria == 'infraestructura' %}Infraestructura
+                {% elif categoria == 'medio_ambiente' %}Medio Ambiente
+                {% elif categoria == 'desarrollo_economico' %}Desarrollo Económico
+                {% elif categoria == 'seguridad_alimentaria' %}Seguridad Alimentaria
+                {% elif categoria == 'agua_saneamiento' %}Agua y Saneamiento
+                {% else %}{{ categoria|title }}{% endif %}
             </a>
             {% endfor %}
         </div>

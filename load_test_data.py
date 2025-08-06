@@ -9,7 +9,7 @@ import random
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'minerafidami.settings')
 django.setup()
 
-from core.models import ConfiguracionGeneral, Pagina, Testimonio, Equipo, CertificacionPremio, RedSocial, HeroSection, Mensaje
+from core.models import ConfiguracionGeneral, Testimonio, Equipo, CertificacionPremio, RedSocial, HeroSection
 from servicios.models import Servicio, CategoriaServicio
 from proyectos.models import Proyecto, CategoriaProyecto
 from innovacion.models import Tecnologia, ProyectoInnovacion, Patente
@@ -40,13 +40,13 @@ def limpiar_datos_existentes():
     CategoriaProyecto.objects.all().delete()
     Servicio.objects.all().delete()
     CategoriaServicio.objects.all().delete()
-    Mensaje.objects.all().delete()
+
     HeroSection.objects.all().delete()
     RedSocial.objects.all().delete()
     CertificacionPremio.objects.all().delete()
     Testimonio.objects.all().delete()
     Equipo.objects.all().delete()
-    Pagina.objects.all().delete()
+
     ConfiguracionGeneral.objects.all().delete()
     
     print("✅ Datos existentes eliminados")
@@ -2362,21 +2362,7 @@ def crear_datos_prueba():
     for hero_data in hero_sections_data:
         HeroSection.objects.create(**hero_data)
     
-    # 20. Mensajes del Sistema
-    print("💬 Creando mensajes del sistema...")
-    mensajes_data = [
-        {
-            'titulo': 'Mantenimiento Programado',
-            'mensaje': 'El sitio web estará en mantenimiento el próximo domingo de 2:00 AM a 6:00 AM.',
-            'tipo': 'info',
-            'fecha_inicio': date(2023, 12, 20),
-            'fecha_fin': date(2023, 12, 25),
-            'activo': True
-        }
-    ]
-    
-    for mensaje_data in mensajes_data:
-        Mensaje.objects.create(**mensaje_data)
+
     
     # 21. Redes Sociales
     print("📱 Creando redes sociales...")
@@ -2410,25 +2396,7 @@ def crear_datos_prueba():
     for red_data in redes_data:
         RedSocial.objects.create(**red_data)
     
-    # 22. Páginas
-    print("📄 Creando páginas...")
-    paginas_data = [
-        {
-            'titulo': 'Términos y Condiciones',
-            'contenido': 'Términos y condiciones de uso del sitio web de Minera Fidami S.A.',
-            'slug': 'terminos-condiciones',
-            'estado': 'activo'
-        },
-        {
-            'titulo': 'Política de Privacidad',
-            'contenido': 'Política de privacidad y protección de datos personales.',
-            'slug': 'politica-privacidad',
-            'estado': 'activo'
-        }
-    ]
-    
-    for pagina_data in paginas_data:
-        Pagina.objects.create(**pagina_data)
+
     
     print("✅ ¡Datos de prueba cargados exitosamente!")
     print(f"📊 Total de registros creados:")
@@ -2451,9 +2419,9 @@ def crear_datos_prueba():
     print(f"   - Testimonios: {Testimonio.objects.count()}")
     print(f"   - Certificaciones: {CertificacionPremio.objects.count()}")
     print(f"   - Hero Sections: {HeroSection.objects.count()}")
-    print(f"   - Mensajes: {Mensaje.objects.count()}")
+
     print(f"   - Redes Sociales: {RedSocial.objects.count()}")
-    print(f"   - Páginas: {Pagina.objects.count()}")
+
 
 if __name__ == '__main__':
     crear_datos_prueba() 

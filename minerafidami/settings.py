@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'contacto',
     'innovacion',
     'rsocial',
+    'comunicados',
 ]
 
 MIDDLEWARE = [
@@ -80,9 +81,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'core.context_processors.redes_sociales',
-                'core.context_processors.configuracion_general',
-                'core.context_processors.hero_section_context',
+                'core.context_processors.global_context',
             ],
         },
     },

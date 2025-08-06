@@ -1,0 +1,253 @@
+{% extends 'base.html' %}
+
+{% block title %}Comunicados - Minera Fidami S.A.{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="bg-gradient-to-br from-dark-900 to-gray-900 text-white py-20">
+    <div class="container mx-auto px-4">
+        <div class="text-center">
+            <h1 class="text-5xl md:text-7xl font-bold mb-8 leading-tight">
+                Comunicados Oficiales
+            </h1>
+            <p class="text-xl md:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
+                Mantente informado sobre las últimas noticias, avisos importantes y comunicaciones oficiales de Minera Fidami S.A.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- Filtros y Búsqueda -->
+<section class="py-8 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <form method="get" class="space-y-6">
+                <!-- Búsqueda -->
+                <div>
+                    <label for="q" class="block text-sm font-medium text-gray-700 mb-2">Buscar comunicados</label>
+                    <input type="text" name="q" id="q" value="{{ request.GET.q }}" 
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                           placeholder="Buscar por título, contenido o etiquetas...">
+                </div>
+                
+                <!-- Filtros -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <!-- Categoría -->
+                    <div>
+                        <label for="categoria" class="block text-sm font-medium text-gray-700 mb-2">Categoría</label>
+                        <select name="categoria" id="categoria" 
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+                            <option value="">Todas las categorías</option>
+                            {% for categoria in categorias %}
+                            <option value="{{ categoria.slug }}" {% if request.GET.categoria == categoria.slug %}selected{% endif %}>
+                                {{ categoria.nombre }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <!-- Tipo -->
+                    <div>
+                        <label for="tipo" class="block text-sm font-medium text-gray-700 mb-2">Tipo</label>
+                        <select name="tipo" id="tipo" 
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+                            <option value="">Todos los tipos</option>
+                            {% for tipo_value, tipo_label in tipos %}
+                            <option value="{{ tipo_value }}" {% if request.GET.tipo == tipo_value %}selected{% endif %}>
+                                {{ tipo_label }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <!-- Prioridad -->
+                    <div>
+                        <label for="prioridad" class="block text-sm font-medium text-gray-700 mb-2">Prioridad</label>
+                        <select name="prioridad" id="prioridad" 
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+                            <option value="">Todas las prioridades</option>
+                            {% for prioridad_value, prioridad_label in prioridades %}
+                            <option value="{{ prioridad_value }}" {% if request.GET.prioridad == prioridad_value %}selected{% endif %}>
+                                {{ prioridad_label }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- Botones -->
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <button type="submit" 
+                            class="px-6 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors">
+                        🔍 Buscar
+                    </button>
+                    <a href="{% url 'comunicados:comunicado_list' %}" 
+                       class="px-6 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors text-center">
+                        🗑️ Limpiar filtros
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- Comunicados Destacados -->
+{% if comunicados_destacados %}
+<section class="py-12 bg-primary-50">
+    <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center mb-8 text-gray-900">Comunicados Destacados</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% for comunicado in comunicados_destacados %}
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden border-l-4" style="border-left-color: {{ comunicado.get_color_prioridad }}">
+                <div class="p-6">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-xl font-semibold text-gray-900">{{ comunicado.titulo }}</h3>
+                        <span class="text-xs px-2 py-1 rounded-full text-white" style="background-color: {{ comunicado.get_color_prioridad }}">
+                            {{ comunicado.get_prioridad_display }}
+                        </span>
+                    </div>
+                    
+                    {% if comunicado.resumen %}
+                    <p class="text-gray-600 mb-4">{{ comunicado.resumen }}</p>
+                    {% endif %}
+                    
+                    <div class="flex justify-between items-center text-sm text-gray-500 mb-4">
+                        <span>{{ comunicado.get_tipo_display }}</span>
+                        <span>{{ comunicado.fecha_publicacion|date:"d/m/Y" }}</span>
+                    </div>
+                    
+                    <a href="{{ comunicado.get_absolute_url }}" 
+                       class="inline-flex items-center text-primary-600 hover:text-primary-800 font-medium">
+                        Leer completo →
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Lista de Comunicados -->
+<section class="py-12">
+    <div class="container mx-auto px-4">
+        <div class="flex justify-between items-center mb-8">
+            <h2 class="text-3xl font-bold text-gray-900">
+                {% if request.GET.q or request.GET.categoria or request.GET.tipo or request.GET.prioridad %}
+                Resultados de búsqueda
+                {% else %}
+                Todos los Comunicados
+                {% endif %}
+            </h2>
+            <span class="text-gray-600">{{ page_obj.paginator.count }} comunicado{{ page_obj.paginator.count|pluralize }}</span>
+        </div>
+        
+        {% if comunicados %}
+        <div class="space-y-6">
+            {% for comunicado in comunicados %}
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden border-l-4" style="border-left-color: {{ comunicado.get_color_prioridad }}">
+                <div class="p-6">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="flex-1">
+                            <h3 class="text-xl font-semibold text-gray-900 mb-2">{{ comunicado.titulo }}</h3>
+                            {% if comunicado.resumen %}
+                            <p class="text-gray-600">{{ comunicado.resumen }}</p>
+                            {% endif %}
+                        </div>
+                        <div class="flex flex-col items-end space-y-2">
+                            <span class="text-xs px-2 py-1 rounded-full text-white" style="background-color: {{ comunicado.get_color_prioridad }}">
+                                {{ comunicado.get_prioridad_display }}
+                            </span>
+                            {% if comunicado.categoria %}
+                            <span class="text-xs px-2 py-1 rounded-full text-white" style="background-color: {{ comunicado.categoria.color }}">
+                                {{ comunicado.categoria.nombre }}
+                            </span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-between items-center text-sm text-gray-500 mb-4">
+                        <div class="flex space-x-4">
+                            <span>{{ comunicado.get_tipo_display }}</span>
+                            <span>{{ comunicado.fecha_publicacion|date:"d/m/Y H:i" }}</span>
+                            {% if comunicado.autor %}
+                            <span>Por: {{ comunicado.autor }}</span>
+                            {% endif %}
+                        </div>
+                        <div class="flex space-x-4">
+                            <span>👁️ {{ comunicado.vistas }} vistas</span>
+                            {% if comunicado.archivo_adjunto %}
+                            <span>📎 Adjunto</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-between items-center">
+                        <a href="{{ comunicado.get_absolute_url }}" 
+                           class="inline-flex items-center text-primary-600 hover:text-primary-800 font-medium">
+                            Leer completo →
+                        </a>
+                        {% if comunicado.etiquetas %}
+                        <div class="flex space-x-2">
+                            {% for etiqueta in comunicado.etiquetas|slice:":3" %}
+                            <span class="text-xs px-2 py-1 bg-gray-100 text-gray-600 rounded">{{ etiqueta }}</span>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <!-- Paginación -->
+        {% if is_paginated %}
+        <div class="mt-12 flex justify-center">
+            <nav class="flex space-x-2">
+                {% if page_obj.has_previous %}
+                <a href="?page=1{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.categoria %}&categoria={{ request.GET.categoria }}{% endif %}{% if request.GET.tipo %}&tipo={{ request.GET.tipo }}{% endif %}{% if request.GET.prioridad %}&prioridad={{ request.GET.prioridad }}{% endif %}" 
+                   class="px-3 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">
+                    Primera
+                </a>
+                <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.categoria %}&categoria={{ request.GET.categoria }}{% endif %}{% if request.GET.tipo %}&tipo={{ request.GET.tipo }}{% endif %}{% if request.GET.prioridad %}&prioridad={{ request.GET.prioridad }}{% endif %}" 
+                   class="px-3 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">
+                    Anterior
+                </a>
+                {% endif %}
+                
+                <span class="px-3 py-2 bg-primary-500 text-white rounded">
+                    Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+                </span>
+                
+                {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.categoria %}&categoria={{ request.GET.categoria }}{% endif %}{% if request.GET.tipo %}&tipo={{ request.GET.tipo }}{% endif %}{% if request.GET.prioridad %}&prioridad={{ request.GET.prioridad }}{% endif %}" 
+                   class="px-3 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">
+                    Siguiente
+                </a>
+                <a href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.categoria %}&categoria={{ request.GET.categoria }}{% endif %}{% if request.GET.tipo %}&tipo={{ request.GET.tipo }}{% endif %}{% if request.GET.prioridad %}&prioridad={{ request.GET.prioridad }}{% endif %}" 
+                   class="px-3 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">
+                    Última
+                </a>
+                {% endif %}
+            </nav>
+        </div>
+        {% endif %}
+        
+        {% else %}
+        <div class="text-center py-12">
+            <div class="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-6">
+                <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                </svg>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-900 mb-2">No se encontraron comunicados</h3>
+            <p class="text-gray-600 mb-6">Intenta ajustar los filtros de búsqueda o vuelve más tarde.</p>
+            <a href="{% url 'comunicados:comunicado_list' %}" 
+               class="inline-flex items-center px-6 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors">
+                Ver todos los comunicados
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %} 

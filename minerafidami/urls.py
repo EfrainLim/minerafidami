@@ -21,6 +21,11 @@ from django.conf.urls.static import static
 from django.contrib.sitemaps.views import sitemap
 from core.sitemaps import StaticViewSitemap, ServicioSitemap, ProyectoSitemap, NoticiaSitemap
 
+# Configuración simple del admin
+admin.site.site_header = "Minera Fidami S.A."
+admin.site.site_title = "Minera Fidami S.A."
+admin.site.index_title = "Panel de Administración - Minera Fidami S.A."
+
 # Sitemaps
 sitemaps = {
     'static': StaticViewSitemap,
@@ -39,13 +44,13 @@ urlpatterns = [
     path('blog/', include('blog.urls')),
     path('carreras/', include('carreras.urls')),
     path('contacto/', include('contacto.urls')),
+    path('comunicados/', include('comunicados.urls')),
     
     # SEO URLs
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
     path('robots.txt', include('core.robots')),
     
-    # Páginas dinámicas - debe ir al final para no capturar otras URLs
-    path('<slug:slug>/', include('core.page_urls')),
+    
 ]
 
 if settings.DEBUG:

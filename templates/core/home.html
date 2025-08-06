@@ -156,39 +156,154 @@ document.addEventListener('mouseleave', function() {
 </script>
 {% endif %}
 
-<!-- Mensajes del Sistema -->
-{% if mensajes %}
+<!-- Comunicados del Sistema -->
+{% if comunicados_home %}
 <div class="fixed top-20 left-4 z-50 space-y-2">
-    {% for mensaje in mensajes %}
-    <div class="bg-white border-l-4 border-{{ mensaje.tipo }} shadow-lg rounded-lg p-4 max-w-sm">
+    {% for comunicado in comunicados_home %}
+    <div class="bg-white border-l-4 shadow-lg rounded-lg p-4 max-w-sm" style="border-left-color: {{ comunicado.get_color_prioridad }}">
         <div class="flex">
             <div class="flex-shrink-0">
-                {% if mensaje.tipo == 'success' %}
-                <svg class="h-5 w-5 text-green-400" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-                </svg>
-                {% elif mensaje.tipo == 'error' %}
+                {% if comunicado.prioridad == 'critica' %}
                 <svg class="h-5 w-5 text-red-400" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                    <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
                 </svg>
-                {% elif mensaje.tipo == 'warning' %}
+                {% elif comunicado.prioridad == 'alta' %}
                 <svg class="h-5 w-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
                 </svg>
-                {% else %}
+                {% elif comunicado.prioridad == 'normal' %}
                 <svg class="h-5 w-5 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
                 </svg>
+                {% else %}
+                <svg class="h-5 w-5 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
                 {% endif %}
             </div>
-            <div class="ml-3">
-                <h3 class="text-sm font-medium text-gray-900">{{ mensaje.titulo }}</h3>
-                <p class="text-sm text-gray-700">{{ mensaje.mensaje }}</p>
+            <div class="ml-3 flex-1">
+                <div class="flex justify-between items-start">
+                    <h3 class="text-sm font-medium text-gray-900">{{ comunicado.titulo }}</h3>
+                    <span class="text-xs px-2 py-1 rounded-full text-white" style="background-color: {{ comunicado.get_color_prioridad }}">
+                        {{ comunicado.get_prioridad_display }}
+                    </span>
+                </div>
+                {% if comunicado.resumen %}
+                <p class="text-sm text-gray-700 mt-1">{{ comunicado.resumen }}</p>
+                {% endif %}
+                <div class="flex justify-between items-center mt-2">
+                    <span class="text-xs text-gray-500">{{ comunicado.get_tipo_display }}</span>
+                    <a href="{{ comunicado.get_absolute_url }}" class="text-xs text-blue-600 hover:text-blue-800 font-medium">
+                        Leer más →
+                    </a>
+                </div>
             </div>
         </div>
     </div>
     {% endfor %}
 </div>
+{% endif %}
+
+                <!-- Popups de Comunicados -->
+                {% if comunicados_popup %}
+                <div id="comunicados-popup" class="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-md z-50 flex items-center justify-center hidden">
+                    <div class="bg-gradient-to-b from-gray-800 to-white backdrop-blur-lg rounded-3xl shadow-3xl p-10 max-w-5xl mx-4 max-h-[85vh] overflow-y-auto border border-gray-200/30 transform transition-all duration-300 scale-95 opacity-0" id="popup-content">
+                        <div class="flex justify-between items-center mb-8 border-b border-gray-600 pb-6">
+                            <div>
+                                <h2 class="text-3xl font-bold text-white mb-2">Comunicados Importantes</h2>
+                                <p class="text-base text-gray-300">Información oficial de Minera Fidami S.A.</p>
+                            </div>
+                            <button onclick="cerrarPopup()" class="text-white hover:text-gray-200 transition-colors duration-200 p-3 rounded-full hover:bg-white/10">
+                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="space-y-8">
+                            {% for comunicado in comunicados_popup %}
+                            <div class="border-l-4 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 bg-gradient-to-r from-gray-50/80 to-white border border-gray-100" style="border-left-color: {{ comunicado.get_color_prioridad }}">
+                                <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-4 gap-3">
+                                    <h3 class="text-xl font-bold text-gray-900 leading-tight flex-1 min-w-0">{{ comunicado.titulo }}</h3>
+                                    <span class="text-sm px-4 py-2 rounded-full text-white font-semibold shadow-md flex-shrink-0" style="background-color: {{ comunicado.get_color_prioridad }}">
+                                        {{ comunicado.get_prioridad_display }}
+                                    </span>
+                                </div>
+                                {% if comunicado.resumen %}
+                                <p class="text-gray-700 mb-6 leading-relaxed text-base">{{ comunicado.resumen }}</p>
+                                {% endif %}
+                                <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center pt-4 border-t border-gray-200 gap-3">
+                                    <div class="flex items-center flex-wrap gap-3">
+                                        <span class="text-sm text-gray-600 bg-gray-100 px-3 py-1.5 rounded-full font-medium">{{ comunicado.get_tipo_display }}</span>
+                                        {% if comunicado.categoria %}
+                                        <span class="text-sm text-gray-600 bg-gray-100 px-3 py-1.5 rounded-full font-medium">{{ comunicado.categoria.nombre }}</span>
+                                        {% endif %}
+                                    </div>
+                                    <a href="{{ comunicado.get_absolute_url }}" class="text-base text-blue-600 hover:text-blue-800 font-bold transition-colors duration-200 flex items-center space-x-2 hover:scale-105 transform flex-shrink-0">
+                                        <span>Ver completo</span>
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div class="mt-8 pt-6 border-t border-gray-200 text-center">
+                            <a href="{% url 'comunicados:comunicado_list' %}" class="text-base text-gray-600 hover:text-gray-800 font-semibold transition-colors duration-200 hover:scale-105 transform inline-flex items-center space-x-2">
+                                <span>Ver todos los comunicados</span>
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+<script>
+// Mostrar popup automáticamente después de 2 segundos
+setTimeout(function() {
+    const popup = document.getElementById('comunicados-popup');
+    const content = document.getElementById('popup-content');
+    
+    popup.classList.remove('hidden');
+    
+    // Animación de entrada
+    setTimeout(function() {
+        content.classList.remove('scale-95', 'opacity-0');
+        content.classList.add('scale-100', 'opacity-100');
+    }, 100);
+}, 2000);
+
+function cerrarPopup() {
+    const popup = document.getElementById('comunicados-popup');
+    const content = document.getElementById('popup-content');
+    
+    // Animación de salida
+    content.classList.remove('scale-100', 'opacity-100');
+    content.classList.add('scale-95', 'opacity-0');
+    
+    setTimeout(function() {
+        popup.classList.add('hidden');
+    }, 300);
+}
+
+// Cerrar popup al hacer clic fuera
+document.getElementById('comunicados-popup').addEventListener('click', function(e) {
+    if (e.target === this) {
+        cerrarPopup();
+    }
+});
+
+// Cerrar con ESC
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        const popup = document.getElementById('comunicados-popup');
+        if (!popup.classList.contains('hidden')) {
+            cerrarPopup();
+        }
+    }
+});
+</script>
 {% endif %}
 
 <!-- About Section -->
@@ -270,9 +385,11 @@ document.addEventListener('mouseleave', function() {
 <section class="py-20 bg-gradient-to-br from-gray-50 to-white">
     <div class="container mx-auto px-4">
         <div class="text-center mb-16">
-            <h2 class="section-title">Nuestros Servicios</h2>
-            <p class="section-subtitle">
-                Ofrecemos una amplia gama de servicios mineros con los más altos estándares de calidad y seguridad.
+            <h2 class="text-5xl md:text-7xl font-bold mb-8 leading-tight text-gray-900">
+                Nuestros Servicios
+            </h2>
+            <p class="text-xl md:text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
+                Ofrecemos servicios integrales de minería con tecnología de vanguardia y compromiso con la sostenibilidad.
             </p>
         </div>
         
@@ -376,8 +493,10 @@ document.addEventListener('mouseleave', function() {
 <section class="py-20 bg-gray-50">
     <div class="container mx-auto px-4">
         <div class="text-center mb-16">
-            <h2 class="section-title">Proyectos Destacados</h2>
-            <p class="section-subtitle">
+            <h2 class="text-5xl md:text-7xl font-bold mb-8 leading-tight text-gray-900">
+                Proyectos Destacados
+            </h2>
+            <p class="text-xl md:text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
                 Conoce algunos de nuestros proyectos más importantes y el impacto positivo que generamos.
             </p>
         </div>
@@ -388,7 +507,10 @@ document.addEventListener('mouseleave', function() {
                 <!-- Image Container -->
                 <div class="relative h-64 overflow-hidden">
                     {% if proyecto.imagen_principal %}
-                    <img src="{{ proyecto.imagen_principal }}" alt="{{ proyecto.nombre }}" 
+                    <img src="{{ proyecto.imagen_principal.url }}" alt="{{ proyecto.nombre }}" 
+                         class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    {% elif proyecto.imagen_principal_url %}
+                    <img src="{{ proyecto.imagen_principal_url }}" alt="{{ proyecto.nombre }}" 
                          class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
                     {% else %}
                     <div class="w-full h-full bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center">
@@ -586,8 +708,10 @@ document.addEventListener('mouseleave', function() {
 <section class="py-20 bg-primary-50">
     <div class="container mx-auto px-4">
         <div class="text-center mb-16">
-            <h2 class="section-title">Responsabilidad Social</h2>
-            <p class="section-subtitle">
+            <h2 class="text-5xl md:text-7xl font-bold mb-8 leading-tight text-gray-900">
+                Responsabilidad Social
+            </h2>
+            <p class="text-xl md:text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
                 Comprometidos con las comunidades y el medio ambiente.
             </p>
         </div>
@@ -881,8 +1005,10 @@ document.addEventListener('DOMContentLoaded', function() {
 <section class="py-20 bg-gray-50">
     <div class="container mx-auto px-4">
         <div class="text-center mb-16">
-            <h2 class="section-title">Últimas Noticias</h2>
-            <p class="section-subtitle">
+            <h2 class="text-5xl md:text-7xl font-bold mb-8 leading-tight text-gray-900">
+                Últimas Noticias
+            </h2>
+            <p class="text-xl md:text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
                 Mantente informado sobre nuestros proyectos y la industria minera.
             </p>
         </div>
@@ -892,7 +1018,10 @@ document.addEventListener('DOMContentLoaded', function() {
             <div class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden transform hover:-translate-y-2">
                 <div class="relative h-48 overflow-hidden">
                     {% if noticia.imagen_principal %}
-                    <img src="{{ noticia.imagen_principal }}" alt="{{ noticia.titulo }}" 
+                    <img src="{{ noticia.imagen_principal.url }}" alt="{{ noticia.titulo }}" 
+                         class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    {% elif noticia.imagen_principal_url %}
+                    <img src="{{ noticia.imagen_principal_url }}" alt="{{ noticia.titulo }}" 
                          class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
                     {% else %}
                     <div class="w-full h-full bg-gradient-to-br from-gray-400 to-gray-600 flex items-center justify-center">
@@ -942,8 +1071,10 @@ document.addEventListener('DOMContentLoaded', function() {
 <section class="py-20 bg-gradient-to-br from-orange-50 to-orange-100">
     <div class="container mx-auto px-4">
         <div class="text-center mb-16">
-            <h2 class="section-title">Únete a Nuestro Equipo</h2>
-            <p class="section-subtitle">
+            <h2 class="text-5xl md:text-7xl font-bold mb-8 leading-tight text-gray-900">
+                Únete a Nuestro Equipo
+            </h2>
+            <p class="text-xl md:text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
                 Oportunidades de crecimiento profesional en una empresa líder en minería.
             </p>
         </div>

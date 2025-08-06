@@ -127,161 +127,194 @@
 </head>
 <body class="font-sans text-gray-800 bg-white">
     <!-- Header -->
-    <header class="bg-white shadow-lg sticky top-0 z-50">
-        <!-- Top bar -->
-        <div class="bg-dark-900 text-white py-2">
+    <header class="bg-dark-900 text-white sticky top-0 z-50 shadow-xl">
+        <!-- Top accent bar -->
+        <div class="h-1 bg-gradient-to-r from-teal-400 to-yellow-400"></div>
+        
+        <!-- Contact info bar -->
+        <div class="bg-gray-800 py-2 hidden md:block">
             <div class="container mx-auto px-4">
                 <div class="flex justify-between items-center text-sm">
                     <div class="flex items-center space-x-6">
                         <div class="flex items-center space-x-2">
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                            <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path>
                             </svg>
-                            <span>{{ config.direccion_oficina|default:"Sancos Lucanas, Ayacucho" }}</span>
+                            <span class="text-white">{{ config.direccion_oficina|default:"Sancos, Lucanas, Ayacucho, Perú" }}</span>
                         </div>
                         <div class="flex items-center space-x-2">
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                            <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
                                 <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
                                 <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
                             </svg>
-                            <span>{{ config.email_contacto|default:"recepcion@minerafidami.com.pe" }}</span>
+                            <span class="text-white">{{ config.email_contacto|default:"recepcion@minerafidami.com.pe" }}</span>
                         </div>
                         <div class="flex items-center space-x-2">
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                            <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
                                 <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path>
                             </svg>
-                            <span>{{ config.telefono_principal|default:"+51 914599576" }}</span>
+                            <span class="text-white">{{ config.telefono_principal|default:"+51 914599576" }}</span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         
-        <!-- Main header -->
+        <!-- Main navigation -->
         <div class="container mx-auto px-4 py-4">
             <div class="flex justify-between items-center">
                 <!-- Logo -->
                 <div class="flex items-center space-x-3">
                     {% if config.get_logo_url %}
                     <img src="{{ config.get_logo_url }}" alt="{{ config.nombre_empresa }}" class="h-10 w-auto">
+                    <span class="text-2xl font-bold tracking-wide text-white">FIDAMI</span>
                     {% else %}
-                    <div class="flex items-center space-x-2">
-                        <div class="w-10 h-10 bg-gradient-to-br from-primary-500 to-primary-600 rounded-lg flex items-center justify-center">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-gradient-to-br from-teal-400 to-yellow-400 rounded-lg flex items-center justify-center">
                             <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"></path>
                             </svg>
                         </div>
-                        <span class="text-2xl font-display font-bold text-dark-900">FIDAMI</span>
+                        <span class="text-2xl font-bold tracking-wide text-white">FIDAMI</span>
                     </div>
                     {% endif %}
                 </div>
                 
-                <!-- Navigation -->
-                <nav class="hidden lg:flex items-center space-x-6">
-                    <a href="{% url 'core:home' %}" class="text-dark-900 hover:text-primary-500 font-medium transition-colors">INICIO</a>
-                    <a href="{% url 'core:sobre_nosotros' %}" class="text-dark-900 hover:text-primary-500 font-medium transition-colors">SOBRE NOSOTROS</a>
+                <!-- Desktop Navigation -->
+                <nav class="hidden lg:flex items-center space-x-8">
+                    <a href="{% url 'core:home' %}" class="text-white hover:text-teal-400 font-medium transition-colors duration-200">Inicio</a>
+                    <a href="{% url 'core:sobre_nosotros' %}" class="text-white hover:text-teal-400 font-medium transition-colors duration-200">Nosotros</a>
                     
                     <!-- Servicios Dropdown -->
                     <div class="relative group">
-                        <button class="text-dark-900 hover:text-primary-500 font-medium transition-colors flex items-center">
-                            SERVICIOS
+                        <button class="text-white hover:text-teal-400 font-medium transition-colors duration-200 flex items-center">
+                            Servicios
                             <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                             </svg>
                         </button>
-                        <div class="absolute top-full left-0 bg-white shadow-lg rounded-lg py-2 min-w-48 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                            <a href="{% url 'servicios:servicio_list' %}" class="block px-4 py-2 text-gray-700 hover:text-primary-500 hover:bg-gray-50">Todos los Servicios</a>
-                            <a href="{% url 'proyectos:proyecto_list' %}" class="block px-4 py-2 text-gray-700 hover:text-primary-500 hover:bg-gray-50">Proyectos</a>
+                        <div class="absolute top-full left-0 bg-dark-900 shadow-2xl rounded-lg py-2 min-w-48 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 border border-gray-700">
+                            <a href="{% url 'servicios:servicio_list' %}" class="block px-4 py-2 text-gray-300 hover:text-teal-400 hover:bg-gray-800 transition-colors">Todos los Servicios</a>
+                            <a href="{% url 'proyectos:proyecto_list' %}" class="block px-4 py-2 text-gray-300 hover:text-teal-400 hover:bg-gray-800 transition-colors">Proyectos</a>
                         </div>
                     </div>
                     
                     <!-- Innovación Dropdown -->
                     <div class="relative group">
-                        <button class="text-dark-900 hover:text-primary-500 font-medium transition-colors flex items-center">
-                            INNOVACIÓN
+                        <button class="text-white hover:text-teal-400 font-medium transition-colors duration-200 flex items-center">
+                            Innovación
                             <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                             </svg>
                         </button>
-                        <div class="absolute top-full left-0 bg-white shadow-lg rounded-lg py-2 min-w-48 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                            <a href="{% url 'innovacion:home' %}" class="block px-4 py-2 text-gray-700 hover:text-primary-500 hover:bg-gray-50">Página Principal</a>
-                            <a href="{% url 'innovacion:tecnologia_list' %}" class="block px-4 py-2 text-gray-700 hover:text-primary-500 hover:bg-gray-50">Tecnologías</a>
-                            <a href="{% url 'innovacion:proyecto_list' %}" class="block px-4 py-2 text-gray-700 hover:text-primary-500 hover:bg-gray-50">Proyectos</a>
-                            <a href="{% url 'innovacion:patente_list' %}" class="block px-4 py-2 text-gray-700 hover:text-primary-500 hover:bg-gray-50">Patentes</a>
+                        <div class="absolute top-full left-0 bg-dark-900 shadow-2xl rounded-lg py-2 min-w-48 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 border border-gray-700">
+                            <a href="{% url 'innovacion:home' %}" class="block px-4 py-2 text-gray-300 hover:text-teal-400 hover:bg-gray-800 transition-colors">Página Principal</a>
+                            <a href="{% url 'innovacion:tecnologia_list' %}" class="block px-4 py-2 text-gray-300 hover:text-teal-400 hover:bg-gray-800 transition-colors">Tecnologías</a>
+                            <a href="{% url 'innovacion:proyecto_list' %}" class="block px-4 py-2 text-gray-300 hover:text-teal-400 hover:bg-gray-800 transition-colors">Proyectos</a>
+                            <a href="{% url 'innovacion:patente_list' %}" class="block px-4 py-2 text-gray-300 hover:text-teal-400 hover:bg-gray-800 transition-colors">Patentes</a>
                         </div>
                     </div>
                     
                     <!-- Responsabilidad Social Dropdown -->
                     <div class="relative group">
-                        <button class="text-dark-900 hover:text-primary-500 font-medium transition-colors flex items-center">
-                            R. SOCIAL
+                        <button class="text-white hover:text-teal-400 font-medium transition-colors duration-200 flex items-center">
+                            R. Social
                             <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                             </svg>
                         </button>
-                        <div class="absolute top-full left-0 bg-white shadow-lg rounded-lg py-2 min-w-48 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                            <a href="{% url 'rsocial:home' %}" class="block px-4 py-2 text-gray-700 hover:text-primary-500 hover:bg-gray-50">Página Principal</a>
-                            <a href="{% url 'rsocial:programa_list' %}" class="block px-4 py-2 text-gray-700 hover:text-primary-500 hover:bg-gray-50">Programas</a>
-                            <a href="{% url 'rsocial:alianza_list' %}" class="block px-4 py-2 text-gray-700 hover:text-primary-500 hover:bg-gray-50">Alianzas</a>
-                            <a href="{% url 'rsocial:impacto_list' %}" class="block px-4 py-2 text-gray-700 hover:text-primary-500 hover:bg-gray-50">Impactos</a>
-                            <a href="{% url 'rsocial:reporte_list' %}" class="block px-4 py-2 text-gray-700 hover:text-primary-500 hover:bg-gray-50">Reportes</a>
+                        <div class="absolute top-full left-0 bg-dark-900 shadow-2xl rounded-lg py-2 min-w-48 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 border border-gray-700">
+                            <a href="{% url 'rsocial:home' %}" class="block px-4 py-2 text-gray-300 hover:text-teal-400 hover:bg-gray-800 transition-colors">Página Principal</a>
+                            <a href="{% url 'rsocial:programa_list' %}" class="block px-4 py-2 text-gray-300 hover:text-teal-400 hover:bg-gray-800 transition-colors">Programas</a>
+                            <a href="{% url 'rsocial:alianza_list' %}" class="block px-4 py-2 text-gray-300 hover:text-teal-400 hover:bg-gray-800 transition-colors">Alianzas</a>
+                            <a href="{% url 'rsocial:impacto_list' %}" class="block px-4 py-2 text-gray-300 hover:text-teal-400 hover:bg-gray-800 transition-colors">Impactos</a>
+                            <a href="{% url 'rsocial:reporte_list' %}" class="block px-4 py-2 text-gray-300 hover:text-teal-400 hover:bg-gray-800 transition-colors">Reportes</a>
                         </div>
                     </div>
                     
-                    <a href="{% url 'blog:blog_list' %}" class="text-dark-900 hover:text-primary-500 font-medium transition-colors">BLOG</a>
-                    <a href="{% url 'carreras:vacante_list' %}" class="text-dark-900 hover:text-primary-500 font-medium transition-colors">CARRERAS</a>
-                    <a href="{% url 'contacto:contacto' %}" class="text-dark-900 hover:text-primary-500 font-medium transition-colors">CONTACTO</a>
+                    <a href="{% url 'blog:blog_list' %}" class="text-white hover:text-teal-400 font-medium transition-colors duration-200">Blog</a>
+                    <a href="{% url 'comunicados:comunicado_list' %}" class="text-white hover:text-teal-400 font-medium transition-colors duration-200">Comunicados</a>
+                    <a href="{% url 'carreras:vacante_list' %}" class="text-white hover:text-teal-400 font-medium transition-colors duration-200">Carreras</a>
+                    <a href="{% url 'contacto:contacto' %}" class="text-white hover:text-teal-400 font-medium transition-colors duration-200">Contacto</a>
                 </nav>
                 
                 <!-- Action buttons -->
                 <div class="flex items-center space-x-4">
-                    <button id="mobile-menu-button" class="lg:hidden text-dark-900 hover:text-primary-500">
+                    <button id="mobile-menu-button" class="lg:hidden text-white hover:text-teal-400 transition-colors">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                         </svg>
                     </button>
-                    <a href="{% url 'contacto:contacto' %}" class="btn-primary">
-                        CONTÁCTANOS
+                    <a href="{% url 'contacto:contacto' %}" class="hidden md:inline-flex items-center px-6 py-2 bg-white text-dark-900 font-medium rounded-lg hover:bg-gray-100 transition-colors duration-200 shadow-lg">
+                        Contáctanos
                     </a>
                 </div>
             </div>
-            
-            <!-- Mobile menu -->
-            <div id="mobile-menu" class="lg:hidden hidden bg-white border-t border-gray-200">
-                <div class="px-4 py-6 space-y-4">
-                    <a href="{% url 'core:home' %}" class="block text-dark-900 hover:text-primary-500 font-medium transition-colors py-2">INICIO</a>
-                    <a href="{% url 'core:sobre_nosotros' %}" class="block text-dark-900 hover:text-primary-500 font-medium transition-colors py-2">SOBRE NOSOTROS</a>
+        </div>
+        
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="lg:hidden hidden bg-dark-900 border-t border-gray-700">
+            <div class="container mx-auto px-4 py-4">
+                <nav class="flex flex-col space-y-2">
+                    <!-- Inicio -->
+                    <a href="{% url 'core:home' %}" class="text-white hover:text-teal-400 font-medium transition-colors py-2">Inicio</a>
                     
-                    <!-- Servicios -->
-                    <div class="border-b border-gray-200 pb-2">
-                        <h4 class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-2">SERVICIOS</h4>
-                        <a href="{% url 'servicios:servicio_list' %}" class="block text-dark-900 hover:text-primary-500 font-medium transition-colors py-1 pl-4">Todos los Servicios</a>
-                        <a href="{% url 'proyectos:proyecto_list' %}" class="block text-dark-900 hover:text-primary-500 font-medium transition-colors py-1 pl-4">Proyectos</a>
+                    <!-- Nosotros -->
+                    <a href="{% url 'core:sobre_nosotros' %}" class="text-white hover:text-teal-400 font-medium transition-colors py-2">Nosotros</a>
+                    
+                    <!-- Servicios con submenú -->
+                    <div class="mobile-dropdown">
+                        <button class="mobile-dropdown-toggle w-full text-left text-white hover:text-teal-400 font-medium transition-colors py-2 flex items-center justify-between">
+                            Servicios
+                            <svg class="w-4 h-4 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <div class="mobile-dropdown-content hidden pl-4 space-y-2 mt-2">
+                            <a href="{% url 'servicios:servicio_list' %}" class="block text-gray-300 hover:text-teal-400 transition-colors py-1">Todos los Servicios</a>
+                            <a href="{% url 'proyectos:proyecto_list' %}" class="block text-gray-300 hover:text-teal-400 transition-colors py-1">Proyectos</a>
+                        </div>
                     </div>
                     
-                    <!-- Innovación -->
-                    <div class="border-b border-gray-200 pb-2">
-                        <h4 class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-2">INNOVACIÓN</h4>
-                        <a href="{% url 'innovacion:home' %}" class="block text-dark-900 hover:text-primary-500 font-medium transition-colors py-1 pl-4">Página Principal</a>
-                        <a href="{% url 'innovacion:tecnologia_list' %}" class="block text-dark-900 hover:text-primary-500 font-medium transition-colors py-1 pl-4">Tecnologías</a>
-                        <a href="{% url 'innovacion:proyecto_list' %}" class="block text-dark-900 hover:text-primary-500 font-medium transition-colors py-1 pl-4">Proyectos</a>
-                        <a href="{% url 'innovacion:patente_list' %}" class="block text-dark-900 hover:text-primary-500 font-medium transition-colors py-1 pl-4">Patentes</a>
+                    <!-- Innovación con submenú -->
+                    <div class="mobile-dropdown">
+                        <button class="mobile-dropdown-toggle w-full text-left text-white hover:text-teal-400 font-medium transition-colors py-2 flex items-center justify-between">
+                            Innovación
+                            <svg class="w-4 h-4 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <div class="mobile-dropdown-content hidden pl-4 space-y-2 mt-2">
+                            <a href="{% url 'innovacion:home' %}" class="block text-gray-300 hover:text-teal-400 transition-colors py-1">Página Principal</a>
+                            <a href="{% url 'innovacion:tecnologia_list' %}" class="block text-gray-300 hover:text-teal-400 transition-colors py-1">Tecnologías</a>
+                            <a href="{% url 'innovacion:proyecto_list' %}" class="block text-gray-300 hover:text-teal-400 transition-colors py-1">Proyectos</a>
+                            <a href="{% url 'innovacion:patente_list' %}" class="block text-gray-300 hover:text-teal-400 transition-colors py-1">Patentes</a>
+                        </div>
                     </div>
                     
-                    <!-- Responsabilidad Social -->
-                    <div class="border-b border-gray-200 pb-2">
-                        <h4 class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-2">RESPONSABILIDAD SOCIAL</h4>
-                        <a href="{% url 'rsocial:home' %}" class="block text-dark-900 hover:text-primary-500 font-medium transition-colors py-1 pl-4">Página Principal</a>
-                        <a href="{% url 'rsocial:programa_list' %}" class="block text-dark-900 hover:text-primary-500 font-medium transition-colors py-1 pl-4">Programas</a>
-                        <a href="{% url 'rsocial:alianza_list' %}" class="block text-dark-900 hover:text-primary-500 font-medium transition-colors py-1 pl-4">Alianzas</a>
-                        <a href="{% url 'rsocial:impacto_list' %}" class="block text-dark-900 hover:text-primary-500 font-medium transition-colors py-1 pl-4">Impactos</a>
-                        <a href="{% url 'rsocial:reporte_list' %}" class="block text-dark-900 hover:text-primary-500 font-medium transition-colors py-1 pl-4">Reportes</a>
+                    <!-- Responsabilidad Social con submenú -->
+                    <div class="mobile-dropdown">
+                        <button class="mobile-dropdown-toggle w-full text-left text-white hover:text-teal-400 font-medium transition-colors py-2 flex items-center justify-between">
+                            R. Social
+                            <svg class="w-4 h-4 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <div class="mobile-dropdown-content hidden pl-4 space-y-2 mt-2">
+                            <a href="{% url 'rsocial:home' %}" class="block text-gray-300 hover:text-teal-400 transition-colors py-1">Página Principal</a>
+                            <a href="{% url 'rsocial:programa_list' %}" class="block text-gray-300 hover:text-teal-400 transition-colors py-1">Programas</a>
+                            <a href="{% url 'rsocial:alianza_list' %}" class="block text-gray-300 hover:text-teal-400 transition-colors py-1">Alianzas</a>
+                            <a href="{% url 'rsocial:impacto_list' %}" class="block text-gray-300 hover:text-teal-400 transition-colors py-1">Impactos</a>
+                            <a href="{% url 'rsocial:reporte_list' %}" class="block text-gray-300 hover:text-teal-400 transition-colors py-1">Reportes</a>
+                        </div>
                     </div>
                     
-                    <a href="{% url 'blog:blog_list' %}" class="block text-dark-900 hover:text-primary-500 font-medium transition-colors py-2">BLOG</a>
-                    <a href="{% url 'carreras:vacante_list' %}" class="block text-dark-900 hover:text-primary-500 font-medium transition-colors py-2">CARRERAS</a>
-                    <a href="{% url 'contacto:contacto' %}" class="block text-dark-900 hover:text-primary-500 font-medium transition-colors py-2">CONTACTO</a>
-                </div>
+                    <!-- Enlaces simples -->
+                    <a href="{% url 'blog:blog_list' %}" class="text-white hover:text-teal-400 font-medium transition-colors py-2">Blog</a>
+                    <a href="{% url 'comunicados:comunicado_list' %}" class="text-white hover:text-teal-400 font-medium transition-colors py-2">Comunicados</a>
+                    <a href="{% url 'carreras:vacante_list' %}" class="text-white hover:text-teal-400 font-medium transition-colors py-2">Carreras</a>
+                    <a href="{% url 'contacto:contacto' %}" class="text-white hover:text-teal-400 font-medium transition-colors py-2">Contacto</a>
+                </nav>
             </div>
         </div>
     </header>
@@ -298,11 +331,17 @@
                 <!-- Company info -->
                 <div>
                     <div class="flex items-center space-x-2 mb-4">
+                        {% if config.logo %}
+                        <img src="{{ config.logo.url }}" alt="Minera Fidami S.A." class="w-8 h-8 object-contain">
+                        {% elif config.logo_url %}
+                        <img src="{{ config.logo_url }}" alt="Minera Fidami S.A." class="w-8 h-8 object-contain">
+                        {% else %}
                         <div class="w-8 h-8 bg-gradient-to-br from-primary-500 to-primary-600 rounded flex items-center justify-center">
                             <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"></path>
                             </svg>
                         </div>
+                        {% endif %}
                         <span class="text-xl font-display font-bold">FIDAMI</span>
                     </div>
                     <p class="text-gray-300 mb-4">
@@ -342,20 +381,35 @@
                 <div>
                     <h3 class="text-lg font-semibold mb-4">Publicaciones Recientes</h3>
                     <div class="space-y-4">
-                        <div class="flex space-x-3">
-                            <div class="w-16 h-12 bg-gray-700 rounded flex-shrink-0"></div>
-                            <div>
-                                <h4 class="text-sm font-medium">¿Qué es un Biodigestor?</h4>
-                                <p class="text-xs text-gray-400">3 DE OCTUBRE DE 2024</p>
+                        {% if noticias_recientes %}
+                            {% for noticia in noticias_recientes %}
+                            <div class="flex space-x-3">
+                                {% if noticia.imagen_principal %}
+                                <img src="{{ noticia.imagen_principal.url }}" alt="{{ noticia.titulo }}" class="w-16 h-12 bg-gray-700 rounded flex-shrink-0 object-cover">
+                                {% elif noticia.imagen_principal_url %}
+                                <img src="{{ noticia.imagen_principal_url }}" alt="{{ noticia.titulo }}" class="w-16 h-12 bg-gray-700 rounded flex-shrink-0 object-cover">
+                                {% else %}
+                                <div class="w-16 h-12 bg-gray-700 rounded flex-shrink-0"></div>
+                                {% endif %}
+                                <div>
+                                    <h4 class="text-sm font-medium">
+                                        <a href="{{ noticia.get_absolute_url }}" class="hover:text-primary-500 transition-colors">
+                                            {{ noticia.titulo|truncatechars:40 }}
+                                        </a>
+                                    </h4>
+                                    <p class="text-xs text-gray-400">{{ noticia.fecha_publicacion|date:"d/m/Y" }}</p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="flex space-x-3">
-                            <div class="w-16 h-12 bg-gray-700 rounded flex-shrink-0"></div>
-                            <div>
-                                <h4 class="text-sm font-medium">Proyecto de Ampliación de Relavera</h4>
-                                <p class="text-xs text-gray-400">2 DE OCTUBRE DE 2024</p>
+                            {% endfor %}
+                        {% else %}
+                            <div class="flex space-x-3">
+                                <div class="w-16 h-12 bg-gray-700 rounded flex-shrink-0"></div>
+                                <div>
+                                    <h4 class="text-sm font-medium">Próximamente nuevas publicaciones</h4>
+                                    <p class="text-xs text-gray-400">Mantente atento a nuestras novedades</p>
+                                </div>
                             </div>
-                        </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -427,24 +481,80 @@
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
             
-            mobileMenuButton.addEventListener('click', function() {
-                mobileMenu.classList.toggle('hidden');
-            });
-            
-            // Close mobile menu when clicking on a link
-            const mobileMenuLinks = mobileMenu.querySelectorAll('a');
-            mobileMenuLinks.forEach(link => {
-                link.addEventListener('click', function() {
-                    mobileMenu.classList.add('hidden');
+            if (mobileMenuButton && mobileMenu) {
+                // Toggle main mobile menu
+                mobileMenuButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    mobileMenu.classList.toggle('hidden');
+                    console.log('Mobile menu toggled:', !mobileMenu.classList.contains('hidden'));
                 });
-            });
-            
-            // Close mobile menu when clicking outside
-            document.addEventListener('click', function(event) {
-                if (!mobileMenuButton.contains(event.target) && !mobileMenu.contains(event.target)) {
-                    mobileMenu.classList.add('hidden');
-                }
-            });
+                
+                // Handle mobile dropdowns
+                const mobileDropdownToggles = mobileMenu.querySelectorAll('.mobile-dropdown-toggle');
+                mobileDropdownToggles.forEach(toggle => {
+                    toggle.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        
+                        const dropdown = this.closest('.mobile-dropdown');
+                        const content = dropdown.querySelector('.mobile-dropdown-content');
+                        const icon = this.querySelector('svg');
+                        
+                        // Toggle dropdown content
+                        content.classList.toggle('hidden');
+                        
+                        // Rotate icon
+                        if (content.classList.contains('hidden')) {
+                            icon.classList.remove('rotate-180');
+                        } else {
+                            icon.classList.add('rotate-180');
+                        }
+                        
+                        console.log('Mobile dropdown toggled:', !content.classList.contains('hidden'));
+                    });
+                });
+                
+                // Close mobile menu when clicking on a link
+                const mobileMenuLinks = mobileMenu.querySelectorAll('a');
+                mobileMenuLinks.forEach(link => {
+                    link.addEventListener('click', function() {
+                        mobileMenu.classList.add('hidden');
+                        // Reset all dropdowns
+                        const allDropdowns = mobileMenu.querySelectorAll('.mobile-dropdown-content');
+                        const allIcons = mobileMenu.querySelectorAll('.mobile-dropdown-toggle svg');
+                        allDropdowns.forEach(dropdown => dropdown.classList.add('hidden'));
+                        allIcons.forEach(icon => icon.classList.remove('rotate-180'));
+                        console.log('Mobile menu closed by link click');
+                    });
+                });
+                
+                // Close mobile menu when clicking outside
+                document.addEventListener('click', function(event) {
+                    if (!mobileMenuButton.contains(event.target) && !mobileMenu.contains(event.target)) {
+                        mobileMenu.classList.add('hidden');
+                        // Reset all dropdowns
+                        const allDropdowns = mobileMenu.querySelectorAll('.mobile-dropdown-content');
+                        const allIcons = mobileMenu.querySelectorAll('.mobile-dropdown-toggle svg');
+                        allDropdowns.forEach(dropdown => dropdown.classList.add('hidden'));
+                        allIcons.forEach(icon => icon.classList.remove('rotate-180'));
+                    }
+                });
+                
+                // Close mobile menu on window resize (if screen becomes large)
+                window.addEventListener('resize', function() {
+                    if (window.innerWidth >= 1024) { // lg breakpoint
+                        mobileMenu.classList.add('hidden');
+                        // Reset all dropdowns
+                        const allDropdowns = mobileMenu.querySelectorAll('.mobile-dropdown-content');
+                        const allIcons = mobileMenu.querySelectorAll('.mobile-dropdown-toggle svg');
+                        allDropdowns.forEach(dropdown => dropdown.classList.add('hidden'));
+                        allIcons.forEach(icon => icon.classList.remove('rotate-180'));
+                    }
+                });
+            } else {
+                console.error('Mobile menu elements not found');
+            }
         });
         
         // Scroll to top function
