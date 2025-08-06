@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import ConfiguracionGeneral, Testimonio, Equipo, CertificacionPremio, RedSocial, HeroSection
+from .models import ConfiguracionGeneral, Testimonio, Equipo, CertificacionPremio, RedSocial, HeroSection, EnlaceExterno
 
 
 @admin.register(ConfiguracionGeneral)
@@ -155,6 +155,27 @@ class HeroSectionAdmin(admin.ModelAdmin):
             'fields': ('activo', 'orden')
         }),
     )
+
+
+@admin.register(EnlaceExterno)
+class EnlaceExternoAdmin(admin.ModelAdmin):
+    list_display = ['nombre', 'tipo', 'url', 'orden', 'activo', 'abrir_nueva_ventana']
+    list_filter = ['tipo', 'activo', 'abrir_nueva_ventana']
+    list_editable = ['orden', 'activo', 'abrir_nueva_ventana']
+    search_fields = ['nombre', 'url']
+    ordering = ['orden', 'nombre']
+    
+    fieldsets = (
+        ('Información Básica', {
+            'fields': ('nombre', 'url', 'tipo')
+        }),
+        ('Configuración', {
+            'fields': ('orden', 'activo', 'abrir_nueva_ventana', 'icono')
+        }),
+    )
+    
+    def get_queryset(self, request):
+        return super().get_queryset(request).order_by('orden', 'nombre')
 
 
 

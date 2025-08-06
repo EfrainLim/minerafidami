@@ -280,4 +280,41 @@ class HeroSection(models.Model):
         return None
 
 
+class EnlaceExterno(models.Model):
+    """Modelo para enlaces externos en el navbar"""
+    TIPO_CHOICES = [
+        ('accionista', 'Accionista'),
+        ('inversionista', 'Inversionista'),
+        ('proveedor', 'Proveedor'),
+        ('empleado', 'Empleado'),
+        ('otro', 'Otro'),
+    ]
+    
+    nombre = models.CharField(max_length=100, help_text="Nombre que aparecerá en el navbar")
+    url = models.URLField(help_text="URL completa del enlace externo")
+    tipo = models.CharField(max_length=20, choices=TIPO_CHOICES, default='otro')
+    orden = models.PositiveIntegerField(default=0, help_text="Orden de aparición en el navbar")
+    activo = models.BooleanField(default=True, help_text="Si el enlace está activo")
+    abrir_nueva_ventana = models.BooleanField(default=True, help_text="Si el enlace debe abrirse en nueva ventana")
+    icono = models.CharField(max_length=50, blank=True, help_text="Clase CSS del icono (ej: fas fa-external-link-alt)")
+    
+    class Meta:
+        ordering = ['orden', 'nombre']
+        verbose_name = 'Enlace Externo'
+        verbose_name_plural = 'Enlaces Externos'
+    
+    def __str__(self):
+        return f"{self.nombre} ({self.get_tipo_display()})"
+    
+    def get_target_attr(self):
+        """Retorna el atributo target para el enlace"""
+        return "_blank" if self.abrir_nueva_ventana else "_self"
+    
+    def get_rel_attr(self):
+        """Retorna el atributo rel para enlaces externos"""
+        if self.abrir_nueva_ventana:
+            return "noopener noreferrer"
+        return ""
+
+
 

@@ -3,40 +3,39 @@
     <!-- Top accent bar -->
     <div class="h-1 bg-gradient-to-r from-teal-400 to-yellow-400"></div>
     
-    <!-- Contact info bar -->
+    <!-- Enlaces externos bar -->
+    {% if enlaces_externos %}
     <div class="bg-gray-800 py-2 hidden md:block">
         <div class="container mx-auto px-4">
-            <div class="flex justify-between items-center text-sm">
-                <div class="flex items-center space-x-6">
-                    <div class="flex items-center space-x-2">
-                        <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path>
+            <div class="flex justify-end items-center">
+                <div class="flex items-center space-x-4">
+                    {% for enlace in enlaces_externos %}
+                    <a href="{{ enlace.url }}" 
+                       target="{{ enlace.get_target_attr }}" 
+                       rel="{{ enlace.get_rel_attr }}"
+                       class="text-gray-300 hover:text-teal-400 text-xs font-medium transition-colors duration-200 flex items-center space-x-1">
+                        {% if enlace.icono %}
+                        <i class="{{ enlace.icono }}"></i>
+                        {% endif %}
+                        <span>{{ enlace.nombre }}</span>
+                        {% if enlace.abrir_nueva_ventana %}
+                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
                         </svg>
-                        <span class="text-white">{{ config.direccion_oficina|default:"Sancos, Lucanas, Ayacucho, Perú" }}</span>
-                    </div>
-                    <div class="flex items-center space-x-2">
-                        <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
-                            <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
-                        </svg>
-                        <span class="text-white">{{ config.email_contacto|default:"recepcion@minerafidami.com.pe" }}</span>
-                    </div>
-                    <div class="flex items-center space-x-2">
-                        <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path>
-                        </svg>
-                        <span class="text-white">{{ config.telefono_principal|default:"+51 914599576" }}</span>
-                    </div>
+                        {% endif %}
+                    </a>
+                    {% endfor %}
                 </div>
             </div>
         </div>
     </div>
+    {% endif %}
     
     <!-- Main navigation -->
     <div class="container mx-auto px-4 py-4">
         <div class="flex justify-between items-center">
             <!-- Logo -->
-            <div class="flex items-center space-x-3">
+            <a href="{% url 'core:home' %}" class="flex items-center space-x-3 hover:opacity-80 transition-opacity">
                 {% if config.get_logo_url %}
                 <img src="{{ config.get_logo_url }}" alt="{{ config.nombre_empresa }}" class="h-10 w-auto">
                 <span class="text-2xl font-bold tracking-wide text-white">FIDAMI</span>
@@ -50,10 +49,11 @@
                     <span class="text-2xl font-bold tracking-wide text-white">FIDAMI</span>
                 </div>
                 {% endif %}
-            </div>
+            </a>
             
             <!-- Desktop Navigation -->
-            <nav class="hidden lg:flex items-center space-x-8">
+            <nav class="hidden xl:flex items-center space-x-6">
+                <!-- Navegación Principal -->
                 <a href="{% url 'core:home' %}" class="text-white hover:text-teal-400 font-medium transition-colors duration-200">Inicio</a>
                 <a href="{% url 'core:sobre_nosotros' %}" class="text-white hover:text-teal-400 font-medium transition-colors duration-200">Nosotros</a>
                 
@@ -104,28 +104,28 @@
                     </div>
                 </div>
                 
+                <!-- Enlaces de Información -->
                 <a href="{% url 'blog:blog_list' %}" class="text-white hover:text-teal-400 font-medium transition-colors duration-200">Blog</a>
                 <a href="{% url 'comunicados:comunicado_list' %}" class="text-white hover:text-teal-400 font-medium transition-colors duration-200">Comunicados</a>
+                
+                <!-- Enlaces de Recursos -->
                 <a href="{% url 'carreras:vacante_list' %}" class="text-white hover:text-teal-400 font-medium transition-colors duration-200">Carreras</a>
                 <a href="{% url 'contacto:contacto' %}" class="text-white hover:text-teal-400 font-medium transition-colors duration-200">Contacto</a>
             </nav>
             
             <!-- Action buttons -->
             <div class="flex items-center space-x-4">
-                <button id="mobile-menu-button" class="lg:hidden text-white hover:text-teal-400 transition-colors">
+                <button id="mobile-menu-button" class="xl:hidden text-white hover:text-teal-400 transition-colors">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                     </svg>
                 </button>
-                <a href="{% url 'contacto:contacto' %}" class="hidden md:inline-flex items-center px-6 py-2 bg-white text-dark-900 font-medium rounded-lg hover:bg-gray-100 transition-colors duration-200 shadow-lg">
-                    Contáctanos
-                </a>
             </div>
         </div>
     </div>
     
     <!-- Mobile menu -->
-    <div id="mobile-menu" class="lg:hidden hidden bg-dark-900 border-t border-gray-700">
+    <div id="mobile-menu" class="xl:hidden hidden bg-dark-900 border-t border-gray-700">
         <div class="container mx-auto px-4 py-4">
             <nav class="flex flex-col space-y-2">
                 <!-- Inicio -->
@@ -181,11 +181,36 @@
                     </div>
                 </div>
                 
-                <!-- Enlaces simples -->
+                <!-- Enlaces de Información -->
                 <a href="{% url 'blog:blog_list' %}" class="text-white hover:text-teal-400 font-medium transition-colors py-2">Blog</a>
                 <a href="{% url 'comunicados:comunicado_list' %}" class="text-white hover:text-teal-400 font-medium transition-colors py-2">Comunicados</a>
+                
+                <!-- Enlaces de Recursos -->
                 <a href="{% url 'carreras:vacante_list' %}" class="text-white hover:text-teal-400 font-medium transition-colors py-2">Carreras</a>
                 <a href="{% url 'contacto:contacto' %}" class="text-white hover:text-teal-400 font-medium transition-colors py-2">Contacto</a>
+                
+                <!-- Enlaces externos en móvil -->
+                {% if enlaces_externos %}
+                <div class="border-t border-gray-700 pt-4 mt-4">
+                    <h4 class="text-sm font-semibold text-gray-400 mb-2">Enlaces Externos</h4>
+                    {% for enlace in enlaces_externos %}
+                    <a href="{{ enlace.url }}" 
+                       target="{{ enlace.get_target_attr }}" 
+                       rel="{{ enlace.get_rel_attr }}"
+                       class="block text-gray-300 hover:text-teal-400 transition-colors py-1 flex items-center space-x-2">
+                        {% if enlace.icono %}
+                        <i class="{{ enlace.icono }}"></i>
+                        {% endif %}
+                        <span>{{ enlace.nombre }}</span>
+                        {% if enlace.abrir_nueva_ventana %}
+                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                        </svg>
+                        {% endif %}
+                    </a>
+                    {% endfor %}
+                </div>
+                {% endif %}
             </nav>
         </div>
     </div>
