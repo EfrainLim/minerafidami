@@ -18,18 +18,29 @@
 <meta property="og:title" content="{{ noticia.titulo }}">
 <meta property="og:description" content="{{ noticia.resumen|default:noticia.subtitulo|default:'Artículo del blog de Minera Fidami S.A.' }}">
 <meta property="og:url" content="{{ request.build_absolute_uri }}">
+
+<!-- IMAGEN PRINCIPAL DEL ARTÍCULO - PRIORIDAD MÁXIMA -->
 {% if noticia.get_imagen_principal_url %}
 <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{{ noticia.get_imagen_principal_url }}">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="{{ noticia.titulo }}">
+<meta property="og:image:type" content="image/jpeg">
+{% elif noticia.imagen_principal %}
+<meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{{ noticia.imagen_principal.url }}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="{{ noticia.titulo }}">
+<meta property="og:image:type" content="image/jpeg">
 {% else %}
-<!-- Imagen por defecto para desarrollo -->
+<!-- Imagen por defecto específica para blog -->
 <meta property="og:image" content="https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Minera Fidami S.A. - Minería Sostenible">
+<meta property="og:image:alt" content="Blog - {{ noticia.titulo }}">
+<meta property="og:image:type" content="image/jpeg">
 {% endif %}
+
 <meta property="og:site_name" content="Minera Fidami S.A.">
 <meta property="og:locale" content="es_PE">
 <meta property="article:published_time" content="{{ noticia.fecha_publicacion|date:'c' }}">
