@@ -1,0 +1,19 @@
+<section class="relative py-20 {% if green %}bg-gradient-to-br from-green-600 to-green-800{% else %}bg-gradient-to-r from-primary-500 to-primary-600{% endif %}">
+    <div class="container mx-auto px-4 text-center">
+        <h1 class="text-4xl md:text-5xl font-display font-bold text-white mb-6">
+            {{ title|default:"Título de la Página" }}
+        </h1>
+        {% if description %}
+        <p class="text-xl text-white/90 max-w-3xl mx-auto">
+            {{ description }}
+        </p>
+        {% endif %}
+        {% if cta_text and cta_url %}
+        <div class="mt-8">
+            <a href="{{ cta_url }}" class="{% if green %}bg-white text-green-600 hover:bg-green-50{% else %}btn-primary{% endif %} text-lg px-8 py-4 rounded-lg font-semibold transition-colors">
+                {{ cta_text }}
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</section> 

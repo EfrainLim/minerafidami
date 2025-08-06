@@ -3,17 +3,8 @@
 {% block title %}Blog - Minera Fidami S.A.{% endblock %}
 
 {% block content %}
-<!-- Hero Section -->
-<section class="relative bg-gradient-to-br from-primary-600 to-primary-800 text-white py-20">
-    <div class="container mx-auto px-4">
-        <div class="text-center">
-            <h1 class="text-5xl font-display font-bold mb-6">Blog y Noticias</h1>
-            <p class="text-xl mb-8 max-w-3xl mx-auto">
-                Mantente informado sobre las últimas noticias, innovaciones y desarrollos en la industria minera
-            </p>
-        </div>
-    </div>
-</section>
+<!-- Hero section con título y descripción -->
+{% include 'components/hero_section.html' with title="Blog y Noticias" description="Mantente informado sobre las últimas noticias, innovaciones y desarrollos en la industria minera" %}
 
 <!-- Filtros -->
 {% if categorias %}
@@ -85,27 +76,7 @@
         </div>
         
         <!-- Paginación -->
-        {% if is_paginated %}
-        <div class="flex justify-center mt-12">
-            <nav class="flex items-center space-x-2">
-                {% if page_obj.has_previous %}
-                <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.categoria %}&categoria={{ request.GET.categoria }}{% endif %}" class="px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
-                    Anterior
-                </a>
-                {% endif %}
-                
-                <span class="px-4 py-2 bg-primary-600 text-white rounded-lg">
-                    Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
-                </span>
-                
-                {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.next_page_number }}{% if request.GET.categoria %}&categoria={{ request.GET.categoria }}{% endif %}" class="px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
-                    Siguiente
-                </a>
-                {% endif %}
-            </nav>
-        </div>
-        {% endif %}
+        {% include 'components/pagination.html' %}
         
         {% else %}
         <div class="text-center py-16">

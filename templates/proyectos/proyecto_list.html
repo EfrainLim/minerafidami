@@ -3,17 +3,8 @@
 {% block title %}Proyectos - Minera Fidami S.A.{% endblock %}
 
 {% block content %}
-<!-- Hero Section -->
-<section class="relative bg-gradient-to-br from-primary-600 to-primary-800 text-white py-20">
-    <div class="container mx-auto px-4">
-        <div class="text-center">
-            <h1 class="text-5xl font-display font-bold mb-6">Nuestros Proyectos</h1>
-            <p class="text-xl mb-8 max-w-3xl mx-auto">
-                Conoce nuestros proyectos mineros más importantes y su impacto en el desarrollo regional
-            </p>
-        </div>
-    </div>
-</section>
+<!-- Hero section con título y descripción -->
+{% include 'components/hero_section.html' with title="Nuestros Proyectos" description="Conoce nuestros proyectos mineros más importantes y su impacto en el desarrollo regional" %}
 
 <!-- Filtros -->
 {% if categorias %}
@@ -105,77 +96,16 @@
             {% endfor %}
         </div>
         
-        <!-- Paginación Profesional -->
-        {% if is_paginated %}
-        <div class="flex justify-center mt-16">
-            <nav class="flex items-center space-x-1 bg-white rounded-lg shadow-lg p-2">
-                <!-- Botón Anterior -->
-                {% if page_obj.has_previous %}
-                <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.categoria %}&categoria={{ request.GET.categoria }}{% endif %}" 
-                   class="px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50 hover:text-gray-700">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-                    </svg>
-                </a>
-                {% else %}
-                <span class="px-4 py-2 text-sm font-medium text-gray-300 bg-gray-100 border border-gray-200 rounded-md cursor-not-allowed">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-                    </svg>
-                </span>
-                {% endif %}
-
-                <!-- Números de página -->
-                {% for num in page_obj.paginator.page_range %}
-                    {% if page_obj.number == num %}
-                    <span class="px-4 py-2 text-sm font-medium text-white bg-primary-600 border border-primary-600 rounded-md">
-                        {{ num }}
-                    </span>
-                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-                    <a href="?page={{ num }}{% if request.GET.categoria %}&categoria={{ request.GET.categoria }}{% endif %}" 
-                       class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 hover:text-gray-900">
-                        {{ num }}
-                    </a>
-                    {% endif %}
-                {% endfor %}
-
-                <!-- Botón Siguiente -->
-                {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.next_page_number }}{% if request.GET.categoria %}&categoria={{ request.GET.categoria }}{% endif %}" 
-                   class="px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50 hover:text-gray-700">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                    </svg>
-                </a>
-                {% else %}
-                <span class="px-4 py-2 text-sm font-medium text-gray-300 bg-gray-100 border border-gray-200 rounded-md cursor-not-allowed">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                    </svg>
-                </span>
-                {% endif %}
-            </nav>
-        </div>
-        {% endif %}
+        <!-- Paginación -->
+        {% include 'components/pagination.html' %}
         
         {% else %}
         <div class="text-center py-16">
-            <div class="max-w-md mx-auto">
-                <svg class="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
-                </svg>
-                <h3 class="text-2xl font-bold text-gray-900 mb-4">No se encontraron proyectos</h3>
-                <p class="text-gray-600 mb-8">
-                    {% if categoria_actual %}
-                    No hay proyectos que coincidan con la categoría seleccionada.
-                    {% else %}
-                    Pronto agregaremos nuevos proyectos.
-                    {% endif %}
-                </p>
-                <a href="{% url 'proyectos:proyecto_list' %}" class="btn-primary">
-                    Ver Todos los Proyectos
-                </a>
-            </div>
+            <h3 class="text-2xl font-bold text-gray-900 mb-4">No se encontraron proyectos</h3>
+            <p class="text-gray-600 mb-8">Pronto agregaremos nuevos proyectos mineros.</p>
+            <a href="{% url 'core:home' %}" class="btn-primary">
+                Volver al Inicio
+            </a>
         </div>
         {% endif %}
     </div>

@@ -1,0 +1,118 @@
+<!-- Footer -->
+<footer class="bg-dark-900 text-white">
+    <div class="container mx-auto px-4 py-12">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <!-- Company info -->
+            <div>
+                <a href="{% url 'core:home' %}" class="flex items-center space-x-2 mb-4 hover:opacity-80 transition-opacity">
+                    {% if config.logo %}
+                    <img src="{{ config.logo.url }}" alt="Minera Fidami S.A." class="w-8 h-8 object-contain">
+                    {% elif config.logo_url %}
+                    <img src="{{ config.logo_url }}" alt="Minera Fidami S.A." class="w-8 h-8 object-contain">
+                    {% else %}
+                    <div class="w-8 h-8 bg-gradient-to-br from-primary-500 to-primary-600 rounded flex items-center justify-center">
+                        <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"></path>
+                        </svg>
+                    </div>
+                    {% endif %}
+                    <span class="text-xl font-display font-bold text-white">FIDAMI</span>
+                </a>
+                <p class="text-gray-300 mb-4">
+                    Empresa minera comprometida con la exploración, explotación, beneficio y comercialización de minerales en la región, aplicando las mejores prácticas de sostenibilidad.
+                </p>
+                <div class="flex items-center space-x-2 text-primary-500">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path>
+                    </svg>
+                    <span>{{ config.telefono_principal|default:"+51 914599576" }}</span>
+                </div>
+            </div>
+            
+            <!-- Quick links -->
+            <div>
+                <h3 class="text-lg font-semibold mb-4">Minera Fidami S.A.</h3>
+                <ul class="space-y-2">
+                    <li><a href="{% url 'core:home' %}" class="text-gray-300 hover:text-primary-500 transition-colors">Inicio</a></li>
+                    <li><a href="{% url 'core:sobre_nosotros' %}" class="text-gray-300 hover:text-primary-500 transition-colors">Sobre Nosotros</a></li>
+                    <li><a href="{% url 'proyectos:proyecto_list' %}" class="text-gray-300 hover:text-primary-500 transition-colors">Proyectos</a></li>
+                    <li><a href="{% url 'carreras:vacante_list' %}" class="text-gray-300 hover:text-primary-500 transition-colors">Trabaja con Nosotros</a></li>
+                    <li><a href="{% url 'contacto:contacto' %}" class="text-gray-300 hover:text-primary-500 transition-colors">Contacto</a></li>
+                </ul>
+            </div>
+            
+            <!-- Services -->
+            <div>
+                <h3 class="text-lg font-semibold mb-4">Soluciones & Servicios</h3>
+                <ul class="space-y-2">
+                    <li><a href="{% url 'servicios:servicio_list' %}" class="text-gray-300 hover:text-primary-500 transition-colors">Sector Minero</a></li>
+                    <li><a href="#" class="text-gray-300 hover:text-primary-500 transition-colors">Precios de Proyecto</a></li>
+                    <li><a href="#" class="text-primary-500 font-medium">Nuestra Filosofía</a></li>
+                </ul>
+            </div>
+            
+            <!-- Recent publications -->
+            <div>
+                <h3 class="text-lg font-semibold mb-4">Publicaciones Recientes</h3>
+                <div class="space-y-4">
+                    {% if noticias_recientes %}
+                        {% for noticia in noticias_recientes %}
+                        <div class="flex space-x-3">
+                            {% if noticia.imagen_principal %}
+                            <img src="{{ noticia.imagen_principal.url }}" alt="{{ noticia.titulo }}" class="w-16 h-12 bg-gray-700 rounded flex-shrink-0 object-cover">
+                            {% elif noticia.imagen_principal_url %}
+                            <img src="{{ noticia.imagen_principal_url }}" alt="{{ noticia.titulo }}" class="w-16 h-12 bg-gray-700 rounded flex-shrink-0 object-cover">
+                            {% else %}
+                            <div class="w-16 h-12 bg-gray-700 rounded flex-shrink-0"></div>
+                            {% endif %}
+                            <div>
+                                <h4 class="text-sm font-medium">
+                                    <a href="{{ noticia.get_absolute_url }}" class="hover:text-primary-500 transition-colors">
+                                        {{ noticia.titulo|truncatechars:40 }}
+                                    </a>
+                                </h4>
+                                <p class="text-xs text-gray-400">{{ noticia.fecha_publicacion|date:"d/m/Y" }}</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="flex space-x-3">
+                            <div class="w-16 h-12 bg-gray-700 rounded flex-shrink-0"></div>
+                            <div>
+                                <h4 class="text-sm font-medium">Próximamente nuevas publicaciones</h4>
+                                <p class="text-xs text-gray-400">Mantente atento a nuestras novedades</p>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Bottom footer -->
+    <div class="border-t border-gray-800">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-400 text-sm">
+                    Copyright © 2025 Minera Fidami S.A. Todos los derechos reservados
+                </p>
+                <div class="flex items-center space-x-4 mt-4 md:mt-0">
+                    {% if redes_sociales %}
+                        {% for red in redes_sociales %}
+                        <a href="{{ red.url }}" target="_blank" rel="noopener noreferrer" 
+                           class="w-8 h-8 bg-gray-800 rounded flex items-center justify-center hover:bg-primary-500 transition-colors group"
+                           style="--hover-color: {{ red.get_color }};">
+                            <i class="{{ red.get_icon_class }} text-white group-hover:text-white"></i>
+                        </a>
+                        {% endfor %}
+                    {% endif %}
+                    <button onclick="scrollToTop()" class="w-8 h-8 bg-primary-500 rounded flex items-center justify-center hover:bg-primary-600 transition-colors">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer> 

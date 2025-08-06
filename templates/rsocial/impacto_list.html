@@ -3,17 +3,8 @@
 {% block title %}Impactos Ambientales - Responsabilidad Social - Minera Fidami S.A.{% endblock %}
 
 {% block content %}
-<!-- Hero Section -->
-<section class="relative bg-gradient-to-br from-green-600 to-green-800 text-white py-20">
-    <div class="container mx-auto px-4">
-        <div class="text-center">
-            <h1 class="text-5xl font-display font-bold mb-6">Impactos Ambientales</h1>
-            <p class="text-xl mb-8 max-w-3xl mx-auto">
-                Nuestro compromiso con la gestión ambiental responsable y la mitigación de impactos
-            </p>
-        </div>
-    </div>
-</section>
+<!-- Hero section con título y descripción -->
+{% include 'components/hero_section.html' with title="Impactos Ambientales" description="Nuestro compromiso con la gestión ambiental responsable y la mitigación de impactos" green=True %}
 
 <!-- Filtros -->
 {% if categorias %}
@@ -89,44 +80,15 @@
         </div>
         
         <!-- Paginación -->
-        {% if is_paginated %}
-        <div class="flex justify-center mt-12">
-            <nav class="flex items-center space-x-2">
-                {% if page_obj.has_previous %}
-                <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.categoria %}&categoria={{ request.GET.categoria }}{% endif %}" class="px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
-                    Anterior
-                </a>
-                {% endif %}
-                
-                <span class="px-4 py-2 bg-green-600 text-white rounded-lg">
-                    Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
-                </span>
-                
-                {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.next_page_number }}{% if request.GET.categoria %}&categoria={{ request.GET.categoria }}{% endif %}" class="px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
-                    Siguiente
-                </a>
-                {% endif %}
-            </nav>
-        </div>
-        {% endif %}
+        {% include 'components/pagination.html' %}
         
         {% else %}
         <div class="text-center py-16">
-            <div class="max-w-md mx-auto">
-                <div class="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <svg class="w-12 h-12 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 12h6m-6-4h6m2 5.291A7.962 7.962 0 0112 15c-2.34 0-4.47-.881-6.08-2.33"></path>
-                    </svg>
-                </div>
-                <h3 class="text-2xl font-bold text-gray-900 mb-4">No se encontraron impactos ambientales</h3>
-                <p class="text-gray-600 mb-8">
-                    No hay impactos ambientales disponibles en este momento. Pronto agregaremos nuevos programas.
-                </p>
-                <a href="{% url 'rsocial:home' %}" class="inline-flex items-center px-6 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors">
-                    Volver a Responsabilidad Social
-                </a>
-            </div>
+            <h3 class="text-2xl font-bold text-gray-900 mb-4">No se encontraron impactos</h3>
+            <p class="text-gray-600 mb-8">Pronto agregaremos nuevos impactos ambientales.</p>
+            <a href="{% url 'rsocial:home' %}" class="btn-primary">
+                Volver a R. Social
+            </a>
         </div>
         {% endif %}
     </div>

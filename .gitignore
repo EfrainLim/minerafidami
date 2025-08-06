@@ -205,3 +205,25 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# macOS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Archivos de configuración duplicados
+config_produccion.txt
+*.con.py
+
+# Archivos de test vacíos (se pueden recrear)
+tests.py
+
+# Template tags no utilizados
+*/templatetags/comunicado_filters.py
+
+# Carpetas templatetags vacías
+*/templatetags/

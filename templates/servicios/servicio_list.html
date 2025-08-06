@@ -3,17 +3,8 @@
 {% block title %}Servicios - Minera Fidami S.A.{% endblock %}
 
 {% block content %}
-<!-- Hero Section -->
-<section class="relative py-20 bg-gradient-to-r from-primary-500 to-primary-600">
-    <div class="container mx-auto px-4 text-center">
-        <h1 class="text-4xl md:text-5xl font-display font-bold text-white mb-6">
-            Nuestros Servicios
-        </h1>
-        <p class="text-xl text-white/90 max-w-3xl mx-auto">
-            Ofrecemos servicios integrales de minería con tecnología de vanguardia y compromiso con la sostenibilidad.
-        </p>
-    </div>
-</section>
+<!-- Hero section con título y descripción -->
+{% include 'components/hero_section.html' with title="Nuestros Servicios" description="Ofrecemos servicios integrales de minería con tecnología de vanguardia y compromiso con la sostenibilidad" %}
 
 <!-- Services Grid -->
 <section class="py-20">
@@ -100,21 +91,9 @@
                         <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                     </svg>
                 </div>
-                <h3 class="text-xl font-semibold mb-4">Seguridad</h3>
+                <h3 class="text-xl font-semibold mb-4">Calidad</h3>
                 <p class="text-gray-600">
-                    Los más altos estándares de seguridad en todas nuestras operaciones.
-                </p>
-            </div>
-            
-            <div class="text-center">
-                <div class="w-16 h-16 bg-primary-500 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
-                    </svg>
-                </div>
-                <h3 class="text-xl font-semibold mb-4">Sostenibilidad</h3>
-                <p class="text-gray-600">
-                    Compromiso con el medio ambiente y las comunidades locales.
+                    Certificaciones internacionales y estándares de calidad rigurosos.
                 </p>
             </div>
             
@@ -126,7 +105,19 @@
                 </div>
                 <h3 class="text-xl font-semibold mb-4">Innovación</h3>
                 <p class="text-gray-600">
-                    Tecnología de vanguardia para maximizar la eficiencia operativa.
+                    Tecnología de vanguardia y procesos innovadores.
+                </p>
+            </div>
+            
+            <div class="text-center">
+                <div class="w-16 h-16 bg-primary-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold mb-4">Sostenibilidad</h3>
+                <p class="text-gray-600">
+                    Compromiso con el medio ambiente y las comunidades.
                 </p>
             </div>
         </div>
