@@ -1,6 +1,6 @@
 # 🚀 Guía de Despliegue
 ## Minera Fidami S.A.
-
+```admin
 ### 📋 Información
 - **IP**: 64.23.222.197
 - **Dominio**: minerafidami.com.pe
