@@ -75,6 +75,47 @@ class VacanteDetailView(DetailView):
             'vacantes_relacionadas': vacantes_relacionadas,
         })
         return context
+    
+    def post(self, request, *args, **kwargs):
+        """Manejar POST requests para postulaciones"""
+        self.object = self.get_object()
+        
+        # Procesar datos del formulario
+        fecha_nacimiento = request.POST.get('fecha_nacimiento')
+        if fecha_nacimiento == '':
+            fecha_nacimiento = None
+            
+        experiencia_anos = request.POST.get('experiencia_anos')
+        if experiencia_anos == '':
+            experiencia_anos = None
+        elif experiencia_anos:
+            try:
+                experiencia_anos = int(experiencia_anos)
+            except ValueError:
+                experiencia_anos = None
+        
+        # Crear postulación
+        postulacion = Postulacion.objects.create(
+            vacante=self.object,
+            nombre=request.POST.get('nombre'),
+            apellido=request.POST.get('apellido'),
+            email=request.POST.get('email'),
+            telefono=request.POST.get('telefono') or None,
+            fecha_nacimiento=fecha_nacimiento,
+            nacionalidad=request.POST.get('nacionalidad') or None,
+            experiencia_anos=experiencia_anos,
+            educacion=request.POST.get('educacion') or None,
+            cv_url=request.POST.get('cv_url') or None,
+            carta_motivacion=request.POST.get('carta_motivacion') or None,
+            referencias=request.POST.get('referencias') or None,
+        )
+        
+        # Incrementar contador de postulaciones
+        self.object.postulaciones += 1
+        self.object.save()
+        
+        messages.success(request, 'Tu postulación ha sido enviada exitosamente.')
+        return HttpResponseRedirect(self.request.path)
 
 
 def postular_vacante(request, slug):
